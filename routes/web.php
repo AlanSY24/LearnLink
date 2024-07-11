@@ -31,12 +31,6 @@ Route::get('/welcome', function () {
 
 Route::view('/studentpage','studentpage');
 
-<<<<<<< HEAD
-
-
-
-=======
 Route::view('/teacher_lists','teacher_lists');
 
 Route::view('/student_cases','student_cases');
->>>>>>> 4b13f6d9e5a2ed7b6cce39ecdff99af40780a24a
