@@ -19,3 +19,6 @@ Route::post('/findteacher', [FindTeacherController::class, 'findteacher'])->name
 Route::get('/welcome', function () {
     return view('welcome');
 })->name('welcome');
+
+
+Route::view('/studentpage','studentpage');
