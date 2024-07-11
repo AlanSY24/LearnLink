@@ -3,9 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="a1.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>找學生案件</title>
+    <style>
+    
+        body{
+        margin-left: 5%;
+        margin-right: 5%;
+        }
+
+        .students_case {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .search_list {
+            width: 30%;
+        }
+
+        .students_list {
+            width: 60%;
+        }
+
+
+
+
+        /********** 預算 *********/
+        .gfg { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 24px; 
+            font-weight: 600; 
+            color: #01940b; 
+        } 
+        
+        .custom-wrapper { 
+            margin: 0; 
+            width: 70%; 
+            padding: 0px 25px 40px; 
+            position: relative; 
+            left: 63px; 
+        } 
+        
+        .header h2 { 
+            font-size: 30px; 
+            color: #01940b; 
+            display: flex; 
+            justify-content: center; 
+            padding: 20px; 
+        } 
+        
+        /* Styles for the price input container */
+        .price-input-container { 
+            width: 100%; 
+        } 
+        
+        .price-input .price-field { 
+            display: flex; 
+            margin-bottom: 22px; 
+        } 
+        
+        .price-field span { 
+            margin-right: 10px; 
+            margin-top: 6px; 
+            font-size: 17px; 
+        } 
+        
+        .price-field input { 
+            flex: 1; 
+            height: 35px; 
+            font-size: 15px; 
+            font-family: "DM Sans", sans-serif; 
+            border-radius: 9px; 
+            text-align: center; 
+            border: 0px; 
+            background: #e4e4e4; 
+        } 
+        
+        .price-input { 
+            width: 100%; 
+            font-size: 19px; 
+            color: #555; 
+        } 
+        
+        /* Remove Arrows/Spinners */
+        input::-webkit-outer-spin-button, 
+        input::-webkit-inner-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        } 
+        
+        .slider-container { 
+            width: 100%; 
+        } 
+        
+        .slider-container { 
+            height: 6px; 
+            position: relative; 
+            background: #e4e4e4; 
+            border-radius: 5px; 
+        } 
+        
+        .slider-container .price-slider { 
+            height: 100%; 
+            left: 0%; 
+            right: 100%; 
+            position: absolute; 
+            border-radius: 5px; 
+            background: #01940b; 
+        } 
+        
+        .range-input { 
+            position: relative; 
+        } 
+        
+        .range-input input { 
+            position: absolute; 
+            width: 100%; 
+            height: 5px; 
+            background: none; 
+            top: -5px; 
+            pointer-events: none; 
+            cursor: pointer; 
+            -webkit-appearance: none; 
+        } 
+        
+        /* Styles for the range thumb in WebKit browsers */
+        input[type="range"]::-webkit-slider-thumb { 
+            height: 18px; 
+            width: 18px; 
+            border-radius: 70%;
+            background: #555; 
+            pointer-events: auto; 
+            -webkit-appearance: none; 
+        }
+
+        
+        /*********************** 列表 ***************************/
+
+        .students_list_block{
+            width: 100%;
+            display: flex; /* 使用 flex 排列內容 */
+            flex-wrap: wrap; /* 允許內容換行 */
+        }
+
+        #students_list_title ,#students_list_place ,#students_list_price ,#students_list_condition ,#students_list_describe,#students_list_contact ,#students_list_phone{
+            width: 100%;
+        }
+
+
+
+
+
+    </style>
 </head>
 <body>
     <h1>找學生案件</h1>
@@ -203,21 +354,23 @@
 
 
             <div class="students_list_block">
+                
+                <div id="students_list_title"><h2>國小三年級數學</h2></div>
                 <p>收藏</p><!-- 使用icon 可以點選互動 -->
-                <div id="students_list_title">標題(科目)</div>
-                <div id="students_list_contact">聯絡人</div>
-                <div id="students_list_phone">電話</div>
-                <div id="students_list_place">上課地點</div>
-                <div id="students_list_price">上課預算</div><!-- 抓資料庫 min - max -->
-                <div id="students_list_condition">條件</div>
-                <div id="students_list_describe">描述</div>
+                <div id="students_list_contact">王XX</div>
+                <div id="students_list_phone">0985541685</div>
+                <div id="students_list_place">台中北屯區</div>
+                <div id="students_list_price">300 - 400</div><!-- 抓資料庫 min - max -->
+                <div id="students_list_condition">1. 老師性別女 2. 有5年以上教學經驗</div>
+                <div id="students_list_describe">小孩有點內向需要多點陪伴</div>
                 <button>聯絡我</button><!-- 點選後跳出聊天室暫定 -->
             </div>
             
 
             <div class="students_list_block">
+                
+            <div id="students_list_title"><h2>標題(科目)</h2></div>
                 <p>收藏</p><!-- 使用icon 可以點選互動 -->
-                <div id="students_list_title">標題(科目)</div>
                 <div id="students_list_contact">聯絡人</div>
                 <div id="students_list_phone">電話</div>
                 <div id="students_list_place">上課地點</div>

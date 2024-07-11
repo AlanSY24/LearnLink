@@ -7,154 +7,151 @@
     <title>找老師履歷</title>
     <style>
         
-body{
-  margin-left: 5%;
-  margin-right: 5%;
-}
+        
+        body{
+        margin-left: 5%;
+        margin-right: 5%;
+        }
 
-.students_case {
-    display: flex;
-    justify-content: space-between;
-}
+        .students_case {
+            display: flex;
+            justify-content: space-between;
+        }
 
-.search_list {
-    width: 30%;
-}
+        .search_list {
+            width: 30%;
+        }
 
-.students_list {
-    width: 60%;
-}
-
-
+        .students_list {
+            width: 60%;
+        }
 
 
-/********** 預算 *********/
-.gfg { 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    font-size: 24px; 
-    font-weight: 600; 
-    color: #01940b; 
-  } 
-  
-  .custom-wrapper { 
-    margin: 0; 
-    width: 70%; 
-    padding: 0px 25px 40px; 
-    position: relative; 
-    left: 63px; 
-  } 
-  
-  .header h2 { 
-    font-size: 30px; 
-    color: #01940b; 
-    display: flex; 
-    justify-content: center; 
-    padding: 20px; 
-  } 
-  
-  /* Styles for the price input container */
-  .price-input-container { 
-    width: 100%; 
-  } 
-  
-  .price-input .price-field { 
-    display: flex; 
-    margin-bottom: 22px; 
-  } 
-  
-  .price-field span { 
-    margin-right: 10px; 
-    margin-top: 6px; 
-    font-size: 17px; 
-  } 
-  
-  .price-field input { 
-    flex: 1; 
-    height: 35px; 
-    font-size: 15px; 
-    font-family: "DM Sans", sans-serif; 
-    border-radius: 9px; 
-    text-align: center; 
-    border: 0px; 
-    background: #e4e4e4; 
-  } 
-  
-  .price-input { 
-    width: 100%; 
-    font-size: 19px; 
-    color: #555; 
-  } 
-  
-  /* Remove Arrows/Spinners */
-  input::-webkit-outer-spin-button, 
-  input::-webkit-inner-spin-button { 
-    -webkit-appearance: none; 
-    margin: 0; 
-  } 
-  
-  .slider-container { 
-    width: 100%; 
-  } 
-  
-  .slider-container { 
-    height: 6px; 
-    position: relative; 
-    background: #e4e4e4; 
-    border-radius: 5px; 
-  } 
-  
-  .slider-container .price-slider { 
-    height: 100%; 
-    left: 0%; 
-    right: 100%; 
-    position: absolute; 
-    border-radius: 5px; 
-    background: #01940b; 
-  } 
-  
-  .range-input { 
-    position: relative; 
-  } 
-  
-  .range-input input { 
-    position: absolute; 
-    width: 100%; 
-    height: 5px; 
-    background: none; 
-    top: -5px; 
-    pointer-events: none; 
-    cursor: pointer; 
-    -webkit-appearance: none; 
-  } 
-  
-  /* Styles for the range thumb in WebKit browsers */
-  input[type="range"]::-webkit-slider-thumb { 
-    height: 18px; 
-    width: 18px; 
-    border-radius: 70%;
-    background: #555; 
-    pointer-events: auto; 
-    -webkit-appearance: none; 
-  }
 
-  
-/*********************** 列表 ***************************/
 
-.students_list_block{
-    width: 100%;
-    display: flex; /* 使用 flex 排列內容 */
-    flex-wrap: wrap; /* 允許內容換行 */
-}
+        /********** 預算 *********/
+        .gfg { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 24px; 
+            font-weight: 600; 
+            color: #01940b; 
+        } 
+        
+        .custom-wrapper { 
+            margin: 0; 
+            width: 70%; 
+            padding: 0px 25px 40px; 
+            position: relative; 
+            left: 63px; 
+        } 
+        
+        .header h2 { 
+            font-size: 30px; 
+            color: #01940b; 
+            display: flex; 
+            justify-content: center; 
+            padding: 20px; 
+        } 
+        
+        /* Styles for the price input container */
+        .price-input-container { 
+            width: 100%; 
+        } 
+        
+        .price-input .price-field { 
+            display: flex; 
+            margin-bottom: 22px; 
+        } 
+        
+        .price-field span { 
+            margin-right: 10px; 
+            margin-top: 6px; 
+            font-size: 17px; 
+        } 
+        
+        .price-field input { 
+            flex: 1; 
+            height: 35px; 
+            font-size: 15px; 
+            font-family: "DM Sans", sans-serif; 
+            border-radius: 9px; 
+            text-align: center; 
+            border: 0px; 
+            background: #e4e4e4; 
+        } 
+        
+        .price-input { 
+            width: 100%; 
+            font-size: 19px; 
+            color: #555; 
+        } 
+        
+        /* Remove Arrows/Spinners */
+        input::-webkit-outer-spin-button, 
+        input::-webkit-inner-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        } 
+        
+        .slider-container { 
+            width: 100%; 
+        } 
+        
+        .slider-container { 
+            height: 6px; 
+            position: relative; 
+            background: #e4e4e4; 
+            border-radius: 5px; 
+        } 
+        
+        .slider-container .price-slider { 
+            height: 100%; 
+            left: 0%; 
+            right: 100%; 
+            position: absolute; 
+            border-radius: 5px; 
+            background: #01940b; 
+        } 
+        
+        .range-input { 
+            position: relative; 
+        } 
+        
+        .range-input input { 
+            position: absolute; 
+            width: 100%; 
+            height: 5px; 
+            background: none; 
+            top: -5px; 
+            pointer-events: none; 
+            cursor: pointer; 
+            -webkit-appearance: none; 
+        } 
+        
+        /* Styles for the range thumb in WebKit browsers */
+        input[type="range"]::-webkit-slider-thumb { 
+            height: 18px; 
+            width: 18px; 
+            border-radius: 70%;
+            background: #555; 
+            pointer-events: auto; 
+            -webkit-appearance: none; 
+        }
 
-#students_list_title ,#students_list_place ,#students_list_price ,#students_list_condition ,#students_list_describe{
-    width: 100%;
-}
+        
+        /*********************** 列表 ***************************/
 
-#students_list_contact ,#students_list_phone{
-    width: 50%;
-}
+        .students_list_block{
+            width: 100%;
+            display: flex; /* 使用 flex 排列內容 */
+            flex-wrap: wrap; /* 允許內容換行 */
+        }
+
+        #students_list_title ,#students_list_place ,#students_list_price ,#students_list_condition ,#students_list_describe,#students_list_contact ,#students_list_phone{
+            width: 100%;
+        }
 
 
 
@@ -300,7 +297,9 @@ body{
 
                 <select name="district" id="district">
                     <option value="0">請選擇區</option>
+                    <!-- 抓資料庫，使用 AJAX 技術，選擇完縣市就可以抓該縣市內的區 -->
                 </select>
+                
             </div>
 
             
@@ -352,31 +351,26 @@ body{
 
         <div class="students_list">
             
-
-
-
             <div class="students_list_block">
+                <div id="students_list_title"><h2>國小數學</h2></div>
                 <p>收藏</p><!-- 使用icon 可以點選互動 -->
-                <div id="students_list_title">標題(科目)</div>
-                <div id="students_list_contact">老師姓名</div>
-                <div id="students_list_phone">電話</div>
-                <div id="students_list_place">上課地點</div>
-                <div id="students_list_price">上課預算</div><!-- 抓資料庫 min - max -->
-                <div id="students_list_condition">條件</div>
-                <div id="students_list_describe">描述</div>
+                <div id="students_list_contact">林XX</div>
+                <div id="students_list_phone">0965587741</div>
+                <div id="students_list_place">台中南屯區</div>
+                <div id="students_list_price">500 - 800</div><!-- 抓資料庫 min - max -->
+                <div id="students_list_describe">1. 國立大學XX畢業 2. 教學經驗 5 年</div>
                 <button>瀏覽老師履歷表</button><!-- 點選後開啟分頁老師上傳的履歷表 -->
                 <button>聯絡老師</button><!-- 點選後跳出聊天室暫定 -->
             </div>
             
 
             <div class="students_list_block">
+                <div id="students_list_title"><h2>標題(科目)</h2></div>
                 <p>收藏</p><!-- 使用icon 可以點選互動 -->
-                <div id="students_list_title">標題(科目)</div>
                 <div id="students_list_contact">老師姓名</div>
                 <div id="students_list_phone">電話</div>
                 <div id="students_list_place">上課地點</div>
                 <div id="students_list_price">上課預算</div><!-- 抓資料庫 min - max -->
-                <div id="students_list_condition">條件</div>
                 <div id="students_list_describe">描述</div>
                 <button>瀏覽老師履歷表</button><!-- 點選後開啟分頁老師上傳的履歷表 -->
                 <button>聯絡老師</button><!-- 點選後跳出聊天室暫定 -->
