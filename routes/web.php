@@ -6,6 +6,15 @@ use App\Http\Controllers\FindTeacherController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// http://localhost/LearnLink/public/
+
+// 首頁↓↓↓↓↓↓↓↓↓↓↓  http://localhost/LearnLink/public/homePage
+Route::view('/homePage','homepage');
+
+// 登入頁面↓↓↓↓↓↓↓↓↓↓    http://localhost/LearnLink/public/login
+Route::view('/login','login');
+
 Route::view('/findteacher','findteacher');
 // Route::match(['get', 'post'], '/findteacher', function () {
 //     return view('findteacher');
@@ -20,5 +29,8 @@ Route::get('/welcome', function () {
     return view('welcome');
 })->name('welcome');
 
-
 Route::view('/studentpage','studentpage');
+
+
+
+
