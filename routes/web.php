@@ -24,3 +24,5 @@ Route::get('/welcome', function () {
 Route::view('/studentpage','studentpage');
 
 Route::view('/teacher_lists','teacher_lists');
+
+Route::view('/student_cases','student_cases');
