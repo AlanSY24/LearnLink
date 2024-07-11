@@ -153,6 +153,20 @@
             width: 100%;
         }
 
+        .button-container {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .button {
+            background-color: #dc3545;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
 
 
     </style>
@@ -359,8 +373,13 @@
                 <div id="students_list_place">台中南屯區</div>
                 <div id="students_list_price">500 - 800</div><!-- 抓資料庫 min - max -->
                 <div id="students_list_describe">1. 國立大學XX畢業 2. 教學經驗 5 年</div>
-                <button>瀏覽老師履歷表</button><!-- 點選後開啟分頁老師上傳的履歷表 -->
-                <button>聯絡老師</button><!-- 點選後跳出聊天室暫定 -->
+                <div class="button-container">
+                <div class="button-container">
+                    <button class="button">瀏覽老師履歷表</button><!-- 點選後開啟分頁老師上傳的履歷表 -->
+                    <button class="button">聯絡老師</button><!-- 點選後跳出聊天室暫定 -->
+                </div>
+                </div>
+                
             </div>
             
 
@@ -372,8 +391,10 @@
                 <div id="students_list_place">上課地點</div>
                 <div id="students_list_price">上課預算</div><!-- 抓資料庫 min - max -->
                 <div id="students_list_describe">描述</div>
-                <button>瀏覽老師履歷表</button><!-- 點選後開啟分頁老師上傳的履歷表 -->
-                <button>聯絡老師</button><!-- 點選後跳出聊天室暫定 -->
+                <div class="button-container">
+                    <button class="button">瀏覽老師履歷表</button><!-- 點選後開啟分頁老師上傳的履歷表 -->
+                    <button class="button">聯絡老師</button><!-- 點選後跳出聊天室暫定 -->
+                </div>
             </div>
 
         </div>

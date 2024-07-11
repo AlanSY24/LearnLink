@@ -153,7 +153,20 @@
         }
 
 
-
+        .button-container {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .button {
+            background-color: #dc3545;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
 
 
     </style>
@@ -363,7 +376,9 @@
                 <div id="students_list_price">300 - 400</div><!-- 抓資料庫 min - max -->
                 <div id="students_list_condition">1. 老師性別女 2. 有5年以上教學經驗</div>
                 <div id="students_list_describe">小孩有點內向需要多點陪伴</div>
-                <button>聯絡我</button><!-- 點選後跳出聊天室暫定 -->
+                <div class="button-container">
+                    <button class="button">聯絡我</button><!-- 點選後跳出聊天室暫定 -->
+                </div>
             </div>
             
 
@@ -377,7 +392,10 @@
                 <div id="students_list_price">上課預算</div><!-- 抓資料庫 min - max -->
                 <div id="students_list_condition">條件</div>
                 <div id="students_list_describe">描述</div>
-                <button>聯絡我</button><!-- 點選後跳出聊天室暫定 -->
+                <div class="button-container">
+                    <button class="button">聯絡我</button><!-- 點選後跳出聊天室暫定 -->
+                </div>
+                
             </div>
 
         </div>
