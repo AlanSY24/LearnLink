@@ -18,7 +18,6 @@
 </head>
 
 <body>
-
     <div class="d-flex justify-content-center align-items-center min-vh-100 bg-transparent" id="login-form">
         <form action="/login" method="POST" class="form-container rounded-3 shadow p-4 position-relative">
             <a href="{{ url('/homePage') }}" class="position-absolute top-0 start-0 m-2 back-icon">

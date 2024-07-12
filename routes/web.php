@@ -15,6 +15,9 @@ Route::view('/homePage','homepage');
 // 登入頁面↓↓↓↓↓↓↓↓↓↓    http://localhost/LearnLink/public/login
 Route::view('/login','login');
 
+Route::view('/about','about');
+
+
 Route::view('/findteacher','findteacher');
 // Route::match(['get', 'post'], '/findteacher', function () {
 //     return view('findteacher');
