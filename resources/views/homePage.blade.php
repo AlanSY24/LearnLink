@@ -7,100 +7,20 @@
     <title>首頁</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel='stylesheet' href='https://chinese-fonts-cdn.deno.dev/packages/zhbtt/dist/字魂扁桃体/result.css' />
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: url('https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyNzY3NzR8MHwxfGFsbHwxfHx8fHx8fHwxNjE3OTQ2NzY2&ixlib=rb-1.2.1&q=80&w=1080') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
 
-        .navbar {
-            background-color: rgba(248, 249, 250, 0.8) !important;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar-brand h1 {
-            font-family: 'zihunbiantaoti';
-            font-weight: 400;
-            color: #333;
-            margin: 0;
-            display: inline-block;
-            vertical-align: middle;
-            margin-left: 10px;
-        }
-
-        main {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 40px 0;
-        }
-
-        .content-container {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        h2 {
-            color: #333;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        .btn-large {
-            width: 100%;
-            padding: 20px;
-            font-size: 1.5em;
-            height: 35vh;
-            max-width: 400px;
-            min-height: 150px;
-            border: none;
-            border-radius: 6px;
-            background: linear-gradient(135deg, #ff7e5f, #feb47b);
-            color: white;
-            transition: background 0.3s ease;
-        }
-
-        .btn-large:hover {
-            background: linear-gradient(135deg, #feb47b, #ff7e5f);
-        }
-
-        .btn-container {
-            margin: 30px 0;
-        }
-
-        footer {
-            background-color: rgba(248, 249, 250, 0.8);
-            padding-top: 20px;
-        }
-
-        @media (max-width: 310px) {
-            .site-logo {
-                display: none;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/homePage.css') }}">
 </head>
 
 <body>
     <nav class="navbar navbar-expand-sm p-0 sticky-top">
         <div class="container-fluid">
             <a class="navbar-brand m-0 p-0" href="">
-                <img src="/images/logo.png" alt="圖片敗">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo" style="height: 50px;">
                 <h1>LearnLink</h1>
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -146,7 +66,8 @@
                             <i class="fas fa-chart-line me-3"></i>Lorem Ipsum
                         </h6>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
+                            Sed cursus ante dapibus diam.
                         </p>
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
