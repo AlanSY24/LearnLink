@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FindTeacherController;
+use App\Http\Controllers\StudentPageController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,7 +33,10 @@ Route::get('/welcome', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::view('/studentpage','studentpage');
+
+Route::get('/studentpage', [StudentPageController::class, 'index'])->name('studentpage');
+Route::post('/studentpage/store', [StudentPageController::class, 'store'])->name('studentpage.store');
+
 
 Route::view('/teacher_lists','teacher_lists');
 

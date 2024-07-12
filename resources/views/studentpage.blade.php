@@ -150,8 +150,8 @@
             border: 1px solid #ccc;
             padding: 10px;
             margin: 10px;
-            width: 150px;
-            height: 100px;
+            width: 160px;
+            /* height: 100px; */
         }
 
         .student-info {
@@ -169,7 +169,12 @@
         <div class="row">
             會員中心
         </div>
-
+        <div class="container">
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
         <div class="row">
             <div class="col-3 container border">
                 <a class="row" href="">基本資料</a>
@@ -179,15 +184,16 @@
             <div class="col-9 container border">
                 <button id="addCardBtn">新增學生卡片</button>
                 <div id="formContainer" class="form-container">
-                    <form id="studentForm">
+                    <form id="studentForm" action="{{ route('studentpage.store') }}" method="POST">
+                    @csrf
                         <label for="name">姓名：</label>
                         <input type="text" id="name" name="name" required><br><br>
                         <label for="age">年齡：</label>
                         <input type="number" id="age" name="age" required><br><br>
                         <label for="gender">性別：</label>
                         <select id="gender" name="gender" required>
-                            <option value="男">男</option>
-                            <option value="女">女</option>
+                            <option value="Male">男</option>
+                            <option value="Female">女</option>
                         </select><br><br>
                         <button type="submit">確定新增</button>
                         <button id="CardBtn">取消</button>
@@ -196,6 +202,16 @@
 
                 <div id="cardContainer">
                     <!-- 卡片將會動態加入到這裡 -->
+                    @foreach($students as $student)
+        <div class="card d-inline-block">
+            <div class="card-body">
+                <h5 class="card-title">{{ $student->name }}</h5>
+                <p class="card-text">年齡：{{ $student->age }}</p>
+                <p class="card-text">性別：{{ $student->gender }}</p>
+                
+            </div>
+        </div>
+        @endforeach
                 </div>
 
 
@@ -208,22 +224,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const addCardBtn = document.getElementById('addCardBtn');
-            const formContainer = document.getElementById('formContainer');
-            const studentForm = document.getElementById('studentForm');
-            const cardContainer = document.getElementById('cardContainer');
-
-
-            // 取得所有學生卡片資料並初始化顯示
-            fetch('c.php')
-                .then(response => response.json())
-                .then(cards => {
-                    cards.forEach(card => {
-                        const cardDiv = createCardElement(card);
-                        cardContainer.appendChild(cardDiv);
-                    });
-                })
-                .catch(error => console.error('Error fetching cards:', error));
             // 按鈕點擊事件處理函數
             addCardBtn.addEventListener('click', function () {
                 formContainer.style.display = 'block'; // 顯示表單
@@ -232,46 +232,67 @@
                 formContainer.style.display = 'none';
             });
 
-            // 表單提交事件處理函數
-            studentForm.addEventListener('submit', async function (event) {
-                event.preventDefault();
 
-                const name = document.getElementById('name').value;
-                const age = document.getElementById('age').value;
-                const gender = document.getElementById('gender').value;
 
-                // 發送 POST 請求新增學生卡片
-                const response = await fetch('api.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ name, age, gender })
-                });
 
-                const newCard = await response.json();
+            // const addCardBtn = document.getElementById('addCardBtn');
+            // const formContainer = document.getElementById('formContainer');
+            // const studentForm = document.getElementById('studentForm');
+            // const cardContainer = document.getElementById('cardContainer');
 
-                // 創建新的卡片元素並顯示
-                const cardDiv = createCardElement(newCard);
-                cardContainer.appendChild(cardDiv);
 
-                // 清空表單並隱藏
-                studentForm.reset();
-                formContainer.style.display = 'none';
-            });
+            // // 取得所有學生卡片資料並初始化顯示
+            // fetch('c.php')
+            //     .then(response => response.json())
+            //     .then(cards => {
+            //         cards.forEach(card => {
+            //             const cardDiv = createCardElement(card);
+            //             cardContainer.appendChild(cardDiv);
+            //         });
+            //     })
+            //     .catch(error => console.error('Error fetching cards:', error));
 
-            // 創建卡片元素
-            function createCardElement(cardData) {
-                const cardDiv = document.createElement('div');
-                cardDiv.className = 'card';
 
-                const infoDiv = document.createElement('div');
-                infoDiv.className = 'student-info';
-                infoDiv.textContent = `姓名: ${cardData.name}, 年齡: ${cardData.age}, 性別: ${cardData.gender}`;
+            // // 表單提交事件處理函數
+            // studentForm.addEventListener('submit', async function (event) {
+            //     event.preventDefault();
 
-                cardDiv.appendChild(infoDiv);
-                return cardDiv;
-            }
+            //     const name = document.getElementById('name').value;
+            //     const age = document.getElementById('age').value;
+            //     const gender = document.getElementById('gender').value;
+
+            //     // 發送 POST 請求新增學生卡片
+            //     const response = await fetch('api.php', {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/json'
+            //         },
+            //         body: JSON.stringify({ name, age, gender })
+            //     });
+
+            //     const newCard = await response.json();
+
+            //     // 創建新的卡片元素並顯示
+            //     const cardDiv = createCardElement(newCard);
+            //     cardContainer.appendChild(cardDiv);
+
+            //     // 清空表單並隱藏
+            //     studentForm.reset();
+            //     formContainer.style.display = 'none';
+            // });
+
+            // // 創建卡片元素
+            // function createCardElement(cardData) {
+            //     const cardDiv = document.createElement('div');
+            //     cardDiv.className = 'card';
+
+            //     const infoDiv = document.createElement('div');
+            //     infoDiv.className = 'student-info';
+            //     infoDiv.textContent = `姓名: ${cardData.name}, 年齡: ${cardData.age}, 性別: ${cardData.gender}`;
+
+            //     cardDiv.appendChild(infoDiv);
+            //     return cardDiv;
+            // }
         });
     </script>
 </body>
