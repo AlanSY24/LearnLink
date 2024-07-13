@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FindTeacherController;
-use App\Http\Controllers\StudentPageController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,9 +13,7 @@ Route::get('/', function () {
 Route::view('/homePage','homepage');
 
 // 登入頁面↓↓↓↓↓↓↓↓↓↓    http://localhost/LearnLink/public/login
-Route::view('/login','login');
-
-Route::view('/about','about');
+Route::view('/login','login')->name('login');
 
 
 Route::view('/findteacher','findteacher');
@@ -33,10 +30,7 @@ Route::get('/welcome', function () {
     return view('welcome');
 })->name('welcome');
 
-
-Route::get('/studentpage', [StudentPageController::class, 'index'])->name('studentpage');
-Route::post('/studentpage/store', [StudentPageController::class, 'store'])->name('studentpage.store');
-
+Route::view('/studentpage','studentpage');
 
 Route::view('/teacher_lists','teacher_lists');
 

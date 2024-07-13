@@ -14,12 +14,13 @@
 
     <!-- 引入自訂的 CSS 檔案 -->
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
-    
+
 </head>
 
 <body>
     <div class="d-flex justify-content-center align-items-center min-vh-100 bg-transparent" id="login-form">
         <form action="/login" method="POST" class="form-container rounded-3 shadow p-4 position-relative">
+            @csrf
             <a href="{{ url('/homePage') }}" class="position-absolute top-0 start-0 m-2 back-icon">
                 <i class="fas fa-caret-left"> back</i>
             </a>
@@ -48,6 +49,7 @@
             </div>
         </form>
     </div>
+
 
 
     <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 d-none" id="register-form">
