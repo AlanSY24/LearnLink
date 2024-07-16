@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+
     <title>找老師履歷</title>
     <style>
         
@@ -21,7 +25,45 @@
             margin-left: 20px;
         }
 
+        
+
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var heartIcon = document.getElementById('heart');
+            var isFavorite = false; // 初始收藏狀態為 false
+
+            if (heartIcon) {
+                heartIcon.addEventListener('click', function() {
+                    if (!isFavorite) {
+                        // 切換為實心愛心，紅色填充
+                        heartIcon.classList.remove('far');
+                        heartIcon.classList.add('fas');
+                        heartIcon.style.color = '#ed1212';
+                        isFavorite = true;
+                        addToFavorites();
+                    } else {
+                        // 切換為空心愛心，紅色框框
+                        heartIcon.classList.remove('fas');
+                        heartIcon.classList.add('far');
+                        heartIcon.style.color = 'red';
+                        isFavorite = false;
+                        removeFromFavorites();
+                    }
+                });
+            }
+        });
+
+        function addToFavorites() {
+            console.log('已將愛心添加到收藏夾');
+            // 在這裡可以添加將愛心圖示加入到收藏夾的相應邏輯
+        }
+
+        function removeFromFavorites() {
+            console.log('已將愛心從收藏夾移除');
+            // 在這裡可以添加將愛心圖示從收藏夾移除的相應邏輯
+        }
+    </script>
 </head>
 <body>
     <h1>老師履歷列表</h1>
@@ -99,7 +141,7 @@
             <div class="t_lists_block">
                 
                 <div id="t_lists_title"><h2>國小三年級數學</h2></div>
-                <div>收藏</div><!-- 可以點選互動 -->
+                <i id="heart" class="far fa-heart" style="color: red;"></i>
                 <div id="t_lists_subject">教學的科目：數學</div>
                 <div id="t_lists_name">姓名：王XX</div>
                 <div id="t_lists_gender">性別：女</div>
