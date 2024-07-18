@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FindTeacherController;
+use App\Http\Controllers\LoginController;
+
+Route::post('/check-user', [LoginController::class, 'checkUser'])->name('check.user');
+
+
 
 Route::get('/', function () {
     return view('welcome');

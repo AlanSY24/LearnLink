@@ -6,35 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <!-- 引入 FontAwesome CDN -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- 引入自訂的 CSS 檔案 -->
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
-
 </head>
 
 <body>
-    <div class="d-flex justify-content-center align-items-center min-vh-100 bg-transparent" id="login-form">
-        <form action="/login" method="POST" class="form-container rounded-3 shadow p-4 position-relative">
+    <div class="container d-flex justify-content-center align-items-center min-vh-100 outdiv" id="login-form">
+        <form action="{{ route('check.user') }}" method="POST"
+            class="form-container rounded-3 shadow p-4 position-relative">
             @csrf
             <a href="{{ url('/homePage') }}" class="position-absolute top-0 start-0 m-2 back-icon">
-                <i class="fas fa-caret-left"> back</i>
+                <i class="fas fa-caret-left">back</i>
             </a>
             <h1 class="mb-4">登入</h1>
             <div class="mb-3">
                 <div class="textbox">
                     <i class="fas fa-user"></i>
-                    <input type="text" placeholder="用戶名" name="username" required>
+                    <input type="text" placeholder="用戶名" name="loginUsername" required>
                 </div>
             </div>
             <div class="mb-3">
                 <div class="textbox">
                     <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="密碼" name="password" required>
+                    <input type="password" placeholder="密碼" name="loginPassword" required>
                 </div>
             </div>
             <div class="mb-3">
@@ -48,11 +44,16 @@
                 <a href="#" data-show-form="forgot-form">忘記密碼？</a>
             </div>
         </form>
+
+        @if(session('message'))
+            <script>
+                alert("{{ session('message') }}");
+            </script>
+        @endif
     </div>
 
-
-
-    <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 d-none" id="register-form">
+    <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 d-none outdiv"
+        id="register-form">
         <form action="/register" method="POST"
             class="form-container register-and-forgot-container rounded-3 shadow p-4 p-md-5 position-relative">
             <a href="{{ url('/homePage') }}" class="position-absolute top-0 start-0 m-2 back-icon">
@@ -100,8 +101,8 @@
         </form>
     </div>
 
-
-    <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 d-none" id="forgot-form">
+    <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 d-none outdiv"
+        id="forgot-form">
         <form action="/forgot-password" method="POST"
             class="form-container register-and-forgot-container rounded-3 shadow p-4 p-md-5 position-relative">
             <a href="{{ url('/homePage') }}" class="position-absolute top-0 start-0 m-2 back-icon">
@@ -140,7 +141,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const links = document.querySelectorAll('.links a');
-            const forms = document.querySelectorAll('.container-fluid, .d-flex');
+            const forms = document.querySelectorAll('.outdiv');
 
             links.forEach(link => {
                 link.addEventListener('click', function (event) {
