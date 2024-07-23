@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FindTeacherController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\StudentPageController;
 
 Route::post('/check-user', [LoginController::class, 'checkUser'])->name('check.user');
 
