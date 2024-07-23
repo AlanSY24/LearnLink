@@ -3,9 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FindTeacherController;
 use App\Http\Controllers\LoginController;
-
-Route::post('/check-user', [LoginController::class, 'checkUser'])->name('check.user');
-
+use App\Http\Controllers\Auth\AuthController;
 
 
 Route::get('/', function () {
@@ -14,11 +12,20 @@ Route::get('/', function () {
 
 // http://localhost/LearnLink/public/
 
-// 首頁↓↓↓↓↓↓↓↓↓↓↓  http://localhost/LearnLink/public/homePage
+// 首頁↓↓↓↓↓↓↓↓↓↓↓  http://127.0.0.1:8000/homePage
 Route::view('/homePage','homepage');
 
-// 登入頁面↓↓↓↓↓↓↓↓↓↓    http://localhost/LearnLink/public/login
+// 登入頁面↓↓↓↓↓↓↓↓↓↓    http://127.0.0.1:8000/login
 Route::view('/login','login')->name('login');
+
+// 註冊↓↓↓↓↓↓↓↓↓↓    
+Route::post('/register', [AuthController::class, 'register']);
+
+// 登入↓↓↓↓↓↓ 
+Route::post('/login', [App\Http\Controllers\Auth\AuthController::class, 'login'])->name('login');
+
+
+Route::post('/check-user', [LoginController::class, 'checkUser'])->name('check.user');
 
 
 Route::view('/findteacher','findteacher');
