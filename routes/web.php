@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FindTeacherController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\StudentPageController;
 use App\Http\Controllers\Auth\AuthController;
 
 
@@ -42,8 +43,10 @@ Route::get('/welcome', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::view('/studentpage','studentpage');
 
 Route::view('/teacher_lists','teacher_lists');
 
 Route::view('/student_cases','student_cases');
+
+Route::get('/studentpage', [StudentPageController::class, 'index'])->name('studentpage');
+Route::post('/studentpage/store', [StudentPageController::class, 'store'])->name('studentpage.store');
