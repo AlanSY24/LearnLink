@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-07-29 10:51:01
+-- 產生時間： 2024-07-30 10:00:03
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -73,6 +73,7 @@ CREATE TABLE `studentpost` (
   `slearntime` char(25) NOT NULL,
   `pretime` date NOT NULL,
   `scity` char(50) NOT NULL,
+  `sarea` varchar(25) NOT NULL,
   `lowprice` smallint(6) NOT NULL,
   `highprice` smallint(6) NOT NULL,
   `scontent` varchar(250) NOT NULL,
@@ -81,6 +82,13 @@ CREATE TABLE `studentpost` (
   `state` char(25) NOT NULL,
   `sformID` smallint(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 傾印資料表的資料 `studentpost`
+--
+
+INSERT INTO `studentpost` (`stitle`, `ssuject`, `slearntime`, `pretime`, `scity`, `sarea`, `lowprice`, `highprice`, `scontent`, `account`, `updatetime`, `state`, `sformID`) VALUES
+('找老師', '數學', '晚上', '2024-07-31', '台中市', '南', 100, 200, '小孩5年級\r\n多次上課', 'a12345678', '2024-07-30 07:53:38', '發案中', 1);
 
 -- --------------------------------------------------------
 
@@ -102,6 +110,13 @@ CREATE TABLE `teacherpost` (
   `tformID` smallint(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- 傾印資料表的資料 `teacherpost`
+--
+
+INSERT INTO `teacherpost` (`ttitle`, `tsuject`, `tlearntime`, `tcity`, `tarea`, `salary`, `introduction`, `resumeId`, `account`, `state`, `tformID`) VALUES
+('數學老師', '數學', '晚上', '台中市', '北屯區', 500, '自我介紹', 1, 'a12345678', '發案中', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -109,21 +124,26 @@ CREATE TABLE `teacherpost` (
 --
 
 CREATE TABLE `users` (
-  `account` char(25) NOT NULL,
-  `password` char(25) NOT NULL,
-  `cname` char(75) NOT NULL,
-  `gender` char(1) NOT NULL,
-  `phone` char(10) NOT NULL,
-  `email` char(50) NOT NULL,
-  `birthdat` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `account` varchar(255) DEFAULT NULL,
+  `gender` tinyint(1) UNSIGNED DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `birthday` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- 傾印資料表的資料 `users`
 --
 
-INSERT INTO `users` (`account`, `password`, `cname`, `gender`, `phone`, `email`, `birthdat`) VALUES
-('a12345678', 'a12345678', '王大明', '男', '0912345678', 'a12345678@gmail.com', '2024-07-23');
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `account`, `gender`, `phone`, `birthday`) VALUES
+(6, '王大明', NULL, NULL, '$2y$12$GDfUqKnhSH9Nuo/qIcb9nOIIAIUfUvOB77XFnud.tQZ9WHoe2Al8i', NULL, '2024-07-29 07:40:30', '2024-07-29 07:40:30', 'A01', NULL, NULL, NULL);
 
 --
 -- 已傾印資料表的索引
@@ -151,7 +171,9 @@ ALTER TABLE `teacherpost`
 -- 資料表索引 `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`account`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`),
+  ADD UNIQUE KEY `users_account_unique` (`account`);
 
 --
 -- 在傾印的資料表使用自動遞增(AUTO_INCREMENT)
@@ -167,13 +189,19 @@ ALTER TABLE `membercenterteacher`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `studentpost`
 --
 ALTER TABLE `studentpost`
-  MODIFY `sformID` smallint(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `sformID` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `teacherpost`
 --
 ALTER TABLE `teacherpost`
-  MODIFY `tformID` smallint(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `tformID` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- 使用資料表自動遞增(AUTO_INCREMENT) `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
