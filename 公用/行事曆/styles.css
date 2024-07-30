@@ -145,3 +145,23 @@ body {
     margin-bottom: 10px;
     padding: 5px;
 }
+.time-select-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.time-select-container select {
+    width: 48%; /* 略小於50%以確保兩個select之間有間隔 */
+}
+
+/* 調整其他輸入框的樣式以保持一致性 */
+.modal-content select, 
+.modal-content input[type="text"], 
+.modal-content input[type="number"] {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 5px;
+    box-sizing: border-box; /* 確保padding不會增加整體寬度 */
+}
