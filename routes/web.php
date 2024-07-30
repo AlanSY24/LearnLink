@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FindTeacherController;
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\StudentPageController;
 use App\Http\Controllers\Auth\AuthController;
 
@@ -18,15 +17,20 @@ Route::view('/homePage','homepage');
 
 // 登入頁面↓↓↓↓↓↓↓↓↓↓    http://127.0.0.1:8000/login
 Route::view('/login','login')->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+// 登入功能↑↑↑↑↑↑↑↑↑
 
 // 註冊↓↓↓↓↓↓↓↓↓↓    
 Route::post('/register', [AuthController::class, 'register']);
 
-// 登入↓↓↓↓↓↓ 
-Route::post('/login', [App\Http\Controllers\Auth\AuthController::class, 'login'])->name('login');
+// 登入測試   http://127.0.0.1:8000/auth_status
+Route::view('/auth_status', 'auth_status')->name('auth.status');
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/');
+})->name('logout');
 
 
-Route::post('/check-user', [LoginController::class, 'checkUser'])->name('check.user');
 
 
 Route::view('/findteacher','findteacher');
