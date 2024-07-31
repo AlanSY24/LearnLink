@@ -28,7 +28,14 @@
         <div class="modal-content">
             <h3>確認上課日期和地點</h3>
             <input type="date" id="eventDate">
-            <input type="time" id="eventTime">
+            <div class="time-select-container">
+                <select id="eventHour" required>
+                    <option value="">小時</option>
+                </select>
+                <select id="eventMinute" required>
+                    <option value="">分鐘</option>
+                </select>
+            </div>
             <select id="citySelect">
                 <option value="">選擇縣市</option>
             </select>

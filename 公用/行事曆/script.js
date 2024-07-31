@@ -11,11 +11,14 @@ function getTodayString() {
     return `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
 }
 
-// 獲取當前時間加2小時後的時間字符串（格式：HH:mm）
-function getMinTimeString() {
+// 獲取當前時間加2小時後的時間
+function getMinTime() {
     const now = new Date();
     now.setHours(now.getHours() + 2);
-    return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+    return {
+        hour: now.getHours(),
+        minute: Math.ceil(now.getMinutes() / 5) * 5
+    };
 }
 
 // 模擬從資料庫獲取事件類型
@@ -116,25 +119,57 @@ function renderCalendar() {
     }
 }
 
+function populateTimeSelects(minHour = 0, minMinute = 0) {
+    const hourSelect = document.getElementById('eventHour');
+    const minuteSelect = document.getElementById('eventMinute');
+    
+    hourSelect.innerHTML = '<option value="">小時</option>';
+    minuteSelect.innerHTML = '<option value="">分鐘</option>';
+    
+    for (let hour = 0; hour < 24; hour++) {
+        if (hour >= minHour) {
+            const option = document.createElement('option');
+            option.value = hour.toString().padStart(2, '0');
+            option.textContent = hour.toString().padStart(2, '0');
+            hourSelect.appendChild(option);
+        }
+    }
+    
+    for (let minute = 0; minute < 60; minute += 5) {
+        const option = document.createElement('option');
+        option.value = minute.toString().padStart(2, '0');
+        option.textContent = minute.toString().padStart(2, '0');
+        minuteSelect.appendChild(option);
+    }
+
+    // 如果是今天，限制分鐘選項
+    if (minHour === hourSelect.value) {
+        Array.from(minuteSelect.options).forEach(option => {
+            if (parseInt(option.value) < minMinute) {
+                option.disabled = true;
+            }
+        });
+    }
+}
+
 function openEventModal(day) {
     const modal = document.getElementById('eventModal');
     const eventDate = document.getElementById('eventDate');
-    const eventTime = document.getElementById('eventTime');
     
     const dateString = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
     eventDate.value = dateString;
-    eventDate.min = getTodayString(); // 設置最小日期為今天
+    eventDate.min = getTodayString();
     
-    // 如果選擇的是今天，設置最小時間為當前時間加2小時
     if (dateString === getTodayString()) {
-        eventTime.min = getMinTimeString();
+        const minTime = getMinTime();
+        populateTimeSelects(minTime.hour, minTime.minute);
     } else {
-        eventTime.min = "00:00";
+        populateTimeSelects();
     }
     
-    eventTime.value = '';
-    
     // 重置其他輸入欄位
+    document.getElementById('eventHour').value = '';
+    document.getElementById('eventMinute').value = '';
     document.getElementById('citySelect').value = '';
     document.getElementById('districtSelect').innerHTML = '<option value="">選擇地區</option>';
     document.getElementById('detailAddress').value = '';
@@ -145,12 +180,19 @@ function openEventModal(day) {
 
 function addEvent() {
     const eventDate = document.getElementById('eventDate').value;
-    const eventTime = document.getElementById('eventTime').value;
+    const eventHour = document.getElementById('eventHour').value;
+    const eventMinute = document.getElementById('eventMinute').value;
     const city = document.getElementById('citySelect').value;
     const district = document.getElementById('districtSelect').value;
     const detailAddress = document.getElementById('detailAddress').value;
     const hourlyRate = document.getElementById('hourlyRate').value;
     
+    if (!eventHour || !eventMinute) {
+        alert('請選擇時間');
+        return;
+    }
+
+    const eventTime = `${eventHour}:${eventMinute}`;
     const selectedDateTime = new Date(`${eventDate}T${eventTime}`);
     const minDateTime = new Date();
     minDateTime.setHours(minDateTime.getHours() + 2);
@@ -187,13 +229,29 @@ function renderEventList() {
     events.forEach((event, index) => {
         const li = document.createElement('li');
         li.innerHTML = `
-    <div>${event.date} ${event.time}: ${event.text}</div>
-    <div>${event.city}${event.district}</div>
-    <div>${event.detailAddress}</div>
-    <div>時薪: ${event.hourlyRate}</div>
-`;
+            <div>${event.date} ${event.time}: ${event.text}</div>
+            <div>${event.city}${event.district}</div>
+            <div>${event.detailAddress}</div>
+            <div>時薪: ${event.hourlyRate}</div>
+            <button class="delete-btn" data-index="${index}">刪除</button>
+        `;
         eventList.appendChild(li);
     });
+
+    // 為所有刪除按鈕添加事件監聽器
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            deleteEvent(this.getAttribute('data-index'));
+        });
+    });
+}
+
+function deleteEvent(index) {
+    if (confirm('確定要刪除這個事件嗎？')) {
+        events.splice(index, 1);
+        renderEventList();
+        renderCalendar();
+    }
 }
 
 function submitEvents() {
@@ -225,11 +283,11 @@ document.getElementById('submitEvents').addEventListener('click', submitEvents);
 // 動態更新時間限制
 document.getElementById('eventDate').addEventListener('change', function() {
     const eventDate = this.value;
-    const eventTime = document.getElementById('eventTime');
     if (eventDate === getTodayString()) {
-        eventTime.min = getMinTimeString();
+        const minTime = getMinTime();
+        populateTimeSelects(minTime.hour, minTime.minute);
     } else {
-        eventTime.min = "00:00";
+        populateTimeSelects();
     }
 });
 
@@ -245,3 +303,20 @@ document.getElementById('citySelect').addEventListener('change', function() {
     renderCalendar();
     renderEventList();
 })();
+document.getElementById('eventHour').addEventListener('change', function() {
+    const eventDate = document.getElementById('eventDate').value;
+    const selectedHour = this.value;
+    
+    if (eventDate === getTodayString()) {
+        const minTime = getMinTime();
+        if (parseInt(selectedHour) === minTime.hour) {
+            Array.from(document.getElementById('eventMinute').options).forEach(option => {
+                option.disabled = parseInt(option.value) < minTime.minute;
+            });
+        } else {
+            Array.from(document.getElementById('eventMinute').options).forEach(option => {
+                option.disabled = false;
+            });
+        }
+    }
+});
