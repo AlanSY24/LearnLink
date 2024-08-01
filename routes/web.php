@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FindTeacherController;
 use App\Http\Controllers\StudentPageController;
 use App\Http\Controllers\Auth\AuthController;
-
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\TeacherController;
 
 Route::get('/', function () {
     return view('welcome');
