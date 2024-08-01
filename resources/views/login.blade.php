@@ -140,6 +140,10 @@
         text-decoration: underline;
         font-size: 18px;
     }
+
+    li.warning-message {
+        list-style-type: none;
+    }
 </style>
 
 <body>
@@ -150,21 +154,10 @@
                 <i class="fas fa-caret-left">back</i>
             </a>
             <h1 class="mb-4">登入</h1>
-
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
             <div class="mb-3">
                 <div class="textbox">
                     <i class="fas fa-user"></i>
-                    <input type="text" placeholder="帳號" name="loginUsername" required>
+                    <input type="text" placeholder="帳號" name="loginAccount" required>
                 </div>
             </div>
             <div class="mb-3">
@@ -173,8 +166,16 @@
                     <input type="password" placeholder="密碼" name="loginPassword" required>
                 </div>
             </div>
-            <div class="mb-3">
-                <div class="border p-2">預留的div</div>
+            <div class="mb-3 p-2">
+                <!-- @if ($errors->any())
+                    <div class="alert alert-danger m-0">
+                        <ul class="p-0 m-0">
+                            @foreach ($errors->all() as $error)
+                                <li class="warning-message">{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif -->
             </div>
             <div class="links mt-3">
                 <button type="submit" class="btn btn-my w-100">登入</button>
@@ -184,12 +185,6 @@
                 <a href="#" data-show-form="forgot-form">忘記密碼？</a>
             </div>
         </form>
-
-        @if(session('message'))
-            <script>
-                alert("{{ session('message') }}");
-            </script>
-        @endif
     </div>
 
     <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 d-none outdiv"
