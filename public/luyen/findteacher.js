@@ -5,8 +5,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const hourlyRateMin = document.getElementById('hourly_rate_min');
     const hourlyRateMax = document.getElementById('hourly_rate_max');
 
+    // 獲取基礎URL
+    const baseUrl = document.querySelector('meta[name="base-url"]').getAttribute('content');
+
     // 獲取城市列表
-    fetch('/cities')
+    fetch(`${baseUrl}/cities`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -34,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
     citySelect.addEventListener('change', function () {
         const selectedCityId = this.value;
         if (selectedCityId) {
-            fetch(`/districts/${selectedCityId}`)
+            fetch(`${baseUrl}/districts/${selectedCityId}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
@@ -79,13 +82,18 @@ document.addEventListener('DOMContentLoaded', function() {
             // 獲取表單字段值
             let formData = new FormData(this);
 
+            // 調試用：輸出所有表單數據
+            for (let [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+
             // 驗證所有必填字段
             if (!validateForm(formData)) {
                 return;
             }
 
             // 發送 AJAX 請求
-            fetch('/findteacher', {
+            fetch(`${baseUrl}/findteacher`, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -126,28 +134,39 @@ document.addEventListener('DOMContentLoaded', function() {
     function validateForm(formData) {
         let isValid = true;
 
-        if (!formData.get('title') || !formData.get('subject') || !formData.get('expected_date') || 
-            !formData.get('hourly_rate_min') || !formData.get('hourly_rate_max') || 
-            !formData.get('city') || !formData.get('details')) {
-            alert('請填寫所有必填欄位');
+        // 檢查必填字段
+        const requiredFields = ['title', 'subject', 'expected_date', 'hourly_rate_min', 'hourly_rate_max', 'city', 'details'];
+        for (let field of requiredFields) {
+            if (!formData.get(field)) {
+                console.log(`Missing field: ${field}`);  // 調試用
+                isValid = false;
+            }
+        }
+
+        // 檢查可上課時段（複選框）
+        const availableTimes = formData.getAll('available_time[]');
+        if (availableTimes.length === 0) {
+            console.log('No available time selected');  // 調試用
             isValid = false;
         }
 
-        if (formData.getAll('available_time').length === 0) {
-            alert('請至少選擇一個可上課時段');
+        // 檢查地區（複選框）
+        const districts = formData.getAll('districts[]');
+        if (districts.length === 0) {
+            console.log('No district selected');  // 調試用
             isValid = false;
         }
 
-        if (formData.getAll('districts[]').length === 0) {
-            alert('請至少選擇一個地區');
-            isValid = false;
-        }
-
+        // 檢查時薪範圍
         let hourlyRateMin = parseInt(formData.get('hourly_rate_min'));
         let hourlyRateMax = parseInt(formData.get('hourly_rate_max'));
-        if (hourlyRateMin > hourlyRateMax) {
-            alert('最低時薪不能大於最高時薪');
+        if (isNaN(hourlyRateMin) || isNaN(hourlyRateMax) || hourlyRateMin > hourlyRateMax) {
+            console.log('Invalid hourly rate range');  // 調試用
             isValid = false;
+        }
+
+        if (!isValid) {
+            alert('請填寫所有必填欄位，並確保信息正確');
         }
 
         return isValid;
