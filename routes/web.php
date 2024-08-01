@@ -30,17 +30,15 @@ Route::post('/logout', function () {
     return redirect('/');
 })->name('logout');
 
-
-
-
+//發案找老師的路由
 Route::view('/findteacher','findteacher');
-// Route::match(['get', 'post'], '/findteacher', function () {
-//     return view('findteacher');
-// });
-// Route::post('/findteacher', function () {
-//     return view('welcome');
-// });
-Route::post('/findteacher', [FindTeacherController::class, 'findteacher'])->name('findteacher');
+// 抓城市地區路由
+Route::get('/cities', [LocationController::class, 'getCities']);
+Route::get('/districts/{cityId}', [LocationController::class, 'getDistricts']);
+//傳入資料庫
+Route::post('/findteacher', [TeacherController::class, 'storeRequest'])->name('findteacher');
+
+
 
 
 Route::get('/welcome', function () {
