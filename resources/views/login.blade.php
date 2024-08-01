@@ -108,7 +108,7 @@
     }
 
     .btn-my:hover {
-        background: linear-gradient(135deg, #000000, #000000);
+        background: linear-gradient(135deg, #feb47b, #ff7e5f);
     }
 
     .btn-verify {}
@@ -151,13 +151,13 @@
         <form action="{{ route('login') }}" method="POST" class="form-container rounded-3 shadow p-4 position-relative">
             @csrf
             <a href="{{ url('/homePage') }}" class="position-absolute top-0 start-0 m-2 back-icon">
-                <i class="fas fa-caret-left">back</i>
+                <i class="fas fa-caret-left"> back</i>
             </a>
             <h1 class="mb-4">登入</h1>
             <div class="mb-3">
                 <div class="textbox">
                     <i class="fas fa-user"></i>
-                    <input type="text" placeholder="帳號" name="loginAccount" required>
+                    <input type="text" placeholder="帳號" name="loginAccount" value="{{ old('loginAccount') }}" required>
                 </div>
             </div>
             <div class="mb-3">
@@ -167,7 +167,7 @@
                 </div>
             </div>
             <div class="mb-3 p-2">
-                <!-- @if ($errors->any())
+                @if ($errors->any())
                     <div class="alert alert-danger m-0">
                         <ul class="p-0 m-0">
                             @foreach ($errors->all() as $error)
@@ -175,7 +175,7 @@
                             @endforeach
                         </ul>
                     </div>
-                @endif -->
+                @endif
             </div>
             <div class="links mt-3">
                 <button type="submit" class="btn btn-my w-100">登入</button>
@@ -200,46 +200,69 @@
                 <div class="col-md-6">
                     <div class="textbox">
                         <i class="fas fa-user"></i>
-                        <input type="text" placeholder="帳號" name="username" required>
+                        <input type="text" placeholder="帳號" name="registerAccount" required>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="textbox">
                         <i class="fa-solid fa-signature"></i>
-                        <input type="text" placeholder="姓名" name="name" required>
+                        <input type="text" placeholder="姓名" name="registerName" required>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="textbox">
                         <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="密碼" name="password" required>
+                        <input type="password" placeholder="密碼" name="registerPassword" required>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="textbox">
                         <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="確認密碼" name="confirm_password" required>
+                        <input type="password" placeholder="確認密碼" name="registerConfirmPassword" required>
                     </div>
                 </div>
-                <!-- <div class="col-md-6">
+                <div class="col-md-6">
                     <div class="textbox">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" placeholder="電子信箱" name="email" required>
+                        <input type="email" id="emailInReg" placeholder="電子信箱" name="email" required>
                     </div>
+                    <div id="emailFeedback"></div>
                 </div>
+                <script>//當輸入的符合email格式時，驗證按鈕會啟用
+                    const emailInput = document.getElementById('emailInReg');
+                    const btnsInReg = document.getElementsByClassName('btn-in-register');
+
+                    emailInput.addEventListener('input', function () {
+                        if (this.value.length > 0 && this.checkValidity()) {
+                            enableBtn(btnsInReg[0]);
+                        } else {
+                            disableBtn(btnsInReg[0]);
+                        }
+                    });
+
+                    function enableBtn(btn) {
+                        btn.classList.remove('btn-disabled');
+                        btn.disabled = false;
+                    }
+
+                    function disableBtn(btn) {
+                        btn.classList.add('btn-disabled');
+                        btn.disabled = true;
+                    }
+                </script>
                 <div class="col-md-6">
                     <div class="textbox d-flex">
-                        <button class="btn btn-my m-0 w-50 fs-6 border">寄送驗證碼</button>
+                        <button class="btn btn-my btn-in-register m-0 w-50 fs-6 border">寄送驗證碼</button>
                         <input class="p-1 w-50 " type="text" placeholder="驗證碼" name="verification_code" required>
                     </div>
-                </div> -->
+                </div>
             </div>
             <div class="row g-3 align-items-center mt-4">
                 <div class="col-md-9">
                     <div class="border p-2">預留的div</div>
                 </div>
                 <div class="col-md-3">
-                    <button type="submit" class="btn btn-my w-100">註冊</button>
+                    <button type="submit" class="btn btn-my w-100 btn-in-register">註冊</button>
                 </div>
             </div>
             <div class="links mt-3">
@@ -248,6 +271,61 @@
             </div>
         </form>
     </div>
+    <script>//控制註冊按鈕能不能按
+        window.onload = () => {
+            const btnsInReg = document.getElementsByClassName('btn-in-register');
+            for (let i = 0; i < btnsInReg.length; i++) {
+                // 設置按鈕的基本樣式
+                btnsInReg[i].style.position = 'relative';   //這樣偽元素可以在裡面自由移動
+                btnsInReg[i].style.overflow = 'hidden';     //超過他的部分會被剪掉
+
+                // 創建並設置偽元素樣式
+                const style = document.createElement('style');
+                style.textContent = `
+                    .btn-in-register[data-disabled]::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: rgba(0, 0, 0, 0.5);
+                        cursor: not-allowed;
+                    }
+                `;
+                document.head.appendChild(style);
+
+                // 禁用按鈕
+                disableBtn(btnsInReg[i]);
+            }
+        };
+
+        function disableBtn(btn) {
+            btn.setAttribute('data-disabled', '');
+            btn.disabled = true;
+        }
+
+        function enableBtn(btn) {
+            btn.removeAttribute('data-disabled');
+            btn.disabled = false;
+        }
+
+        // 禁用所有按鈕的函數
+        function disableAllBtns() {
+            const btnsInReg = document.getElementsByClassName('btn-in-register');
+            for (let i = 0; i < btnsInReg.length; i++) {
+                disableBtn(btnsInReg[i]);
+            }
+        }
+
+        // 啟用所有按鈕的函數
+        function enableAllBtns() {
+            const btnsInReg = document.getElementsByClassName('btn-in-register');
+            for (let i = 0; i < btnsInReg.length; i++) {
+                enableBtn(btnsInReg[i]);
+            }
+        }
+    </script>
 
     <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 d-none outdiv"
         id="forgot-form">
