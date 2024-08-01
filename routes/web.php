@@ -6,6 +6,8 @@ use App\Http\Controllers\StudentPageController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\ChildrenCardController;
+
 
 Route::get('/', function () {
     return view('welcome');
