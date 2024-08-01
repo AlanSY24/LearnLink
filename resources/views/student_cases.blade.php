@@ -22,6 +22,21 @@
         width: 60%;
         margin-left: 20px;
     }
+
+    #s_lists_title{
+        display: flex;
+    }
+
+    #s_lists_title h2{
+        width: 70%;
+    }
+
+    #s_lists_title i{
+        width: 30%;
+        margin-top: 25px;
+    }
+
+
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -137,15 +152,17 @@
 
             <div class="s_cases_block">
                 
-                <div id="t_lists_title"><h2>國小三年級數學</h2></div>
-                <i id="heart" class="far fa-heart" style="color: red;"></i>
-                <div id="t_lists_subject">教學的科目：數學</div>
-                <div id="t_lists_name">姓名：王XX</div>
-                <div id="t_lists_gender">性別：女</div>
-                <div id="t_lists_place">上課預期地點：台中北屯區</div>
-                <div id="t_lists_time">上課預期時間：上午</div>
-                <div id="t_lists_price">上課預期時薪：300 - 400</div><!-- 抓資料庫 min - max -->
-                <div id="t_lists_describe">關於學生的詳細描述：1. 需要多點耐心 2. 主要以輔導學校數學作業為主</div>
+                <div id="s_lists_title">
+                    <h2>國小三年級數學</h2>
+                    <i id="heart" class="far fa-heart" style="color: red;"></i>
+                </div>
+                <div id="s_cases_subject">教學的科目：數學</div>
+                <div id="s_cases_name">姓名：王XX</div>
+                <div id="s_cases_gender">性別：女</div>
+                <div id="s_cases_place">上課預期地點：台中北屯區</div>
+                <div id="s_cases_time">上課預期時間：上午</div>
+                <div id="s_cases_price">上課預期時薪：300 - 400</div><!-- 抓資料庫 min - max -->
+                <div id="s_cases_describe">關於學生的詳細描述：1. 需要多點耐心 2. 主要以輔導學校數學作業為主</div>
                 <div class="button-container">
                     <button class="button">聯絡我</button><!-- 點選後跳出聊天室暫定 -->
                 </div>

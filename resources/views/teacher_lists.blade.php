@@ -25,6 +25,18 @@
             margin-left: 20px;
         }
 
+        #t_lists_title{
+            display: flex;
+        }
+
+        #t_lists_title h2{
+            width: 70%;
+        }
+
+        #t_lists_title i{
+            width: 30%;
+            margin-top: 25px;
+        }
         
 
     </style>
@@ -140,8 +152,10 @@
 
             <div class="t_lists_block">
                 
-                <div id="t_lists_title"><h2>國小三年級數學</h2></div>
-                <i id="heart" class="far fa-heart" style="color: red;"></i>
+                <div id="t_lists_title">
+                    <h2>國小三年級數學</h2>
+                    <i id="heart" class="far fa-heart" style="color: red;"></i>
+                </div>
                 <div id="t_lists_subject">教學的科目：數學</div>
                 <div id="t_lists_name">姓名：王XX</div>
                 <div id="t_lists_gender">性別：女</div>
