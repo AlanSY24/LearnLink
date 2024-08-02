@@ -6,6 +6,8 @@ use App\Http\Controllers\StudentPageController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\SubjectController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,7 +32,7 @@ Route::post('/logout', function () {
     Auth::logout();
     return redirect('/');
 })->name('logout');
-
+//盧彥辰的路由
 //發案找老師的路由
 Route::view('/findteacher','findteacher');
 // 抓城市地區路由
@@ -38,7 +40,8 @@ Route::get('/cities', [LocationController::class, 'getCities']);
 Route::get('/districts/{cityId}', [LocationController::class, 'getDistricts']);
 //傳入資料庫
 Route::post('/findteacher', [TeacherController::class, 'storeRequest'])->name('findteacher');
-
+//抓科目
+Route::get('/subjects', [SubjectController::class, 'index']);
 
 
 

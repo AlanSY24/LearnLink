@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const jobForm = document.getElementById('jobForm');
     const hourlyRateMin = document.getElementById('hourly_rate_min');
     const hourlyRateMax = document.getElementById('hourly_rate_max');
-
+    const subjectSelect = document.getElementById('subject');
     // 獲取基礎URL
     const baseUrl = document.querySelector('meta[name="base-url"]').getAttribute('content');
 
@@ -74,6 +74,30 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    fetch(`${baseUrl}/subjects`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(subjects => {
+            if (subjects.length === 0) {
+                console.log('No subjects received from the server.');
+                return;
+            }
+            subjects.forEach(subject => {
+                const option = document.createElement('option');
+                option.value = subject.id;
+                option.textContent = subject.name;
+                subjectSelect.appendChild(option);
+            });
+        })
+        .catch(e => {
+            console.error('獲取科目列表時出錯:', e);
+            alert('無法獲取科目列表，請稍後再試。');
+        });
+
     // 表單提交處理
     if (jobForm) {
         jobForm.addEventListener('submit', function (event) {
@@ -81,6 +105,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 獲取表單字段值
             let formData = new FormData(this);
+
+            // 檢查 subject_id
+            if (!formData.get('subject_id')) {
+                alert('請選擇科目');
+                return;
+            }
 
             // 調試用：輸出所有表單數據
             for (let [key, value] of formData.entries()) {
@@ -102,18 +132,21 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    return response.json().then(err => { throw err; });
                 }
                 return response.json();
             })
             .then(data => {
                 alert(data.message);
-                // 可以在這裡添加其他成功後的操作，比如重置表單或重定向
                 jobForm.reset();
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('提交失敗，請稍後再試。');
+                if (error.error) {
+                    alert('錯誤: ' + JSON.stringify(error.error));
+                } else {
+                    alert('提交失敗，請稍後再試。');
+                }
             });
         });
     }
@@ -135,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let isValid = true;
 
         // 檢查必填字段
-        const requiredFields = ['title', 'subject', 'expected_date', 'hourly_rate_min', 'hourly_rate_max', 'city', 'details'];
+        const requiredFields = ['title', 'subject_id', 'expected_date', 'hourly_rate_min', 'hourly_rate_max', 'city_id', 'details'];
         for (let field of requiredFields) {
             if (!formData.get(field)) {
                 console.log(`Missing field: ${field}`);  // 調試用
@@ -166,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (!isValid) {
-            alert('請填寫所有必填欄位，並確保信息正確');
+            alert('請填寫所有必填欄位，並確保信息正確。');
         }
 
         return isValid;
