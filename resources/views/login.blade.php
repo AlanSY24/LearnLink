@@ -232,7 +232,7 @@
                 <div class="col-md-6">
                     <div class="textbox d-flex">
                         <button class="btn btn-my btn-in-register m-0 w-50 fs-6 border" type="button"
-                            onclick=sendEamil()>寄送驗證碼</button>
+                            onclick=sendEmail()>寄送驗證碼</button>
                         <input class="p-1 w-50 " type="text" placeholder="驗證碼" name="verification_code" required>
                     </div>
                 </div>
@@ -304,7 +304,7 @@
         });
         //↑↑↑↑↑↑↑↑↑↑↑↑↑ 當輸入的符合email格式時，驗證按鈕會啟用
 
-        async function sendEamil() {
+        async function sendEmail() {
             let sentGoal = document.getElementById('emailInReg').value;
 
             disableBtn(btnsInReg[0]);
