@@ -9,6 +9,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ChildrenCardController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\StudentProfileController;
+use App\Http\Controllers\TeacherProfileController;
 
 
 Route::get('/', function () {
@@ -71,4 +72,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/studentpage/{id}', [StudentPageController::class, 'destroy'])->name('studentpage.destroy');
     Route::get('/studentprofile', [StudentProfileController::class, 'index'])->name('studentprofile');
     Route::post('/studentprofile/store', [StudentProfileController::class, 'store'])->name('studentprofile.store');
+    Route::get('/teacherprofile', [TeacherProfileController::class, 'index'])->name('teacherprofile.index');
+    Route::post('/teacherprofile/store', [TeacherProfileController::class, 'store'])->name('teacherprofile.store');
+});
+Route::get('/test-image', function() {
+    $path = storage_path('app/public/photos/eCVJvkxPuuIWqid62wV93O2kiriq3mcXUNxZZP1r.jpg');
+    return response()->file($path);
 });
