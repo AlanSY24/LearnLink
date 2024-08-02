@@ -12,6 +12,7 @@
 <div >
     <form id="jobForm" method="POST" action="{{ route('findteacher') }}">
         @csrf
+        <input type="hidden" name="user_id" value="{{ Auth::id() }}">
         <div class="clearfix">
         <h2>找老師</h2>
 

@@ -6,6 +6,7 @@ use App\Models\City;
 use App\Models\District;
 use App\Models\TeacherRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TeacherController extends Controller
 {
@@ -16,6 +17,7 @@ class TeacherController extends Controller
     public function storeRequest(Request $request)
     {
         try {
+            $user = Auth::user();
             \Log::info('Received request data:', $request->all());
     
             $validatedData = $request->validate([
@@ -28,6 +30,7 @@ class TeacherController extends Controller
                 'city_id' => 'required|exists:cities,id',
                 'districts' => 'required|array',
                 'details' => 'required|string',
+                'user_id' => 'required|exists:users,id',
             ]);
     
             // 將 districts 轉換為 JSON 字符串並存儲到 district_ids
@@ -36,7 +39,7 @@ class TeacherController extends Controller
     
             // 確保 available_time 也被轉換為 JSON 字符串
             $validatedData['available_time'] = json_encode($validatedData['available_time']);
-    
+            
             \Log::info('Validated and processed data:', $validatedData);
     
             $teacherRequest = TeacherRequest::create($validatedData);

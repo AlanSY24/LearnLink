@@ -10,7 +10,7 @@ class TeacherRequest extends Model
     protected $fillable = [
         'title', 'subject_id', 'available_time', 'expected_date',
         'hourly_rate_min', 'hourly_rate_max', 'city_id',
-        'district_ids', 'details'
+        'district_ids', 'details' ,'user_id',
     ];
 
     protected $casts = [
@@ -31,5 +31,9 @@ class TeacherRequest extends Model
     public function subject()
     {
         return $this->belongsTo(Subject::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
