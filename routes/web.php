@@ -53,5 +53,9 @@ Route::view('/teacher_lists','teacher_lists');
 
 Route::view('/student_cases','student_cases');
 
-Route::get('/studentpage', [StudentPageController::class, 'index'])->name('studentpage');
-Route::post('/studentpage/store', [StudentPageController::class, 'store'])->name('studentpage.store');
+// Route::get('/studentpage', [StudentPageController::class, 'index'])->name('studentpage');
+// Route::post('/studentpage/store', [StudentPageController::class, 'store'])->name('studentpage.store');
+Route::middleware('auth')->group(function () {
+    Route::get('/studentpage', [StudentPageController::class, 'index'])->name('studentpage');
+    Route::post('/studentpage/store', [StudentPageController::class, 'store'])->name('studentpage.store');
+});
