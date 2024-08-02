@@ -60,9 +60,10 @@ Route::get('/welcome', function () {
 })->name('welcome');
 
 
-Route::view('/teacher_lists','teacher_lists');
 
-Route::view('/student_cases','student_cases');
+
+Route::get('/teacher_lists', [SubjectController::class, 'index'])->name('teacher_lists');
+Route::get('/student_cases', [SubjectController::class, 'index'])->name('student_cases');
 
 // Route::get('/studentpage', [StudentPageController::class, 'index'])->name('studentpage');
 // Route::post('/studentpage/store', [StudentPageController::class, 'store'])->name('studentpage.store');
