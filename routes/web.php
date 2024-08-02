@@ -13,7 +13,7 @@ Route::get('/', function () {
 // http://localhost/LearnLink/public/
 
 // 首頁↓↓↓↓↓↓↓↓↓↓↓  http://127.0.0.1:8000/homePage
-Route::view('/homePage','homepage');
+Route::view('/homePage','homepage')->name('homePage');
 
 // 登入頁面↓↓↓↓↓↓↓↓↓↓    http://127.0.0.1:8000/login
 Route::view('/login','login')->name('login');
@@ -22,6 +22,9 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 // 註冊↓↓↓↓↓↓↓↓↓↓    
 Route::post('/register', [AuthController::class, 'register']);
+
+// 寄   email   ↓↓↓↓↓↓↓↓↓↓↓↓
+Route::post('/send-email', [AuthController::class,'sendEmail']);
 
 // 登入測試   http://127.0.0.1:8000/auth_status
 Route::view('/auth_status', 'auth_status')->name('auth.status');

@@ -7,12 +7,50 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
+// ↓↓↓↓↓ email專用
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Cache;
+
 class AuthController extends Controller
 {
+    public function sendEmail(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|unique:users,email',
+        ]);
+
+        $verifyCode = rand(100000, 999999);
+        $goalEamil = $request->email;
+
+        try {
+            Mail::raw("您的驗證碼是 $verifyCode", function ($message) use ($goalEamil) {
+                $message->to($goalEamil)
+                    ->subject("LeanLink家教平台驗證碼");
+            }); 
+
+            // 將驗證碼存入 Cache，有效期 10 分鐘
+            Cache::put('vericode' . $goalEamil, $verifyCode, 600);
+
+            return response()->json(['success' => true, 'message' => '驗證碼已發送']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => '發送失敗，請重試'], 500);
+        }
+    }
+
+    public function verificar(Request $request)
+    {
+        $request->validate([
+            'registerAccount' => '',
+            'registerName' => '',
+            'registerPassword' => '',
+            'email' => 'required|email|unique:users,email',
+        ]);
+    }
     public function register(Request $request)
     {
         // 調用記錄註冊方法
-        \Log::info('Register method called');
+        \Log::info('');
         // 記錄所有請求數據
         \Log::info($request->all());
 

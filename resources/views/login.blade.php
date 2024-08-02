@@ -147,6 +147,7 @@
 </style>
 
 <body>
+    <!-- 登入 -->
     <div class="container d-flex justify-content-center align-items-center min-vh-100 outdiv" id="login-form">
         <form action="{{ route('login') }}" method="POST" class="form-container rounded-3 shadow p-4 position-relative">
             @csrf
@@ -192,7 +193,7 @@
         <form action="/register" method="POST"
             class="form-container register-and-forgot-container rounded-3 shadow p-4 p-md-5 position-relative">
             @csrf
-            <a href="{{ url('/homePage') }}" class="position-absolute top-0 start-0 m-2 back-icon">
+            <a href="{{ route('homePage') }}" class="position-absolute top-0 start-0 m-2 back-icon">
                 <i class="fas fa-caret-left"> back</i>
             </a>
             <h1 class="mb-4 text-center">註冊</h1>
@@ -228,31 +229,10 @@
                     </div>
                     <div id="emailFeedback"></div>
                 </div>
-                <script>//當輸入的符合email格式時，驗證按鈕會啟用
-                    const emailInput = document.getElementById('emailInReg');
-                    const btnsInReg = document.getElementsByClassName('btn-in-register');
-
-                    emailInput.addEventListener('input', function () {
-                        if (this.value.length > 0 && this.checkValidity()) {
-                            enableBtn(btnsInReg[0]);
-                        } else {
-                            disableBtn(btnsInReg[0]);
-                        }
-                    });
-
-                    function enableBtn(btn) {
-                        btn.classList.remove('btn-disabled');
-                        btn.disabled = false;
-                    }
-
-                    function disableBtn(btn) {
-                        btn.classList.add('btn-disabled');
-                        btn.disabled = true;
-                    }
-                </script>
                 <div class="col-md-6">
                     <div class="textbox d-flex">
-                        <button class="btn btn-my btn-in-register m-0 w-50 fs-6 border">寄送驗證碼</button>
+                        <button class="btn btn-my btn-in-register m-0 w-50 fs-6 border" type="button"
+                            onclick=sendEamil()>寄送驗證碼</button>
                         <input class="p-1 w-50 " type="text" placeholder="驗證碼" name="verification_code" required>
                     </div>
                 </div>
@@ -271,7 +251,8 @@
             </div>
         </form>
     </div>
-    <script>//控制註冊按鈕能不能按
+    <script>
+        //控制註冊按鈕能不能按
         window.onload = () => {
             const btnsInReg = document.getElementsByClassName('btn-in-register');   //帶有btn-in-register的代表會被取消點擊功能
             for (let i = 0; i < btnsInReg.length; i++) {
@@ -299,34 +280,65 @@
                 disableBtn(btnsInReg[i]);
             }
         };
-
+        // 讓按鈕失效
         function disableBtn(btn) {
             btn.setAttribute('data-disabled', '');
             btn.disabled = true;
         }
-
+        // 讓按鈕恢復正常
         function enableBtn(btn) {
             btn.removeAttribute('data-disabled');
             btn.disabled = false;
         }
 
-        // 禁用所有按鈕的函數
-        function disableAllBtns() {
-            const btnsInReg = document.getElementsByClassName('btn-in-register');
-            for (let i = 0; i < btnsInReg.length; i++) {
-                disableBtn(btnsInReg[i]);
-            }
-        }
+        //↓↓↓↓↓↓↓↓↓↓↓↓↓ 當輸入的符合email格式時，驗證按鈕會啟用
+        const emailInput = document.getElementById('emailInReg');
+        const btnsInReg = document.getElementsByClassName('btn-in-register');
 
-        // 啟用所有按鈕的函數
-        function enableAllBtns() {
-            const btnsInReg = document.getElementsByClassName('btn-in-register');
-            for (let i = 0; i < btnsInReg.length; i++) {
-                enableBtn(btnsInReg[i]);
+        emailInput.addEventListener('input', function () {
+            if (this.value.length > 0 && this.checkValidity()) {
+                enableBtn(btnsInReg[0]);
+            } else {
+                disableBtn(btnsInReg[0]);
+            }
+        });
+        //↑↑↑↑↑↑↑↑↑↑↑↑↑ 當輸入的符合email格式時，驗證按鈕會啟用
+
+        async function sendEamil() {
+            let sentGoal = document.getElementById('emailInReg').value;
+
+            disableBtn(btnsInReg[0]);
+
+            try {
+                // 將fetch的返回值指定給 response
+                const response = await fetch('/send-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Laravel CSRF token
+                    },
+                    body: JSON.stringify({ email: sentGoal })
+                });
+
+                const data = await response.json();
+
+                if (data.success == true) {
+                    alert('驗證碼已發送到您的信箱');
+                } else {
+                    alert('發送失敗，請重試');
+                }
+            } catch (error) {
+                console.error('錯誤:', error);
+                alert('發生錯誤，請稍後再試');
+            } finally {
+                // 恢復按鈕功能
+                enableBtn(btnsInReg[0]);
+                enableBtn(btnsInReg[1]);
             }
         }
     </script>
 
+    <!-- 忘記密碼 -->
     <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 d-none outdiv"
         id="forgot-form">
         <form action="/forgot-password" method="POST"
@@ -380,14 +392,11 @@
                     // 獲取 link 的 'data-show-form' 屬性值，並存入 formIdToShow 變數
                     const formIdToShow = this.getAttribute('data-show-form');
 
-                    // 對每一個 form 元素進行操作
+                    // 針對每一個 form，如果 form 的 id 等於 formIdToShow 就移除其 d-none 讓它顯示，反之
                     forms.forEach(form => {
-                        // 如果 form 的 id 等於 formIdToShow
                         if (form.id === formIdToShow) {
-                            // 移除 form 的 'd-none' class，使其顯示
                             form.classList.remove('d-none');
                         } else {
-                            // 否則，添加 'd-none' class，使其隱藏
                             form.classList.add('d-none');
                         }
                     });
