@@ -12,6 +12,7 @@
 <div >
     <form id="jobForm" method="POST" action="{{ route('findteacher') }}">
         @csrf
+        <input type="hidden" name="user_id" value="{{ Auth::id() }}">
         <div class="clearfix">
         <h2>找老師</h2>
 
@@ -21,14 +22,12 @@
         </div>
 
         <div class="form-group w-45 fl mr-5">
-            <label for="subject">科目:</label>
-            <select id="subject" name="subject" required>
-                <option value="">請選擇科目</option>
-                <option value="math">數學</option>
-                <option value="english">英文</option>
-                <option value="science">科學</option>
-            </select>
-        </div>
+    <label for="subject">科目:</label>
+    <select id="subject" name="subject_id" required>
+        <option value="">請選擇科目</option>
+        <!-- 科目選項將通過 JavaScript 動態添加 -->
+    </select>
+</div>
 
         <div class="form-group w-45 mr-5 fl">
             <label>可上課時段(可複選):</label>
@@ -63,7 +62,7 @@
             
             <div class="form-group fl w-45 mr-5">
                 <label for="city">縣市:</label>
-                <select id="city" name="city" required>
+                <select id="city" name="city_id" required>
                     <option value="">請選擇縣市</option>
                     
                 </select>

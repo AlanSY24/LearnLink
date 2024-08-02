@@ -4,17 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FindTeacherController;
 use App\Http\Controllers\StudentPageController;
 use App\Http\Controllers\Auth\AuthController;
-<<<<<<< HEAD
-use App\Http\Controllers\CityController;
-use App\Http\Controllers\DistrictController;
-use App\Http\Controllers\SubjectController;
-use App\Http\Controllers\TeacherController;
-=======
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ChildrenCardController;
+use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\StudentProfileController;
 
->>>>>>> 51e465dcfcc85e3217274027b7ae07c0abf18374
 
 Route::get('/', function () {
     return view('welcome');
@@ -39,46 +34,41 @@ Route::post('/logout', function () {
     Auth::logout();
     return redirect('/');
 })->name('logout');
-
+//盧彥辰的路由
 //發案找老師的路由
-Route::view('/findteacher','findteacher');
+// Route::view('/findteacher','findteacher');
 // 抓城市地區路由
 Route::get('/cities', [LocationController::class, 'getCities']);
 Route::get('/districts/{cityId}', [LocationController::class, 'getDistricts']);
 //傳入資料庫
-Route::post('/findteacher', [TeacherController::class, 'storeRequest'])->name('findteacher');
+// Route::post('/findteacher', [TeacherController::class, 'storeRequest'])->name('findteacher');
+//抓科目
+Route::get('/subjects', [SubjectController::class, 'index']);
 
 
+Route::middleware('auth')->group(function () {
+    Route::view('/findteacher','findteacher');
+    Route::post('/findteacher', [TeacherController::class, 'storeRequest'])->name('findteacher');
+});
 
+
+//-------------------------------------
 
 Route::get('/welcome', function () {
     return view('welcome');
 })->name('welcome');
 
 
+Route::view('/teacher_lists','teacher_lists');
 
-<<<<<<< HEAD
-Route::get('/studentpage', [StudentPageController::class, 'index'])->name('studentpage');
-Route::post('/studentpage/store', [StudentPageController::class, 'store'])->name('studentpage.store');
+Route::view('/student_cases','student_cases');
 
-
-// 獲取城市列表
-Route::get('/cities', [CityController::class, 'index']);
-// 獲取區域列表
-Route::get('/districts/{cityId}', [DistrictController::class, 'getDistricts']);
-
-Route::get('/teacher_lists', [SubjectController::class, 'index'])->name('teacher_lists');
-Route::get('/student_cases', [SubjectController::class, 'index'])->name('student_cases');
-
-
-
-// 老師列表搜尋
-Route::get('/search', [TeacherController::class, 'search']);
-=======
 // Route::get('/studentpage', [StudentPageController::class, 'index'])->name('studentpage');
 // Route::post('/studentpage/store', [StudentPageController::class, 'store'])->name('studentpage.store');
 Route::middleware('auth')->group(function () {
     Route::get('/studentpage', [StudentPageController::class, 'index'])->name('studentpage');
     Route::post('/studentpage/store', [StudentPageController::class, 'store'])->name('studentpage.store');
+    Route::delete('/studentpage/{id}', [StudentPageController::class, 'destroy'])->name('studentpage.destroy');
+    Route::get('/studentprofile', [StudentProfileController::class, 'index'])->name('studentprofile');
+    Route::post('/studentprofile/store', [StudentProfileController::class, 'store'])->name('studentprofile.store');
 });
->>>>>>> 51e465dcfcc85e3217274027b7ae07c0abf18374
