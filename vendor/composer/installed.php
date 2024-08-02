@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '558e8e7c1d51a3bb37f0095ab406496e2fb86d04',
+        'reference' => '2212726350123dbc555a4b0207302c1c5dcbf2f7',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -391,16 +391,16 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '558e8e7c1d51a3bb37f0095ab406496e2fb86d04',
+            'reference' => '2212726350123dbc555a4b0207302c1c5dcbf2f7',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'laravel/pint' => array(
-            'pretty_version' => 'v1.17.0',
-            'version' => '1.17.0.0',
-            'reference' => '4dba80c1de4b81dc4c4fb10ea6f4781495eb29f5',
+            'pretty_version' => 'v1.17.1',
+            'version' => '1.17.1.0',
+            'reference' => 'b5b6f716db298671c1dfea5b1082ec2c0ae7064f',
             'type' => 'project',
             'install_path' => __DIR__ . '/../laravel/pint',
             'aliases' => array(),
@@ -757,8 +757,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '3.0.0',
-                1 => '1.0|2.0|3.0',
+                0 => '1.0|2.0|3.0',
+                1 => '3.0.0',
             ),
         ),
         'psr/simple-cache' => array(

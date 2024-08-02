@@ -273,7 +273,7 @@
     </div>
     <script>//控制註冊按鈕能不能按
         window.onload = () => {
-            const btnsInReg = document.getElementsByClassName('btn-in-register');
+            const btnsInReg = document.getElementsByClassName('btn-in-register');   //帶有btn-in-register的代表會被取消點擊功能
             for (let i = 0; i < btnsInReg.length; i++) {
                 // 設置按鈕的基本樣式
                 btnsInReg[i].style.position = 'relative';   //這樣偽元素可以在裡面自由移動
