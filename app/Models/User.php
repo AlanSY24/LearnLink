@@ -45,6 +45,7 @@ class User extends Authenticatable
         ];
     }
 
+<<<<<<< HEAD
     /**
      * Get the teachers for the user.
      */
@@ -53,3 +54,11 @@ class User extends Authenticatable
         return $this->hasMany(Teacher::class);
     }
 }
+=======
+        // 定義與 StudentPage 模型的關聯
+        public function StudentPage()
+        {
+            return $this->hasMany(StudentPage::class);
+        }
+}
+>>>>>>> 51e465dcfcc85e3217274027b7ae07c0abf18374

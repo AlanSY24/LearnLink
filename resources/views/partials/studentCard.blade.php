@@ -180,12 +180,13 @@
             <div id="formContainer" class="form-container">
                     <form id="studentForm" action="{{ route('studentpage.store') }}" method="POST">
                     @csrf
-                        <label for="name">姓名：</label>
-                        <input type="text" id="name" name="name" required><br><br>
-                        <label for="age">年齡：</label>
-                        <input type="number" id="age" name="age" required><br><br>
-                        <label for="gender">性別：</label>
-                        <select id="gender" name="gender" required>
+                        <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                        <label for="children_name">姓名：</label>
+                        <input type="text" id="children_name" name="children_name" required><br><br>
+                        <label for="children_birthdate">生日：</label>
+                        <input type="date" id="children_birthdate" name="children_birthdate" required><br><br>
+                        <label for="children_gender">性別：</label>
+                        <select id="children_gender" name="children_gender" required>
                             <option value="Male">男</option>
                             <option value="Female">女</option>
                         </select><br><br>
@@ -195,13 +196,13 @@
             </div>
             <div id="cardContainer">
                 <!-- 卡片將會動態加入到這裡 -->
-                @foreach($students as $student)
+                @foreach($children_card as $children_card)
                 <div class="card d-inline-block">
                     <button class="deleteBtn">x</button>
                     <div class="card-body">
-                        <h5 class="card-title">{{ $student->name }}</h5>
-                        <p class="card-text">年齡：{{ $student->age }}</p>
-                        <p class="card-text">性別：{{ $student->gender }}</p>
+                        <h5 class="card-title">{{ $children_card->children_name }}</h5>
+                        <p class="card-text">年齡：{{ $children_card->children_birthdate }}</p>
+                        <p class="card-text">性別：{{ $children_card->children_gender }}</p>
                     </div>
                 </div>
                 @endforeach

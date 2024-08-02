@@ -4,10 +4,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FindTeacherController;
 use App\Http\Controllers\StudentPageController;
 use App\Http\Controllers\Auth\AuthController;
+<<<<<<< HEAD
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
+=======
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\ChildrenCardController;
+
+>>>>>>> 51e465dcfcc85e3217274027b7ae07c0abf18374
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,17 +40,15 @@ Route::post('/logout', function () {
     return redirect('/');
 })->name('logout');
 
-
-
-
+//發案找老師的路由
 Route::view('/findteacher','findteacher');
-// Route::match(['get', 'post'], '/findteacher', function () {
-//     return view('findteacher');
-// });
-// Route::post('/findteacher', function () {
-//     return view('welcome');
-// });
-Route::post('/findteacher', [FindTeacherController::class, 'findteacher'])->name('findteacher');
+// 抓城市地區路由
+Route::get('/cities', [LocationController::class, 'getCities']);
+Route::get('/districts/{cityId}', [LocationController::class, 'getDistricts']);
+//傳入資料庫
+Route::post('/findteacher', [TeacherController::class, 'storeRequest'])->name('findteacher');
+
+
 
 
 Route::get('/welcome', function () {
@@ -52,6 +57,7 @@ Route::get('/welcome', function () {
 
 
 
+<<<<<<< HEAD
 Route::get('/studentpage', [StudentPageController::class, 'index'])->name('studentpage');
 Route::post('/studentpage/store', [StudentPageController::class, 'store'])->name('studentpage.store');
 
@@ -68,3 +74,11 @@ Route::get('/student_cases', [SubjectController::class, 'index'])->name('student
 
 // 老師列表搜尋
 Route::get('/search', [TeacherController::class, 'search']);
+=======
+// Route::get('/studentpage', [StudentPageController::class, 'index'])->name('studentpage');
+// Route::post('/studentpage/store', [StudentPageController::class, 'store'])->name('studentpage.store');
+Route::middleware('auth')->group(function () {
+    Route::get('/studentpage', [StudentPageController::class, 'index'])->name('studentpage');
+    Route::post('/studentpage/store', [StudentPageController::class, 'store'])->name('studentpage.store');
+});
+>>>>>>> 51e465dcfcc85e3217274027b7ae07c0abf18374
