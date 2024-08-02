@@ -45,7 +45,7 @@
         </aside>
         <main>
             <section class="container">
-            @include('partials.studentCard')
+            @include('partials.studentprofile')
             </section>
 
 

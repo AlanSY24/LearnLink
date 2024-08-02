@@ -11,20 +11,16 @@ class StudentPageController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $children_card = $user->StudentPage; // 獲取用戶的所有文章
+        $children_card = $user->StudentPage; 
         return view('studentpage', compact('user', 'children_card'));
-
-
-
     }
 
     public function store(Request $request) {
-        try {
             $request->validate([
                 'user_id' => 'required|exists:users,id',
                 'children_name' => 'required|string|max:255',
                 'children_birthdate' => 'required|date',
-                'children_gender' => 'required|in:Male,Female',
+                'children_gender' => 'required|in:男,女',
             ]);
     
             $children_card = new StudentPage();
@@ -35,9 +31,18 @@ class StudentPageController extends Controller
             $children_card->save();
     
             return redirect()->route('studentpage')->with('success', '學生資料已成功儲存！');
-        } catch (\Exception $e) {
-            // 顯示異常信息
-            dd($e->getMessage());
-        }
+
     }
+
+    public function destroy($id){
+        // 查找要刪除的資料
+        $children_card = StudentPage::findOrFail($id);
+
+        // 刪除資料
+        $children_card->delete();
+
+        // 重定向並顯示成功信息
+        return redirect()->route('studentpage')->with('success', '學生卡片已成功刪除！');
+    }
+
 }

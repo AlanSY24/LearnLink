@@ -8,6 +8,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ChildrenCardController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\StudentProfileController;
 
 
 Route::get('/', function () {
@@ -67,4 +68,7 @@ Route::view('/student_cases','student_cases');
 Route::middleware('auth')->group(function () {
     Route::get('/studentpage', [StudentPageController::class, 'index'])->name('studentpage');
     Route::post('/studentpage/store', [StudentPageController::class, 'store'])->name('studentpage.store');
+    Route::delete('/studentpage/{id}', [StudentPageController::class, 'destroy'])->name('studentpage.destroy');
+    Route::get('/studentprofile', [StudentProfileController::class, 'index'])->name('studentprofile');
+    Route::post('/studentprofile/store', [StudentProfileController::class, 'store'])->name('studentprofile.store');
 });

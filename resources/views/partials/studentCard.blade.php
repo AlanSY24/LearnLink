@@ -148,9 +148,18 @@
             border: 1px solid #ccc;
             padding: 10px;
             margin: 10px;
-            width: 160px;
-            /* height: 100px; */
-            
+            width: 100px;
+            height: 100px;
+            position: relative;
+            /* background-color: red; */
+        }
+        .card button{
+            position: absolute;
+            top: -10%;
+            right: -10%;
+        }
+        .card h5, p{
+            margin: 5px 0px;
         }
 
         .student-info {
@@ -164,6 +173,7 @@
         .d-inline-block{
             display:inline-block;
         }
+
     </style>
 </head>
 <body>
@@ -187,8 +197,8 @@
                         <input type="date" id="children_birthdate" name="children_birthdate" required><br><br>
                         <label for="children_gender">性別：</label>
                         <select id="children_gender" name="children_gender" required>
-                            <option value="Male">男</option>
-                            <option value="Female">女</option>
+                            <option value="男">男</option>
+                            <option value="女">女</option>
                         </select><br><br>
                         <button type="submit">確定新增</button>
                         <button id="CardBtn">取消</button>
@@ -198,11 +208,15 @@
                 <!-- 卡片將會動態加入到這裡 -->
                 @foreach($children_card as $children_card)
                 <div class="card d-inline-block">
-                    <button class="deleteBtn">x</button>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $children_card->children_name }}</h5>
-                        <p class="card-text">年齡：{{ $children_card->children_birthdate }}</p>
-                        <p class="card-text">性別：{{ $children_card->children_gender }}</p>
+                    <form action="{{ route('studentpage.destroy', $children_card->children_id) }}" method="POST" style="display: inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="deleteBtn">x</button>
+                    </form>
+                    <div>
+                        <h5>{{ $children_card->children_name }}</h5>
+                        <p>年齡：{{ $children_card->age }}</p>
+                        <p>性別：{{ $children_card->children_gender }}</p>
                     </div>
                 </div>
                 @endforeach
@@ -283,6 +297,16 @@
             //     return cardDiv;
             // }
         });
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.deleteBtn').forEach(button => {
+                button.addEventListener('click', function(event) {
+                    if (!confirm('確定要刪除這張卡片嗎？')) {
+                        event.preventDefault(); // 阻止表單提交
+                    }
+                });
+            });
+        });
+
     </script>
 </body>
 </html>
