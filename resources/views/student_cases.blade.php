@@ -62,6 +62,47 @@
                     }
                 });
             }
+
+
+            // 獲取縣市列表
+            $.ajax({
+                url: '/LearnLink/public/cities',
+                type: 'GET',
+                success: function(data) {
+                    $('#city').empty();
+                    $('#city').append('<option value="">請選擇縣市</option>');
+                    $.each(data, function(index, city) {
+                        $('#city').append('<option value="' + city.id + '">' + city.city + '</option>');
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+
+            // 當選擇縣市後，獲取對應的區域列表
+            $('#city').change(function() {
+                var selectedCityId = $(this).val();
+                if (selectedCityId) {
+                    $.ajax({
+                        url: '/LearnLink/public/districts/' + selectedCityId,
+                        type: 'GET',
+                        success: function(data) {
+                            $('#district').empty();
+                            $('#district').append('<option value="">請選擇區域</option>');
+                            $.each(data, function(index, district) {
+                                $('#district').append('<option value="' + district.district_name + '">' + district.district_name + '</option>');
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                } else {
+                    $('#district').empty();
+                }
+            });
+
         });
 
         function addToFavorites() {
@@ -85,12 +126,10 @@
             <div class="s_search_subject">
                 <p>請選擇教學的科目：</p>
                 <select name="subject" id="subject">
-                    <!-- 撈資料庫 科目 -->
                     <option value="0">請選擇</option>
-                    <option value="1">國文</option>
-                    <option value="2">英文</option>
-                    <option value="3">數學</option>
-                    <option value="4">自然</option>
+                    @foreach($subjects as $subject)
+                        <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                    @endforeach
                 </select>
             </div>
 
@@ -115,22 +154,14 @@
                 <p>請選擇上課地點：</p>
                 <div class="city">
                     <p>請選擇縣/市：</p>
+                    <label for="city">選擇縣市：</label>
                     <select name="city" id="city">
-                        <option value="0">請選擇縣/市</option>
-                        <option value="1">台北市</option>
-                        <option value="2">新北市</option>
-                        <option value="3">台中市</option>
-                        <!-- 添加更多縣市選項 -->
+                        <option value="">請選擇縣市</option>
                     </select>
-                </div>
-                <div class="district">
-                    <p>請選擇 區：</p>
-                    <select name="city" id="city">
-                        <option value="0">請選擇 區</option>
-                        <option value="1">台北市</option>
-                        <option value="2">新北市</option>
-                        <option value="3">台中市</option>
-                        <!-- 添加更多區選項 -->
+
+                    <label for="district">選擇區域：</label>
+                    <select name="district" id="district">
+                        <!-- 這裡會動態填充選項 -->
                     </select>
                 </div>
             </div>
@@ -145,6 +176,8 @@
                     </select>
                 </select>
             </div>
+
+            <button>搜尋</button>
 
         </div>
         

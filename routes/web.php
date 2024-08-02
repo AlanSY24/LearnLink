@@ -4,7 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FindTeacherController;
 use App\Http\Controllers\StudentPageController;
 use App\Http\Controllers\Auth\AuthController;
-
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\TeacherController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -48,9 +51,20 @@ Route::get('/welcome', function () {
 })->name('welcome');
 
 
-Route::view('/teacher_lists','teacher_lists');
-
-Route::view('/student_cases','student_cases');
 
 Route::get('/studentpage', [StudentPageController::class, 'index'])->name('studentpage');
 Route::post('/studentpage/store', [StudentPageController::class, 'store'])->name('studentpage.store');
+
+
+// 獲取城市列表
+Route::get('/cities', [CityController::class, 'index']);
+// 獲取區域列表
+Route::get('/districts/{cityId}', [DistrictController::class, 'getDistricts']);
+
+Route::get('/teacher_lists', [SubjectController::class, 'index'])->name('teacher_lists');
+Route::get('/student_cases', [SubjectController::class, 'index'])->name('student_cases');
+
+
+
+// 老師列表搜尋
+Route::get('/search', [TeacherController::class, 'search']);
