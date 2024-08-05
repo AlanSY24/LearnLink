@@ -105,10 +105,13 @@
         .profile-info a:hover {
             text-decoration: underline;
         }
+        #ifr {
+            display: none; /* 初始隱藏 iframe */
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="">
         @if (session('success'))
             <div class="alert-success">
                 {{ session('success') }}
@@ -124,7 +127,8 @@
                 <img src="data:image/jpeg;base64,{{ base64_encode($profile->photo) }}" alt="大頭貼">
             @endif
             @if($profile->pdf)
-                <iframe src="data:application/pdf;base64,{{ base64_encode($profile->pdf) }}" width="600" height="500"></iframe>
+            <button id='ifrbtn'>履歷表</button><br>
+                <iframe id='ifr' src="data:application/pdf;base64,{{ base64_encode($profile->pdf) }}" width="500" height="300"></iframe>
             @endif
 
         </div>
@@ -153,4 +157,18 @@
         </form>
     </div>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+            var button = document.getElementById('ifrbtn');
+            var iframe = document.getElementById('ifr');
+            
+            button.addEventListener('click', function() {
+                if (iframe.style.display === 'none') {
+                    iframe.style.display = 'block';
+                } else {
+                    iframe.style.display = 'none';
+                }
+            });
+        });
+</script>
 </html>
