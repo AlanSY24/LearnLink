@@ -35,14 +35,27 @@ class AuthController extends Controller
             'registerGender' => 'required|in:1,2,3',
         ];
 
+        $messages = [
+            'registerName.required' => '請填寫姓名。',
+            'registerEmail.required' => '請填寫電子郵件。',
+            'registerEmail.email' => '電子郵件格式不正確。',
+            'registerEmail.unique' => '電子郵件已被使用。',
+            'registerPassword.required' => '請填寫密碼。',
+            'registerPassword.regex' => '密碼必須包含至少一個大寫字母、一個小寫字母和一個數字。',
+            'registerAccount.required' => '請填寫帳號。',
+            'registerAccount.unique' => '帳號已被使用。',
+            'registerGender.required' => '請選擇性別。',
+            'registerGender.in' => '性別選擇無效。',
+        ];
+
         // 執行驗證
-        $validator = Validator::make($request->all(), $rules);
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // 生成驗證碼並寄出email
+        // ↓ ↓ ↓ ↓ ↓ 生成驗證碼並寄出email
         $verifyCode = rand(100000, 999999);
         $email = $request->registerEmail;
 
@@ -59,39 +72,71 @@ class AuthController extends Controller
 
             return response()->json(['success' => true, 'message' => '驗證碼已發送到您的郵箱']);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => '發送失敗，請重試'], 500);
-        }
-    }
+            // 紀錄錯誤日誌
+            \Log::error('Email 發送失敗: ' . $e->getMessage());
 
+            // 返回詳細錯誤信息
+            return response()->json([
+                'success' => false,
+                'message' => '發送失敗，請重試',
+                'error' => $e->getMessage() // 可以選擇性提供更多錯誤信息
+            ], 500);
+        }
+
+    }
     public function register(Request $request)
     {
         $email = $request->email;
-        $verifyCode = $request->verificationCode; // 修改這行，使其與前端一致
+        $verifyCode = $request->verificationCode; // 確保這與前端一致
 
+        // 從 Cache 中獲取用戶資料
         $userData = Cache::get('user_registration_' . $email);
 
-        if (!$userData || $userData['verifyCode'] != $verifyCode) {
-            return response()->json(['error' => '驗證碼不正確或已過期'], 422);
+        if (!$userData) {
+            return response()->json([
+                'success' => false,
+                'message' => '驗證碼已過期或無效，請重新發送驗證碼'
+            ], 422);
         }
 
-        // 創建新用戶
-        $user = User::create([
-            'name' => $userData['registerName'],
-            'email' => $userData['registerEmail'],
-            'password' => Hash::make($userData['registerPassword']),
-            'account' => $userData['registerAccount'],
-            'gender' => $userData['registerGender'],
-        ]);
+        if ($userData['verifyCode'] != $verifyCode) {
+            return response()->json([
+                'success' => false,
+                'message' => '驗證碼不正確'
+            ], 422);
+        }
 
-        // 清除緩存
-        Cache::forget('user_registration_' . $email);
+        try {
+            // 創建新用戶
+            $user = User::create([
+                'name' => $userData['registerName'],
+                'email' => $userData['registerEmail'],
+                'password' => Hash::make($userData['registerPassword']),
+                'account' => $userData['registerAccount'],
+                'gender' => $userData['registerGender'],
+            ]);
 
-        // 返回成功響應
-        return response()->json(['message' => '註冊成功'], 201);
+            // 清除緩存
+            Cache::forget('user_registration_' . $email);
+
+            // 返回成功響應
+            return response()->json([
+                'success' => true,
+                'message' => '註冊成功'
+            ], 201);
+
+        } catch (\Exception $e) {
+            // 紀錄錯誤日誌
+            \Log::error('註冊過程中發生錯誤: ' . $e->getMessage());
+
+            // 返回詳細錯誤信息
+            return response()->json([
+                'success' => false,
+                'message' => '註冊過程中發生錯誤，請稍後再試。',
+                'error' => $e->getMessage() // 可以選擇性提供更多錯誤信息
+            ], 500);
+        }
     }
-
-
-
     public function login(Request $request)
     {
         $loginEntered = $request->validate([

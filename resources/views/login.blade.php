@@ -272,7 +272,6 @@
                             <option value="">請選擇您的性別</option>
                             <option value="1">男性</option>
                             <option value="2">女性</option>
-                            <option value="3">其他</option>
                         </select>
                     </div>
                 </div>
@@ -311,6 +310,7 @@
             const verificationCode = document.getElementById('verificationCode');
             const submitVerification = document.getElementById('submitVerification');
 
+            // ↓↓↓↓↓ 檢查兩次輸入的密碼是否符合
             function checkPassword() {
                 const rps = rpsInput.value;
                 const rpsc = rpscInput.value;
@@ -328,6 +328,7 @@
             rpsInput.addEventListener('input', checkPassword);
             rpscInput.addEventListener('input', checkPassword);
 
+            // ↓↓↓↓↓送出註冊表單
             form.addEventListener('submit', async function (event) {
                 event.preventDefault();
                 if (!checkPassword()) {
@@ -343,23 +344,26 @@
                             'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
                         }
                     });
+                    if (!response.ok) {
+                        throw new Error('後端伺服器錯誤');
+                    }
                     const data = await response.json();
                     if (data.success) {
                         alert(data.message);
                         verificationDialog.style.display = 'block';
                     } else {
-                        alert(data.error || '發生錯誤，請重試。');
+                        alert('後端錯誤: ' + (data.error || '發生錯誤，請重試。'));
                     }
                 } catch (error) {
                     console.error('Error:', error);
-                    alert('發生錯誤，請重試。');
+                    alert('前端錯誤: ' + error.message);
                 }
             });
 
             submitVerification.addEventListener('click', async function () {
-                const formData = new FormData(form);
+                const formData = new FormData();
                 formData.append('verificationCode', verificationCode.value);
-                formData.append('email', document.getElementById('emailInReg').value); // 添加這行
+                formData.append('email', document.getElementById('emailInReg').value);
 
                 try {
                     const response = await fetch('/register', {
@@ -369,6 +373,9 @@
                             'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
                         }
                     });
+                    if (!response.ok) {
+                        throw new Error('後端伺服器錯誤');
+                    }
                     const data = await response.json();
                     if (data.message) {
                         alert(data.message);
@@ -376,11 +383,11 @@
                         // 註冊成功後的操作，例如重定向
                         window.location.href = '/login';
                     } else {
-                        alert(data.error || '註冊失敗，請重試。');
+                        alert('後端錯誤: ' + (data.error || '註冊失敗，請重試。'));
                     }
                 } catch (error) {
                     console.error('Error:', error);
-                    alert('發生錯誤，請重試。');
+                    alert('前端錯誤: ' + error.message);
                 }
             });
 
