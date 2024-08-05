@@ -10,6 +10,7 @@ use App\Http\Controllers\ChildrenCardController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\StudentProfileController;
 use App\Http\Controllers\TeacherProfileController;
+use App\Http\Controllers\BeTeacherController;
 
 
 Route::get('/', function () {
@@ -51,7 +52,8 @@ Route::middleware('auth')->group(function () {
     Route::view('/findteacher','findteacher');
     Route::post('/findteacher', [TeacherController::class, 'storeRequest'])->name('findteacher');
 });
-
+Route::post('/beteacher', [BeTeacherController::class, 'store'])->name('beteacher.store');
+Route::get('/beteacher', [BeTeacherController::class, 'create'])->name('beteacher.create');
 
 //-------------------------------------
 
