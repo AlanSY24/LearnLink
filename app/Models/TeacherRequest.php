@@ -10,7 +10,7 @@ class TeacherRequest extends Model
     protected $fillable = [
         'title', 'subject_id', 'available_time', 'expected_date',
         'hourly_rate_min', 'hourly_rate_max', 'city_id',
-        'district_ids', 'details' ,'user_id',
+        'district_ids', 'details', 'status'
     ];
 
     protected $casts = [
@@ -18,6 +18,17 @@ class TeacherRequest extends Model
         'district_ids' => 'array',
         'expected_date' => 'date',
     ];
+
+    // 定義狀態常量
+    const STATUS_PUBLISHED = 'published';
+    const STATUS_IN_PROGRESS = 'in_progress';
+    const STATUS_COMPLETED = 'completed';
+    const STATUS_CANCELLED = 'cancelled';
+
+    protected $attributes = [
+        'status' => self::STATUS_PUBLISHED,
+    ];
+
     public function city()
     {
         return $this->belongsTo(City::class);
@@ -32,8 +43,44 @@ class TeacherRequest extends Model
     {
         return $this->belongsTo(Subject::class);
     }
-    public function user()
+
+    public static function getStatusOptions()
     {
-        return $this->belongsTo(User::class);
+        return [
+            self::STATUS_PUBLISHED => '發布中',
+            self::STATUS_IN_PROGRESS => '進行中',
+            self::STATUS_COMPLETED => '完成',
+            self::STATUS_CANCELLED => '取消',
+        ];
+    }
+
+    public function isPublished()
+    {
+        return $this->status === self::STATUS_PUBLISHED;
+    }
+
+    public function isInProgress()
+    {
+        return $this->status === self::STATUS_IN_PROGRESS;
+    }
+
+    public function isCompleted()
+    {
+        return $this->status === self::STATUS_COMPLETED;
+    }
+
+    public function isCancelled()
+    {
+        return $this->status === self::STATUS_CANCELLED;
+    }
+
+    public function updateStatus($newStatus)
+    {
+        if (in_array($newStatus, array_keys(self::getStatusOptions()))) {
+            $this->status = $newStatus;
+            $this->save();
+            return true;
+        }
+        return false;
     }
 }
