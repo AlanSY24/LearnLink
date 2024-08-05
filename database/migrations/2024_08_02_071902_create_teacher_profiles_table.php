@@ -12,8 +12,8 @@ return new class extends Migration
             $table->id('profile_id');
             $table->unsignedBigInteger('user_id');
             $table->string('title');
-            $table->string('photo')->nullable();
-            $table->string('pdf')->nullable();
+            $table->binary('photo')->nullable(); // 用於儲存圖片
+            $table->binary('pdf')->nullable();   // 用於儲存 PDF
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

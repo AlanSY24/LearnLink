@@ -19,25 +19,29 @@ class TeacherProfileController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'pdf' => 'nullable|mimes:pdf|max:2048',
-        ]);
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'pdf' => 'nullable|mimes:pdf|max:2048',
+    ]);
 
-        $user = Auth::user();
+    $user = Auth::user();
+    
+    // 讀取檔案內容
+    $photo = $request->file('photo') ? file_get_contents($request->file('photo')) : null;
+    $pdf = $request->file('pdf') ? file_get_contents($request->file('pdf')) : null;
 
-        $profile = TeacherProfile::updateOrCreate(
-            ['user_id' => $user->id],
-            [
-                'title' => $request->title,
-                'photo' => $request->file('photo') ? $request->file('photo')->store('photos') : null,
-                'pdf' => $request->file('pdf') ? $request->file('pdf')->store('pdfs') : null,
-            ]
-        );
-        dd($profile);
+    $profile = TeacherProfile::updateOrCreate(
+        ['user_id' => $user->id],
+        [
+            'title' => $request->title,
+            'photo' => $photo,
+            'pdf' => $pdf,
+        ]
+    );
 
-        return redirect()->route('teacherprofile.index')->with('success', '履歷表已成功儲存！');
-    }
+    return redirect()->route('teacherprofile.index')->with('success', '履歷表已成功儲存！');
+}
+
 }

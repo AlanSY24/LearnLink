@@ -118,16 +118,17 @@
         <h1>老師履歷表</h1>
 
         @if($profile)
-            <div class="profile-info">
-                <h2>{{ $profile->title }}</h2>
-                @if($profile->photo)
-                <img src="{{ Storage::url('photos/eCVJvkxPuuIWqid62wV93O2kiriq3mcXUNxZZP1r.jpg') }}" alt="大頭貼">
-                    <img src="/storage/photos/eCVJvkxPuuIWqid62wV93O2kiriq3mcXUNxZZP1r.jpg" alt="大頭貼">
-                @endif
-                @if($profile->pdf)
-                    <a href="{{ Storage::url($profile->pdf) }}" target="_blank">查看履歷 PDF</a>
-                @endif
-            </div>
+        <div class="profile-info">
+            <h2>{{ $profile->title }}</h2>
+            @if($profile->photo)
+                <img src="data:image/jpeg;base64,{{ base64_encode($profile->photo) }}" alt="大頭貼">
+            @endif
+            @if($profile->pdf)
+                <iframe src="data:application/pdf;base64,{{ base64_encode($profile->pdf) }}" width="600" height="500"></iframe>
+            @endif
+
+        </div>
+
         @endif
 
         <form action="{{ route('teacherprofile.store') }}" method="POST" enctype="multipart/form-data">
