@@ -6,14 +6,76 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-
-// ↓↓↓↓↓ email專用
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cache;
+
 
 class AuthController extends Controller
 {
+    public function register(Request $request)
+    {
+        // 定義驗證規則
+        $rules = [
+            'registerName' => 'required|string|max:30',
+            'registerEmail' => 'required|string|email|max:255',
+            'registerPassword' => [
+                'required',
+                'string',
+                'min:8',
+                'max:30',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,30}$/'
+            ],
+            'registerAccount' => [
+                'required',
+                'string',
+                'min:4',
+                'max:30',
+                'regex:/^[a-zA-Z0-9_.]{4,30}$/',
+            ],
+            'registerGender' => 'required|in:1,2,3',
+        ];
+
+        // 執行驗證
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // 檢查 email 和 account 是否已存在
+        $emailExists = User::where('email', $request->registerEmail)->exists();
+        $accountExists = User::where('account', $request->registerAccount)->exists();
+
+        if ($emailExists) {
+            return response()->json(['error' => '此電子郵件已被使用'], 422);
+        }
+
+        if ($accountExists) {
+            return response()->json(['error' => '此帳號已被使用'], 422);
+        }
+
+        // 創建新用戶，但不保存到數據庫
+        $user = new User([
+            'name' => $request->registerName,
+            'email' => $request->registerEmail,
+            'password' => Hash::make($request->registerPassword),
+            'account' => $request->registerAccount,
+            'gender' => $request->registerGender,
+        ]);
+
+        // 觸發 Registered 事件，這會發送驗證郵件
+        event(new Registered($user));
+
+        // 保存用戶到數據庫
+        $user->save();
+
+        // 返回成功響應
+        return response()->json(['message' => '註冊成功，請檢查您的郵箱進行驗證'], 201);
+    }
+
+
     public function sendEmail(Request $request)
     {
         $request->validate([
@@ -36,40 +98,6 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => '發送失敗，請重試'], 500);
         }
-    }
-
-    public function register(Request $request)
-    {
-        $registerInfo = $request->validate([
-            'registerAccount' => [
-                'required',
-                'regex:/^[a-z0-9._@-]+$/',
-                'min:4',
-                'max:20',
-            ],
-            'registerName' => 'required',
-            'registerPassword' => [
-                'required',
-                'string',
-                'min:8',
-                'max:30',
-                'confirmed',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,30}$/',
-            ],
-            'email' => 'required|email',
-            'verification_code' => 'required',
-        ]);
-        $goalEmail = $registerInfo['email'];
-        $inputVerifyCode = $registerInfo['verification_code'];
-
-        $sentVerifyCode = Cache::get('vericode' . $goalEmail);
-        if ($inputVerifyCode === $sentVerifyCode) {
-            return response()->json(['success' => true, 'message' => '驗證成功']);
-        } else {
-            return response()->json(['success' => false, 'message' => '驗證碼錯誤或過期'], 422);
-        }
-
-
     }
 
     public function login(Request $request)

@@ -8,7 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- 引入 FontAwesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- 引入自訂的 CSS 檔案 -->
 </head>
 <style>
     body {
@@ -59,6 +58,19 @@
         font-size: 16px;
         transition: border-color 0.3s ease;
     }
+
+    .textbox select {
+        width: 100%;
+        height: 100%;
+        padding: 12px 12px 12px 40px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+    }
+
+
 
     .textbox i {
         position: absolute;
@@ -168,7 +180,7 @@
                 </div>
             </div>
             <div class="mb-3 p-2">
-                @if ($errors->any())
+                <!-- @if ($errors->any())
                     <div class="alert alert-danger m-0">
                         <ul class="p-0 m-0">
                             @foreach ($errors->all() as $error)
@@ -176,20 +188,20 @@
                             @endforeach
                         </ul>
                     </div>
-                @endif
+                @endif -->
             </div>
             <div class="links mt-3">
                 <button type="submit" class="btn btn-my w-100">登入</button>
             </div>
             <div class="links">
-                <a href="#" data-show-form="register-form">註冊</a>
+                <a href="#" data-show-form="registerForm">註冊</a>
                 <a href="#" data-show-form="forgot-form">忘記密碼？</a>
             </div>
         </form>
     </div>
 
     <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 d-none outdiv"
-        id="register-form">
+        id="registerForm">
         <form action="/register" method="POST"
             class="form-container register-and-forgot-container rounded-3 shadow p-4 p-md-5 position-relative">
             @csrf
@@ -201,39 +213,72 @@
                 <div class="col-md-6">
                     <div class="textbox">
                         <i class="fas fa-user"></i>
-                        <input type="text" placeholder="帳號" name="registerAccount" required>
+                        <input type="text" placeholder="帳號" name="registerAccount" required
+                            pattern="^[a-zA-Z0-9_.]{4,30}$" maxlength="30" title="帳號必須是4-30個字符，只能包含英文字母、數字、底線和點">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="textbox">
                         <i class="fa-solid fa-signature"></i>
-                        <input type="text" placeholder="姓名" name="registerName" required>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="textbox">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="密碼" name="registerPassword" required>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="textbox">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="確認密碼" name="registerConfirmPassword" required>
+                        <input type="text" placeholder="姓名" name="registerName" required maxlength="30"
+                            title="姓名不能超過30個字符">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="textbox">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" id="emailInReg" placeholder="電子信箱" name="email" required>
+                        <input type="email" id="emailInReg" placeholder="電子信箱" name="registerEmail" required>
                     </div>
-                    <div id="emailFeedback"></div>
                 </div>
                 <div class="col-md-6">
                     <div class="textbox d-flex">
                         <button class="btn btn-my btn-in-register m-0 w-50 fs-6 border" type="button"
                             onclick=sendEmail()>寄送驗證碼</button>
                         <input class="p-1 w-50 " type="text" placeholder="驗證碼" name="verification_code" required>
+                    </div>
+                </div>
+                <script>
+                    function sendEmail() {
+                        let sentGoal = document.getElementById('emailInReg').value;
+                        try {
+                            // 將fetch的返回值指定給 response
+                            const response = await fetch('/send-email', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // Laravel CSRF token
+                                },
+                                body: JSON.stringify({ email: sentGoal })
+                            });
+
+                            const data = await response.json();
+
+                            if (data.success == true) {
+                                alert('驗證碼已發送到您的信箱');
+                            } else {
+                                alert('發送失敗，請重試');
+                            }
+                        } catch (error) {
+                            console.error('錯誤:', error);
+                            alert('發生錯誤，請稍後再試');
+                        } finally {
+                            // enableBtn(btnsInReg[0]);
+                            // enableBtn(btnsInReg[1]);
+                        }
+                    }
+                </script>
+                <div class="col-md-6">
+                    <div class="textbox">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="密碼" name="registerPassword" required
+                            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,30}$" maxlength="30" id="rps"
+                            title="密碼必須是8-30個字符，包含至少一個大寫字母、一個小寫字母和一個數字">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="textbox">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="確認密碼" name="password_confirmation" id="rpsc" required>
                     </div>
                 </div>
             </div>
@@ -244,6 +289,37 @@
                 <div class="col-md-3">
                     <button type="submit" class="btn btn-my w-100 btn-in-register">註冊</button>
                 </div>
+                <!-- ↓↓↓↓↓ 密碼輸入兩次一樣才能送出 -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const form = document.getElementById('registerForm');
+                        const rpsInput = document.getElementById('rps');
+                        const rpscInput = document.getElementById('rpsc');
+
+                        function checkPassword() {
+                            const rps = rpsInput.value;
+                            const rpsc = rpscInput.value;
+
+                            if (rps !== rpsc) {
+                                rpscInput.setCustomValidity('密碼不符');
+                                return false;
+                            } else {
+                                rpscInput.setCustomValidity('');
+                                return true;
+                            }
+                        }
+
+                        // ↓↓↓↓↓這兩段我覺得不合理，但加上就正常了
+                        rpsInput.addEventListener('input', checkPassword);
+                        rpscInput.addEventListener('input', checkPassword);
+
+                        form.addEventListener('submit', function (event) {
+                            if (!checkPassword()) {
+                                event.preventDefault();
+                            }
+                        });
+                    });
+                </script>
             </div>
             <div class="links mt-3">
                 <a href="#" data-show-form="login-form">登入</a>
@@ -251,9 +327,10 @@
             </div>
         </form>
     </div>
+
     <script>
         //控制註冊按鈕能不能按
-        window.onload = () => {
+        /* window.onload = () => {
             const btnsInReg = document.getElementsByClassName('btn-in-register');   //帶有btn-in-register的代表會被取消點擊功能
             for (let i = 0; i < btnsInReg.length; i++) {
                 // 設置按鈕的基本樣式
@@ -302,40 +379,7 @@
                 disableBtn(btnsInReg[0]);
             }
         });
-        //↑↑↑↑↑↑↑↑↑↑↑↑↑ 當輸入的符合email格式時，驗證按鈕會啟用
-
-        async function sendEmail() {
-            let sentGoal = document.getElementById('emailInReg').value;
-
-            disableBtn(btnsInReg[0]);
-
-            try {
-                // 將fetch的返回值指定給 response
-                const response = await fetch('/send-email', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Laravel CSRF token
-                    },
-                    body: JSON.stringify({ email: sentGoal })
-                });
-
-                const data = await response.json();
-
-                if (data.success == true) {
-                    alert('驗證碼已發送到您的信箱');
-                } else {
-                    alert('發送失敗，請重試');
-                }
-            } catch (error) {
-                console.error('錯誤:', error);
-                alert('發生錯誤，請稍後再試');
-            } finally {
-                // 恢復按鈕功能
-                enableBtn(btnsInReg[0]);
-                enableBtn(btnsInReg[1]);
-            }
-        }
+        //↑↑↑↑↑↑↑↑↑↑↑↑↑ 當輸入的符合email格式時，驗證按鈕會啟用 */
     </script>
 
     <!-- 忘記密碼 -->
@@ -371,7 +415,7 @@
             </div>
             <div class="links mt-3">
                 <a href="#" data-show-form="login-form">登入</a>
-                <a href="#" data-show-form="register-form">註冊</a>
+                <a href="#" data-show-form="registerForm">註冊</a>
             </div>
         </form>
     </div>
