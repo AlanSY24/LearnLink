@@ -21,6 +21,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 // 登入功能↑↑↑↑↑↑↑↑↑
 
 // 註冊↓↓↓↓↓↓↓↓↓↓    
+Route::post('/pre-register', [AuthController::class, 'preRegister']);
 Route::post('/register', [AuthController::class, 'register']);
 
 // 寄   email   ↓↓↓↓↓↓↓↓↓↓↓↓

@@ -156,6 +156,57 @@
     li.warning-message {
         list-style-type: none;
     }
+    #verificationDialog {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+    }
+
+    #verificationDialog .modal-content {
+        text-align: center;
+    }
+
+    #verificationDialog h2 {
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 24px;
+    }
+
+    #verificationDialog p {
+        margin-bottom: 20px;
+        color: #666;
+    }
+
+    #verificationDialog input {
+        width: calc(100% - 24px);
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+    }
+
+    #verificationDialog button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        background: linear-gradient(135deg, #ff7e5f, #feb47b);
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    #verificationDialog button:hover {
+        background: linear-gradient(135deg, #feb47b, #ff7e5f);
+    }
 </style>
 
 <body>
@@ -202,7 +253,7 @@
 
     <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 d-none outdiv"
         id="registerForm">
-        <form action="/register" method="POST"
+        <form id="registrationForm" action="/register" method="POST"
             class="form-container register-and-forgot-container rounded-3 shadow p-4 p-md-5 position-relative">
             @csrf
             <a href="{{ route('homePage') }}" class="position-absolute top-0 start-0 m-2 back-icon">
@@ -226,49 +277,6 @@
                 </div>
                 <div class="col-md-6">
                     <div class="textbox">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" id="emailInReg" placeholder="電子信箱" name="registerEmail" required>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="textbox d-flex">
-                        <button class="btn btn-my btn-in-register m-0 w-50 fs-6 border" type="button"
-                            onclick=sendEmail()>寄送驗證碼</button>
-                        <input class="p-1 w-50 " type="text" placeholder="驗證碼" name="verification_code" required>
-                    </div>
-                </div>
-                <script>
-                    function sendEmail() {
-                        let sentGoal = document.getElementById('emailInReg').value;
-                        try {
-                            // 將fetch的返回值指定給 response
-                            const response = await fetch('/send-email', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // Laravel CSRF token
-                                },
-                                body: JSON.stringify({ email: sentGoal })
-                            });
-
-                            const data = await response.json();
-
-                            if (data.success == true) {
-                                alert('驗證碼已發送到您的信箱');
-                            } else {
-                                alert('發送失敗，請重試');
-                            }
-                        } catch (error) {
-                            console.error('錯誤:', error);
-                            alert('發生錯誤，請稍後再試');
-                        } finally {
-                            // enableBtn(btnsInReg[0]);
-                            // enableBtn(btnsInReg[1]);
-                        }
-                    }
-                </script>
-                <div class="col-md-6">
-                    <div class="textbox">
                         <i class="fas fa-lock"></i>
                         <input type="password" placeholder="密碼" name="registerPassword" required
                             pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,30}$" maxlength="30" id="rps"
@@ -281,6 +289,23 @@
                         <input type="password" placeholder="確認密碼" name="password_confirmation" id="rpsc" required>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="textbox">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="emailInReg" placeholder="電子信箱" name="registerEmail" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="textbox">
+                        <i class="fa-solid fa-person-half-dress"></i>
+                        <select name="registerGender" required>
+                            <option value="">請選擇您的性別</option>
+                            <option value="1">男性</option>
+                            <option value="2">女性</option>
+                            <option value="3">其他</option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="row g-3 align-items-center mt-4">
                 <div class="col-md-9">
@@ -289,37 +314,6 @@
                 <div class="col-md-3">
                     <button type="submit" class="btn btn-my w-100 btn-in-register">註冊</button>
                 </div>
-                <!-- ↓↓↓↓↓ 密碼輸入兩次一樣才能送出 -->
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        const form = document.getElementById('registerForm');
-                        const rpsInput = document.getElementById('rps');
-                        const rpscInput = document.getElementById('rpsc');
-
-                        function checkPassword() {
-                            const rps = rpsInput.value;
-                            const rpsc = rpscInput.value;
-
-                            if (rps !== rpsc) {
-                                rpscInput.setCustomValidity('密碼不符');
-                                return false;
-                            } else {
-                                rpscInput.setCustomValidity('');
-                                return true;
-                            }
-                        }
-
-                        // ↓↓↓↓↓這兩段我覺得不合理，但加上就正常了
-                        rpsInput.addEventListener('input', checkPassword);
-                        rpscInput.addEventListener('input', checkPassword);
-
-                        form.addEventListener('submit', function (event) {
-                            if (!checkPassword()) {
-                                event.preventDefault();
-                            }
-                        });
-                    });
-                </script>
             </div>
             <div class="links mt-3">
                 <a href="#" data-show-form="login-form">登入</a>
@@ -327,6 +321,101 @@
             </div>
         </form>
     </div>
+
+    <!-- 驗證碼對話框 -->
+    <div id="verificationDialog" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>請輸入驗證碼</h2>
+            <p>驗證碼已發送到您的郵箱，請查收並在下方輸入。</p>
+            <input type="text" id="verificationCode" placeholder="驗證碼" required>
+            <button id="submitVerification">驗證</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('registrationForm');
+            const rpsInput = document.getElementById('rps');
+            const rpscInput = document.getElementById('rpsc');
+            const verificationDialog = document.getElementById('verificationDialog');
+            const verificationCode = document.getElementById('verificationCode');
+            const submitVerification = document.getElementById('submitVerification');
+
+            function checkPassword() {
+                const rps = rpsInput.value;
+                const rpsc = rpscInput.value;
+
+                if (rps !== rpsc) {
+                    rpscInput.setCustomValidity('密碼不符');
+                    return false;
+                } else {
+                    rpscInput.setCustomValidity('');
+                    return true;
+                }
+            }
+
+            rpsInput.addEventListener('input', checkPassword);
+            rpscInput.addEventListener('input', checkPassword);
+
+            form.addEventListener('submit', async function (event) {
+                event.preventDefault();
+                if (!checkPassword()) {
+                    return;
+                }
+
+                const formData = new FormData(form);
+                try {
+                    const response = await fetch('/pre-register', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                        }
+                    });
+                    const data = await response.json();
+                    if (data.success) {
+                        alert(data.message);
+                        verificationDialog.style.display = 'block';
+                    } else {
+                        alert(data.error || '發生錯誤，請重試。');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('發生錯誤，請重試。');
+                }
+            });
+
+            submitVerification.addEventListener('click', async function () {
+                const formData = new FormData(form);
+                formData.append('verificationCode', verificationCode.value);
+                formData.append('email', document.getElementById('emailInReg').value); // 添加這行
+
+                try {
+                    const response = await fetch('/register', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                        }
+                    });
+                    const data = await response.json();
+                    if (data.message) {
+                        alert(data.message);
+                        verificationDialog.style.display = 'none';
+                        // 註冊成功後的操作，例如重定向
+                        window.location.href = '/login';
+                    } else {
+                        alert(data.error || '註冊失敗，請重試。');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('發生錯誤，請重試。');
+                }
+            });
+
+        });
+    </script>
+
 
     <script>
         //控制註冊按鈕能不能按
@@ -339,7 +428,7 @@
 
                 // 創建並設置偽元素樣式
                 const style = document.createElement('style');
-                style.textContent = `
+                style.textContent = 
                     .btn-in-register[data-disabled]::before {
                         content: '';
                         position: absolute;
@@ -350,7 +439,7 @@
                         background-color: rgba(0, 0, 0, 0.5);
                         cursor: not-allowed;
                     }
-                `;
+                ;
                 document.head.appendChild(style);
 
                 // 禁用按鈕

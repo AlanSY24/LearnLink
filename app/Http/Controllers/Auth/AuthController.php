@@ -7,19 +7,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
 
-
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function preRegister(Request $request)
     {
         // 定義驗證規則
         $rules = [
             'registerName' => 'required|string|max:30',
-            'registerEmail' => 'required|string|email|max:255',
+            'registerEmail' => 'required|string|email|max:255|unique:users,email',
             'registerPassword' => [
                 'required',
                 'string',
@@ -33,6 +31,7 @@ class AuthController extends Controller
                 'min:4',
                 'max:30',
                 'regex:/^[a-zA-Z0-9_.]{4,30}$/',
+                'unique:users,account'
             ],
             'registerGender' => 'required|in:1,2,3',
         ];
@@ -44,61 +43,55 @@ class AuthController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // 檢查 email 和 account 是否已存在
-        $emailExists = User::where('email', $request->registerEmail)->exists();
-        $accountExists = User::where('account', $request->registerAccount)->exists();
-
-        if ($emailExists) {
-            return response()->json(['error' => '此電子郵件已被使用'], 422);
-        }
-
-        if ($accountExists) {
-            return response()->json(['error' => '此帳號已被使用'], 422);
-        }
-
-        // 創建新用戶，但不保存到數據庫
-        $user = new User([
-            'name' => $request->registerName,
-            'email' => $request->registerEmail,
-            'password' => Hash::make($request->registerPassword),
-            'account' => $request->registerAccount,
-            'gender' => $request->registerGender,
-        ]);
-
-        // 觸發 Registered 事件，這會發送驗證郵件
-        event(new Registered($user));
-
-        // 保存用戶到數據庫
-        $user->save();
-
-        // 返回成功響應
-        return response()->json(['message' => '註冊成功，請檢查您的郵箱進行驗證'], 201);
-    }
-
-
-    public function sendEmail(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email|unique:users,email',
-        ]);
-
+        // 生成驗證碼並發送郵件
         $verifyCode = rand(100000, 999999);
-        $goalEamil = $request->email;
+        $email = $request->registerEmail;
 
         try {
-            Mail::raw("您的驗證碼是 $verifyCode", function ($message) use ($goalEamil) {
-                $message->to($goalEamil)
+            Mail::raw("您的驗證碼是 $verifyCode", function ($message) use ($email) {
+                $message->to($email)
                     ->subject("LeanLink家教平台驗證碼");
             });
 
-            // 將驗證碼存入 Cache，持續 10 分鐘
-            Cache::put('vericode' . $goalEamil, $verifyCode, 600);
+            // 將驗證碼和用戶資料存入 Cache，持續 10 分鐘
+            $userData = $request->all();
+            $userData['verifyCode'] = $verifyCode;
+            Cache::put('user_registration_' . $email, $userData, 600);
 
-            return response()->json(['success' => true, 'message' => '驗證碼已發送']);
+            return response()->json(['success' => true, 'message' => '驗證碼已發送到您的郵箱']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => '發送失敗，請重試'], 500);
         }
     }
+
+    public function register(Request $request)
+    {
+        $email = $request->email;
+        $verifyCode = $request->verificationCode; // 修改這行，使用與前端一致的字段名
+
+        $userData = Cache::get('user_registration_' . $email);
+
+        if (!$userData || $userData['verifyCode'] != $verifyCode) {
+            return response()->json(['error' => '驗證碼不正確或已過期'], 422);
+        }
+
+        // 創建新用戶
+        $user = User::create([
+            'name' => $userData['registerName'],
+            'email' => $userData['registerEmail'],
+            'password' => Hash::make($userData['registerPassword']),
+            'account' => $userData['registerAccount'],
+            'gender' => $userData['registerGender'],
+        ]);
+
+        // 清除緩存
+        Cache::forget('user_registration_' . $email);
+
+        // 返回成功響應
+        return response()->json(['message' => '註冊成功'], 201);
+    }
+
+
 
     public function login(Request $request)
     {
@@ -108,7 +101,7 @@ class AuthController extends Controller
         ]);
         /*  ↑↑↑↑↑↑執行之後   $loginEntered 會變成陣列:
         [   'loginAccount' => '輸入的帳號',
-            'loginPassword' => '輸入的密碼' ]; */
+        'loginPassword' => '輸入的密碼' ]; */
 
         if (Auth::attempt(['account' => $loginEntered['loginAccount'], 'password' => $loginEntered['loginPassword']])) {
 
@@ -117,8 +110,8 @@ class AuthController extends Controller
 
             return redirect()->route('auth.status'); // 登入成功後跳到 /auth_status
             /*  redirect()跳到某一頁面
-                return redirect('/auth_status')   ←←←這樣寫也可以
-                不過用route()就可以指定名字
+            return redirect('/auth_status')   ←←←這樣寫也可以
+            不過用route()就可以指定名字
             */
         }
 
