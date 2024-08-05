@@ -1,5 +1,5 @@
 <?php
-
+// 老師履歷表
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;

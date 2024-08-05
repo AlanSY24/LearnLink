@@ -1,5 +1,5 @@
 <?php
-
+// 成為老師
 namespace App\Http\Controllers;
 use App\Models\BeTeacher;
 use Illuminate\Http\Request;

@@ -1,5 +1,5 @@
 <?php
-
+// 成為老師
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
