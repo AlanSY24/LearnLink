@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>會員中心-學生</title>
+    <title>會員中心-家長</title>
     <!-- 引入 jQuery  -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- 引入 Font Awesome 字體圖標庫  -->

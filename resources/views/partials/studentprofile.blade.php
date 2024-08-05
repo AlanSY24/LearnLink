@@ -5,16 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>學生自我介紹</title>
     <style>
-        /* body {
+        body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
             margin: 0;
             padding: 0;
-        } */
+        }
 
-        .container-SP {
+        .container {
             max-width: 800px;
-            width: 700px;
             margin: 2rem auto;
             padding: 2rem;
             background-color: #fff;
@@ -28,31 +27,36 @@
             color: #333;
         }
 
-        .form-group-SP {
+        .form-group {
             margin-bottom: 1rem;
         }
 
-        .form-group-SP label {
+        .form-group label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: bold;
             color: #333;
         }
 
-        .form-group-SP textarea {
+        .form-group input[type="text"],
+        .form-group input[type="file"] {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid #ccc;
             border-radius: 4px;
-            resize: vertical;
         }
 
-        .form-group-SP textarea:focus {
+        .form-group input[type="file"] {
+            padding: 0.5rem;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="file"]:focus {
             border-color: #007bff;
             outline: none;
         }
 
-        .btn-SP {
+        .btn {
             display: inline-block;
             padding: 0.75rem 1.5rem;
             border: none;
@@ -67,7 +71,7 @@
             transition: background-color 0.3s;
         }
 
-        .btn-SP:hover {
+        .btn:hover {
             background-color: #0056b3;
         }
 
@@ -78,6 +82,31 @@
             color: #155724;
             background-color: #d4edda;
             border: 1px solid #c3e6cb;
+        }
+
+        .profile-info {
+            margin-bottom: 1rem;
+        }
+
+        .profile-info img {
+            max-width: 200px;
+            border-radius: 4px;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .profile-info a {
+            display: inline-block;
+            margin-top: 0.5rem;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .profile-info a:hover {
+            text-decoration: underline;
+        }
+        #ifr {
+            display: none; /* 初始隱藏 iframe */
         }
     </style>
 </head>
@@ -95,12 +124,12 @@
             @csrf
 
             <div class="form-group-SP">
-                <label for="education">學歷</label>
+                <label for="education">學歷</label><br>
                 <textarea id="education" name="education" rows="4" required>{{ old('education', $profile->education ?? '') }}</textarea>
             </div>
 
             <div class="form-group-SP">
-                <label for="introduction">自我介紹</label>
+                <label for="introduction">自我介紹</label><br>
                 <textarea id="introduction" name="introduction" rows="4" required>{{ old('introduction', $profile->introduction ?? '') }}</textarea>
             </div>
 

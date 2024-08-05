@@ -4,144 +4,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-    <!-- <link rel='stylesheet' href='https://chinese-fonts-cdn.deno.dev/packages/zhbtt/dist/字魂扁桃体/result.css' /> -->
     <style>
-        /* boos的CSS */
-
-
-        .btn-large {
-            width: 100%;
-            padding: 20px;
-            font-size: 1.5em;
-            height: 35vh;
-            /* 設定按鈕高度為視窗高度的35% */
-            max-width: 400px;
-            min-height: 150px;
-            border: 1px solid;
-        }
-
-        .btn-container {
-            margin: 30px 0;
-        }
-
-        @media (max-width: 310px) {
-            .site-logo {
-                display: none;
-            }
-        }
-
-        /* 自己寫的 */
-        #jobForm {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
+        body {
+            font-family: Arial, sans-serif;
             background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #fff;
             border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
         }
 
-        label {
+        .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
         }
 
-        input[type="text"],
-        input[type="number"],
-        select,
-        textarea {
+        .form-group input[type="text"],
+        .form-group input[type="file"] {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
             border-radius: 4px;
         }
 
-        select[multiple] {
-            height: 100px;
+        .form-group input[type="file"] {
+            padding: 0.5rem;
         }
 
-        /* button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
+        .form-group input[type="text"]:focus,
+        .form-group input[type="file"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            transition: background-color 0.3s;
         }
 
-        button:hover {
-            background-color: #45a049;
-        } */
-
-        #districts-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 10px;
+        .btn:hover {
+            background-color: #0056b3;
         }
 
-        .district-checkbox {
-            display: flex;
-            align-items: center;
-        }
-
-        .district-checkbox input {
-            margin-right: 5px;
-        }
-
-        .form-group input[type="radio"] {
-            margin-right: 5px;
-        }
-
-        .form-group input[type="radio"]+label {
-            display: inline;
-            margin-right: 15px;
-        }
-
-        .form-group input[type="tel"],
-        .form-group input[type="email"] {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
+        .alert-success {
+            padding: 0.75rem;
+            margin-bottom: 1rem;
             border-radius: 4px;
+            color: #155724;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
         }
 
-        .w-33 {
-            width: 33%;
+        .profile-info {
+            margin-bottom: 1rem;
         }
 
-        .w-45 {
-            width: 45%;
+        .profile-info img {
+            max-width: 200px;
+            border-radius: 4px;
+            display: block;
+            margin-bottom: 1rem;
         }
 
-        .w-100 {
-            width: 100%;
+        .profile-info a {
+            display: inline-block;
+            margin-top: 0.5rem;
+            color: #007bff;
+            text-decoration: none;
         }
 
-        .fl {
-            float: left;
-        }
-
-        .mr-5 {
-            margin-right: 5%;
-        }
-
-        .hourly-rate-inputs {
-            display: flex;
-            align-items: center;
-        }
-
-        .hourly-rate-inputs input {
-            width: 45%;
-        }
-
-        .hourly-rate-inputs span {
-            margin: 0 5px;
+        .profile-info a:hover {
+            text-decoration: underline;
         }
 
         .card {
@@ -177,7 +139,7 @@
     </style>
 </head>
 <body>
-<div class="">
+<div>
        
     @if (session('success'))
         <div class="alert alert-success">
@@ -185,7 +147,7 @@
         </div>
     @endif
        
-        <div class="">
+        <div>
             <button id="addCardBtn">新增學生卡片</button>
             <div id="formContainer" class="form-container">
                     <form id="studentForm" action="{{ route('studentpage.store') }}" method="POST">
