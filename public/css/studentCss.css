@@ -1,0 +1,503 @@
+
+/* ============================ */
+/* 共用 */
+/* ============================ */
+/* body{
+    margin: 0;
+    padding: 0;
+    font-family: "Lumanosimo", "Noto Serif TC", serif;   
+    margin-top: 86.88px; 
+    color: white;
+}
+h2{
+    text-align: center;
+} */
+/* i{
+    font-size: 70px;
+    padding: 10px;
+    margin: 10px;
+} */
+
+
+
+/* class類別選取器 */
+/* .logo{
+    color: blue;
+    font-family: "Lumanosimo", "Noto Serif TC", serif, cursive;
+    font-weight: 900;
+    font-style: normal;
+} */
+/* ========================= */
+  /* 字體 */
+  /* ========================= */
+/* .noto-serif-tc-regular {
+    font-family: "Noto Serif TC", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .noto-serif-tc-black {
+    font-family: "Noto Serif TC", serif;
+    font-weight: 900;
+    font-style: normal;
+  }
+  .lumanosimo-regular {
+    font-family: "Lumanosimo", cursive;
+    font-weight: 400;
+    font-style: normal;
+  } */
+  /* ========================= */
+  /* 共用 */
+  /* ========================= */
+  .container{
+    width: 80%;
+    margin: auto;
+    /* background-color: lightblue;     */
+  }
+  .clearfix::after{
+    content: "";
+    display: block;
+    clear: both;
+  }
+  .content {
+    display: none;
+    margin-top: 10px;
+  }
+  .sidebar{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    padding-right: 20px;
+    margin-top: 80px;
+  }
+  .sidebar>li>a{
+    line-height: 30px;
+    border-left: 3px solid white;
+    margin-bottom: 5px;
+    padding-left: 10px;
+    font-style: 18px;
+    display: block;
+    transition: 300ms all;
+  }
+  .sidebar>li>a:hover{
+    background-color:#554236;
+    border-bottom: 1px solid white;
+  }
+  .breadcrumb{
+    padding: 0;
+    margin: 0;
+    list-style-type:none;
+    padding: 20px;
+  }
+  .breadcrumb>li{
+    float: left;
+  }
+  /* 相鄰選取器 */
+  .breadcrumb>li+li::before{
+    content: '>';
+  }
+  .bgp{
+    background-color: #DC9FB4;
+  }
+  .bgc{
+    background-color: lightcoral;
+  }
+  hr{
+    border: 1px solid gray;
+  }
+  .float-left{
+    float: left;
+  }
+  .float-right{
+    float: right;
+  }
+  .flex{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .flex-1{
+    flex: 0 1 250px;
+    margin: 10px;
+  }
+  .w-100{
+    width: 100%;   /*一欄*/
+  }
+  .w-50{
+    width: 50%;   /*兩欄*/
+  }
+  .w-33{
+    width: 33.333%;   /*三欄*/
+  }
+  .w-25{
+    width: 25%;   /*四欄*/
+  }
+  .w-16{
+    width: 16%;  /*6欄*/
+  }
+  .w-20{width: 20%;}
+  .w-80{width: 80%;}
+  .border-radius{
+    border-radius: 10%;
+  }
+  .over-flow{
+    overflow: hidden;
+  }
+  .m-2{
+    margin: 20px;
+  }
+  .m-3{
+    margin: 30px;
+  }
+  .p-3{
+    padding: 30px;
+  }
+  .mub-20{
+    margin: 30px 0px;
+  }
+  .mt{
+    margin-top: 100px;
+  }
+  .text-center{
+    text-align: center;
+  }
+  .text-right{
+    text-align: right;
+  }
+  .btn{
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-right: 0px;
+    margin-bottom: 30px;
+    display: inline-block;
+    transition: 500ms ease-in-out;
+  }
+  .btn-white{
+    border: 2px solid white;
+
+  }
+  .btn:hover{
+    
+    border-radius: 100px;
+    background-color: #E16B8C;
+  }
+
+  .myButton {
+    background-color:#44c767;
+    border-radius:28px;
+    border:1px solid #18ab29;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:16px;
+    padding:16px 32px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #2f6627;
+  }
+  .myButton:hover {
+    background-color:#5cbf2a;
+  }
+  .myButton:active {
+    position:relative;
+    top:1px;
+  }
+  
+  .position-relative{
+    position: relative;
+  }
+  .position-absolute{
+    position: absolute;
+  }
+  .tag{
+    top: 0;
+    left: 0;
+    background-color: red;
+    margin: 0;
+    padding: 10px;
+    border-radius: 0px 0px 15px 0px;
+  }
+  .border{
+    border: 5px solid black;
+  }
+  /* 模態框和背景 */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  overflow: auto;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 1001;
+  max-width: 80%;
+  max-height: 80%;
+  overflow: auto;
+  animation: fadeInOut 0.3s ease;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.close-button {
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #aaa;
+}
+
+.close-button:hover {
+  color: #555;
+}
+
+.modal-content {
+  margin-top: 10px;
+}
+
+/* 淡入淡出動畫 */
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+  /* ========================= */
+  /* header */
+  /* ========================= */
+  /* header{
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: block;
+    width: 100%;
+    background-color: #8E354A;
+    box-shadow: 0px 0px 10px lightblue;    
+    z-index: 200;
+  }
+  h1{
+    width: 10%;
+    margin-left: 5%;
+    margin-right: 15%;
+    float: left;
+
+  }
+  h1>a{
+    text-decoration: none;
+    color: white;
+  }
+  h1>a:hover{
+    color: #D7C4BB;
+    transition: 300ms;
+  }
+  nav{
+    width: 40%;
+    float: left;
+  }
+  nav>ul{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+  nav>ul>li{
+    width: 18%;
+    float: left;
+  }
+  nav>ul>li>a{
+    display: block;
+    width: 100%;
+    text-align: center;
+    line-height: 80px;
+    text-decoration: none;
+    color: white;
+    letter-spacing: 2px;
+    transition: 300ms ease-in-out;
+  }
+  nav>ul>li>a:hover{
+    color: lightcoral;
+    background-color: lightgray;
+    border-radius: 25px;
+  }
+  .social-icon{
+    font-size: 24px;
+    line-height: 80px;
+    margin-right: 10%;
+  }
+  .social-icon>a{
+    margin-right: 10px;
+  } */
+  /* 全域a樣式設定 */
+  a{
+    color: white;
+    text-decoration: none;
+  }
+  .fa-user:hover{
+    color: lightcoral;
+    transition: 300ms ease-in-out;
+  }
+  .fa-facebook:hover{
+    color: blue;
+    transition: 300ms ease-in-out;
+  }
+  .fa-instagram:hover{
+    color: pink;
+    transition: 300ms ease-in-out;
+  }
+  .fa-cart-shopping:hover{
+    color: lightsalmon;
+    transition: 300ms ease-in-out;
+  }
+  .fa-location-dot:hover{
+    color: #2EA9DF;
+    transition: 300ms ease-in-out;
+  }
+  .fa-phone:hover{
+    color: #8B81C3;
+    transition: 300ms ease-in-out;
+  }
+
+  /* ========================= */
+  /* footer */
+  /* ========================= */
+  /* footer{
+    background-image: url(../images/bg_1.webp);
+    background-color: #8E354A;
+    padding: 50px 30px;
+  }
+  footer *{
+    color: white;
+  }
+  .footer-logo{
+    text-align: center; 行內元素置中,可在父層設定text-align:center
+    font-size: 40px;
+    font-family: "fantasy";
+  }
+  footer>ul{
+    padding: 0;
+    margin: 0;
+    list-style-type:none;
+    width: 650px;
+    margin: auto;
+  }
+  footer>ul>li{
+    float: left;
+    width: 20%;
+    line-height: 40px;
+  }
+  footer>ul>li>a{
+    display: block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+  }
+  footer>p>a{
+    text-decoration: none;
+  }
+  footer .social-icon{
+    margin: 0;
+    padding: 0;
+    float: none;
+  } */
+  /* ============================== */
+  /* ==========回到上方============ */
+  /* ============================== */
+  .pagetop{
+    position: fixed; /*固定定位*/
+    right: 20px;
+    bottom: 20px;
+    background-color: #554236;
+    width: 50px;
+    line-height: 50px;
+    color: white;
+    display: block;
+    text-align: center;
+    border-radius: 100%;
+  }
+  .booking{
+    position: fixed;
+    background-color: #eb7b77ae;
+    right: 0;
+    top: 50%;
+    margin-top: -44.4px;
+    color: white;
+    padding: 30px;
+    display: block;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: .3px;
+  }
+
+  /* ==================================== */
+  /* =============about================= */
+  /* ==================================== */
+  p{
+    letter-spacing:0.3cap ;
+  }
+
+
+   /* ========================= */
+  /* table */
+  /* ========================= */
+table{
+  border: 1px solid #554236;
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+}  
+th, td{
+  border: 1px solid #554236;
+  padding: 8px;
+}
+th{
+  background-color:#8E354A;
+  color: wheat;
+}
+tr:nth-child(even){
+  background-color: #E16B8C;
+}
+
+   /* ========================= */
+  /* form表單 */
+  /* ========================= */
+  label{
+    /* display: block; */
+    margin-bottom: 5px;
+  }
+  input[type="text"], select, textarea{
+    display: block;
+    padding: 8px;
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #554236;
+  }
+  /* textarea {
+    width: 100%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+  } */

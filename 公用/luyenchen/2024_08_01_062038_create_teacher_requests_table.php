@@ -11,19 +11,20 @@ return new class extends Migration
      */
     public function up()
 {
-    Schema::create('find_teachers', function (Blueprint $table) {
+    Schema::create('teacher_requests', function (Blueprint $table) {
         $table->id();
         $table->string('title');
         $table->string('subject');
-        $table->string('frequency');
+        $table->json('available_time');
+        $table->date('expected_date');
         $table->integer('hourly_rate_min');
         $table->integer('hourly_rate_max');
-        $table->string('city');
-        $table->json('districts');
+        $table->unsignedBigInteger('city_id');
+        $table->json('district_ids');
         $table->text('details');
-        $table->string('connection');
-        $table->string('contact_value');
         $table->timestamps();
+
+        $table->foreign('city_id')->references('id')->on('cities');
     });
 }
 
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('find_teachers');
+        Schema::dropIfExists('teacher_requests');
     }
 };

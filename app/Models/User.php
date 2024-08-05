@@ -45,4 +45,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+        // 定義與 StudentPage 模型的關聯
+        public function StudentPage()
+        {
+            return $this->hasMany(StudentPage::class);
+        }
+        public function TeacherRequest()
+        {
+            return $this->hasMany(TeacherRequest::class);
+        }
 }
