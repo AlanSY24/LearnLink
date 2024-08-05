@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>會員中心-學生</title>
+    <title>會員中心-老師</title>
     <!-- 引入 jQuery  -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- 引入 Font Awesome 字體圖標庫  -->
@@ -34,7 +34,7 @@
 
     <div class="container clearfix">
         <aside class="sidebar">
-            <h2>會員中心-學生</h2>
+            <h2>會員中心-老師</h2>
             <ul>
                 <li><a href="#">基本資料</a></li>
                 <li><a href="#">老師</a></li>

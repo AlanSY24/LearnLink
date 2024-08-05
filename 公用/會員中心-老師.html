@@ -347,16 +347,7 @@
         });
 
 
-        // document.addEventListener('click', function (event) {
-        //     if (event.target.id === 'btnContactCheck') {
-        //         document.getElementById('formConfirm').classList.remove('hidden');
-        //     }
-        //     if (event.target.id === 'btnContactCancel') {
-        //         document.getElementById('formConfirm').classList.add('hidden');
-        //     }
-        // });
-
-
+       
         document.addEventListener('click', function (event) {
             if (event.target.id === 'btnContactCheck') {
                 document.getElementById('formConfirm').classList.remove('hidden');
@@ -406,7 +397,7 @@
             const formData = new FormData(form);
 
             // 生成要顯示的表單數據內容
-            let output = '<h3>(B01)國小三年級數學</h3>';
+            let output = '<h3>(B01)國小三年級數學</h3><div class="A03">(A03)帳號：</div>';
             formData.forEach((value, key) => {
                 output += `<p><strong>${key}:</strong> ${value}</p>`;
             });

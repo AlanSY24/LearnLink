@@ -34,7 +34,7 @@
 
     <div class="container clearfix">
         <aside class="sidebar">
-            <h2>會員中心-學生</h2>
+            <h2>會員中心-家長</h2>
             <ul>
                 <li><a href="#">基本資料</a></li>
                 <li><a href="#">老師</a></li>
