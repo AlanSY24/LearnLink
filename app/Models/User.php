@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -45,16 +46,6 @@ class User extends Authenticatable
         ];
     }
 
-<<<<<<< HEAD
-    /**
-     * Get the teachers for the user.
-     */
-    public function teachers()
-    {
-        return $this->hasMany(Teacher::class);
-    }
-}
-=======
         // 定義與 StudentPage 模型的關聯
         public function StudentPage()
         {
@@ -65,4 +56,3 @@ class User extends Authenticatable
             return $this->hasMany(TeacherRequest::class);
         }
 }
->>>>>>> 51e465dcfcc85e3217274027b7ae07c0abf18374

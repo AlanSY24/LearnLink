@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 
@@ -64,105 +64,6 @@
                     }
                 });
             }
-
-
-            // 獲取縣市列表
-            $.ajax({
-                url: '/LearnLink/public/cities',
-                type: 'GET',
-                success: function(data) {
-                    $('#city').empty();
-                    $('#city').append('<option value="">請選擇縣市</option>');
-                    $.each(data, function(index, city) {
-                        $('#city').append('<option value="' + city.id + '">' + city.city + '</option>');
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
-
-            // 當選擇縣市後，獲取對應的區域列表
-            $('#city').change(function() {
-                var selectedCityId = $(this).val();
-                if (selectedCityId) {
-                    $.ajax({
-                        url: '/LearnLink/public/districts/' + selectedCityId,
-                        type: 'GET',
-                        success: function(data) {
-                            $('#district').empty();
-                            $('#district').append('<option value="">請選擇區域</option>');
-                            $.each(data, function(index, district) {
-                                $('#district').append('<option value="' + district.district_name + '">' + district.district_name + '</option>');
-                            });
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(error);
-                        }
-                    });
-                } else {
-                    $('#district').empty();
-                }
-            });
-
-
-            $('button').click(function() {
-                // 获取用户输入的条件
-                var subject = $('#subject').val();
-                var minBudget = $('.min-input').val();
-                var maxBudget = $('.max-input').val();
-                var city = $('#city').val();
-                var district = $('#district').val();
-                var time = $('#time').val();
-
-                // 发送 AJAX 请求到服务器
-                $.ajax({
-                    url: '/search', // 服务器端的搜索处理路由
-                    method: 'GET',
-                    data: {
-                        subject: subject,
-                        minBudget: minBudget,
-                        maxBudget: maxBudget,
-                        city: city,
-                        district: district,
-                        time: time
-                    },
-                    success: function(response) {
-                        // 清空之前的结果
-                        $('.t_lists').empty();
-
-                        // 动态渲染每一个符合条件的结果
-                        response.teachers.forEach(function(teacher) {
-                            var teacherBlock = `
-                                <div class="t_lists_block">
-                                    <div id="t_lists_title">
-                                        <h2>${teacher.title}</h2>
-                                        <i id="heart" class="far fa-heart" style="color: red;"></i>
-                                    </div>
-                                    <div id="t_lists_subject">教學的科目：${teacher.subject}</div>
-                                    <div id="t_lists_name">姓名：${teacher.name}</div>
-                                    <div id="t_lists_gender">性別：${teacher.gender}</div>
-                                    <div id="t_lists_place">上課預期地點：${teacher.place}</div>
-                                    <div id="t_lists_time">上課預期時間：${teacher.time}</div>
-                                    <div id="t_lists_price">上課預期時薪：${teacher.minPrice} - ${teacher.maxPrice}</div>
-                                    <div id="t_lists_picture">大頭貼<img src="${teacher.picture}" alt="${teacher.name}"></div>
-                                    <div id="t_lists_score">評分：${teacher.score}</div>
-                                    <div id="t_lists_describe">關於老師的詳細描述：${teacher.description}</div>
-                                    <div class="t_lists_buttons">
-                                        <button class="button">老師履歷</button>
-                                        <button class="button">聯絡老師</button>
-                                    </div>
-                                </div>
-                            `;
-                            $('.t_lists').append(teacherBlock);
-                        });
-                    }
-                });
-            });
-
-
-
-
         });
 
         function addToFavorites() {
@@ -174,9 +75,6 @@
             console.log('已將愛心從收藏夾移除');
             // 在這裡可以添加將愛心圖示從收藏夾移除的相應邏輯
         }
-
-
-        
     </script>
 </head>
 <body>
@@ -189,10 +87,12 @@
             <div class="t_search_subject">
                 <p>請選擇想學的科目：</p>
                 <select name="subject" id="subject">
+                    <!-- 撈資料庫 科目 -->
                     <option value="0">請選擇</option>
-                    @foreach($subjects as $subject)
-                        <option value="{{ $subject->id }}">{{ $subject->name }}</option>
-                    @endforeach
+                    <option value="1">國文</option>
+                    <option value="2">英文</option>
+                    <option value="3">數學</option>
+                    <option value="4">自然</option>
                 </select>
             </div>
 
@@ -215,15 +115,24 @@
 
             <div class="t_search_place">
                 <p>請選擇上課地點：</p>
-                <label for="city">選擇縣市：</label>
-                <select name="city" id="city">
-                    <option value="">請選擇縣市</option>
-                </select>
-
-                <label for="district">選擇區域：</label>
-                <select name="district" id="district">
-                    <!-- 這裡會動態填充選項 -->
-                </select>
+                <div class="city">
+                    <select name="city" id="city">
+                        <option value="0">請選擇縣/市</option>
+                        <option value="1">台北市</option>
+                        <option value="2">新北市</option>
+                        <option value="3">台中市</option>
+                        <!-- 添加更多縣市選項 -->
+                    </select>
+                </div>
+                <div class="district">
+                    <select name="city" id="city">
+                        <option value="0">請選擇 區</option>
+                        <option value="1">台北市</option>
+                        <option value="2">新北市</option>
+                        <option value="3">台中市</option>
+                        <!-- 添加更多區選項 -->
+                    </select>
+                </div>
             </div>
 
             <div class="t_search_time">
@@ -237,8 +146,6 @@
                 </select>
             </div>
 
-            <button>搜尋</button>
-
         </div>
         
         <div class="t_lists">
@@ -246,7 +153,7 @@
             <div class="t_lists_block">
                 
                 <div id="t_lists_title">
-                    <h2>標題</h2>
+                    <h2>國小三年級數學</h2>
                     <i id="heart" class="far fa-heart" style="color: red;"></i>
                 </div>
                 <div id="t_lists_subject">教學的科目：數學</div>
