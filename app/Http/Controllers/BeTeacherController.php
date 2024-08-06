@@ -35,6 +35,8 @@ class BeTeacherController extends Controller
     $validatedData['available_time'] = json_encode($validatedData['available_time']);
     $validatedData['district_ids'] = json_encode($validatedData['districts']);
     $validatedData['user_id'] = auth()->id();
+    $validatedData['status'] = BeTeacher::STATUS_PUBLISHED;  // 設置初始狀態為發布中
+
 
     // 移除 districts，因為它不是表的直接列
     unset($validatedData['districts']);
@@ -43,6 +45,18 @@ class BeTeacherController extends Controller
 
     return response()->json(['message' => '老師資料已成功提交！'], 201);
 }
+    public function updateStatus(Request $request, $id)
+    {
+    $request->validate([
+    'status' => 'required|in:' . implode(',', array_keys(BeTeacher::getStatusOptions())),
+    ]);
+
+    $beTeacher = BeTeacher::findOrFail($id);
+    $beTeacher->status = $request->status;
+    $beTeacher->save();
+
+    return response()->json(['message' => '狀態已成功更新', 'status' => $beTeacher->status]);
+    }
 
     public function getCities()
     {

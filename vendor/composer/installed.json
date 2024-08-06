@@ -1316,7 +1316,7 @@
                     ]
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "KitLoong\\MigrationsGenerator\\": "src"
@@ -8217,7 +8217,6 @@
         "fakerphp/faker",
         "filp/whoops",
         "hamcrest/hamcrest-php",
-        "kitloong/laravel-migrations-generator",
         "laravel/pint",
         "laravel/sail",
         "mockery/mockery",

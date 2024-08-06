@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -54,5 +55,10 @@ class User extends Authenticatable
         public function TeacherRequest()
         {
             return $this->hasMany(TeacherRequest::class);
+        }
+            // 定義與 `favorites` 表的多對多關聯
+        public function favoriteTeacherRequests(): BelongsToMany
+        {
+            return $this->belongsToMany(TeacherRequest::class, 'favorites', 'user_id', 'teacher_request_id');
         }
 }

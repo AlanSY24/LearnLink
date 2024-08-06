@@ -5,45 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
     <title>找學生案件</title>
     <style>
-    
-    .student_cases_container{
-        display: flex;
-    }
+        .student_cases_container {
+            display: flex;
+        }
 
-    .s_search{
-        width: 35%;
-        background-color: antiquewhite;
-    }
+        .s_search {
+            width: 35%;
+            background-color: antiquewhite;
+        }
 
-    .s_cases{
-        width: 60%;
-        margin-left: 20px;
-    }
+        .s_cases {
+            width: 60%;
+            margin-left: 20px;
+        }
 
-    #s_lists_title{
-        display: flex;
-    }
+        #s_lists_title {
+            display: flex;
+        }
 
-    #s_lists_title h2{
-        width: 70%;
-    }
+        #s_lists_title h2 {
+            width: 70%;
+        }
 
-    #s_lists_title i{
-        width: 30%;
-        margin-top: 25px;
-    }
-
-
+        #s_lists_title i {
+            width: 30%;
+            margin-top: 25px;
+            cursor: pointer;
+        }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var heartIcon = document.getElementById('heart');
-            var isFavorite = false; // 初始收藏狀態為 false
+            var hearts = document.querySelectorAll('.heart-icon');
+            
+            hearts.forEach(function(heartIcon) {
+                var isFavorite = false; // 初始收藏狀態為 false
 
-            if (heartIcon) {
                 heartIcon.addEventListener('click', function() {
                     if (!isFavorite) {
                         // 切換為實心愛心，紅色填充
@@ -61,7 +59,7 @@
                         removeFromFavorites();
                     }
                 });
-            }
+            });
         });
 
         function addToFavorites() {
@@ -79,9 +77,8 @@
     <h1>學生案件列表</h1>
 
     <div class="student_cases_container">
-
         <div class="s_search">
-        <h2>尋找學生</h2>
+            <h2>尋找學生</h2>
             <div class="s_search_subject">
                 <p>請選擇教學的科目：</p>
                 <select name="subject" id="subject">
@@ -95,14 +92,12 @@
             </div>
 
             <div class="s_search_money"> 
-            <p>請選擇上課預期薪資(時薪)：</p>
+                <p>請選擇上課預期薪資(時薪)：</p>
                 <div class="price-input"> 
-
                     <div class="price-field"> 
                         <span>最低預期</span> 
                         <input type="number" class="min-input" value="100"> 
                     </div> 
-
                     <div class="price-field"> 
                         <span>最高預期</span> 
                         <input type="number" class="max-input" value="100000"> 
@@ -125,7 +120,7 @@
                 </div>
                 <div class="district">
                     <p>請選擇 區：</p>
-                    <select name="city" id="city">
+                    <select name="district" id="district">
                         <option value="0">請選擇 區</option>
                         <option value="1">台北市</option>
                         <option value="2">新北市</option>
@@ -142,38 +137,32 @@
                     <option value="1">上午</option>
                     <option value="2">下午</option>
                     <option value="3">晚上</option>
-                    </select>
                 </select>
             </div>
-
         </div>
         
         <div class="s_cases">
-
-            <div class="s_cases_block">
-                
-                <div id="s_lists_title">
-                    <h2>國小三年級數學</h2>
-                    <i id="heart" class="far fa-heart" style="color: red;"></i>
+            @foreach ($students as $student)
+                <div class="s_cases_block">
+                    <div id="s_lists_title">
+                        <h2>{{ $student->title }}</h2>
+                        <i class="heart-icon far fa-heart" style="color: red;"></i>
+                    </div>
+                    <div id="s_lists_subject">教學的科目：{{ $student->subject->name }}</div>
+                    <div id="s_lists_name">姓名：{{ $student->user_id }}</div>
+                    <div id="s_lists_gender">性別：未提供</div>
+                    <div id="s_lists_place">上課預期地點：{{ $student->city_id }} {{ $student->district_ids }}</div>
+                    <div id="s_lists_time">上課預期時間：{{ $student->available_time }}</div>
+                    <div id="s_lists_price">上課預期時薪：{{ $student->hourly_rate_min }} - {{ $student->hourly_rate_max }}</div>
+                    <div id="s_lists_picture">大頭貼</div>
+                    <div id="s_lists_score">評分</div>
+                    <div id="s_lists_describe">關於學生的詳細描述：{{ $student->details }}</div>
+                    <div class="s_lists_buttons">
+                        <button class="button">聯絡我</button>
+                    </div>
                 </div>
-                <div id="s_cases_subject">教學的科目：數學</div>
-                <div id="s_cases_name">姓名：王XX</div>
-                <div id="s_cases_gender">性別：女</div>
-                <div id="s_cases_place">上課預期地點：台中北屯區</div>
-                <div id="s_cases_time">上課預期時間：上午</div>
-                <div id="s_cases_price">上課預期時薪：300 - 400</div><!-- 抓資料庫 min - max -->
-                <div id="s_cases_describe">關於學生的詳細描述：1. 需要多點耐心 2. 主要以輔導學校數學作業為主</div>
-                <div class="button-container">
-                    <button class="button">聯絡我</button><!-- 點選後跳出聊天室暫定 -->
-                </div>
-            </div>
-
-
+            @endforeach
         </div>
-
-
-
-
     </div>
 </body>
 </html>

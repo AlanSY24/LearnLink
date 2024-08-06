@@ -11,6 +11,12 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\StudentProfileController;
 use App\Http\Controllers\TeacherProfileController;
 use App\Http\Controllers\BeTeacherController;
+use App\Http\Controllers\FavoriteController;
+
+use App\Http\Controllers\GetTeacherController;
+use App\Http\Controllers\GetStudentController;
+
+use App\Http\Controllers\CalendarController;
 
 
 Route::get('/', function () {
@@ -62,6 +68,10 @@ Route::middleware('auth')->group(function () {
 });
 Route::post('/beteacher', [BeTeacherController::class, 'store'])->name('beteacher.store');
 Route::get('/beteacher', [BeTeacherController::class, 'create'])->name('beteacher.create');
+Route::delete('/delete-event/{id}', [CalendarController::class, 'deleteEvent']);
+Route::post('/submit-events', [CalendarController::class, 'submitEvents']);
+Route::get('/calendar', [CalendarController::class, 'index']);
+Route::post('/store-event', [CalendarController::class, 'storeEvent']);
 
 //-------------------------------------
 
@@ -70,9 +80,8 @@ Route::get('/welcome', function () {
 })->name('welcome');
 
 
-Route::view('/teacher_lists','teacher_lists');
-
-Route::view('/student_cases','student_cases');
+Route::get('/teacher_lists', [GetTeacherController::class, 'index']);
+Route::get('/student_cases', [GetStudentController::class, 'index']);
 
 // Route::get('/studentpage', [StudentPageController::class, 'index'])->name('studentpage');
 // Route::post('/studentpage/store', [StudentPageController::class, 'store'])->name('studentpage.store');
@@ -84,8 +93,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/studentprofile/store', [StudentProfileController::class, 'store'])->name('studentprofile.store');
     Route::get('/teacherprofile', [TeacherProfileController::class, 'index'])->name('teacherprofile.index');
     Route::post('/teacherprofile/store', [TeacherProfileController::class, 'store'])->name('teacherprofile.store');
-});
-Route::get('/test-image', function() {
-    $path = storage_path('app/public/photos/eCVJvkxPuuIWqid62wV93O2kiriq3mcXUNxZZP1r.jpg');
-    return response()->file($path);
+    Route::get('/teacher-requests', [FavoriteController::class, 'index'])->name('teacher-requests');
+    // 收藏教師請求
+    Route::post('/teacher-requests/{teacherRequest}/favorite', [FavoriteController::class, 'store'])->name('favorites.store');
+
+    // 取消收藏教師請求
+    Route::delete('/teacher-requests/{teacherRequest}/favorite', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
 });
