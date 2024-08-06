@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'e4ae0c282fafeb7461566834235e9bd813fcfa43',
+        'reference' => '30689bb07ec711d5f14d134cc9f5d06d04571efc',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -371,7 +371,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../kitloong/laravel-migrations-generator',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'kodova/hamcrest-php' => array(
             'dev_requirement' => true,
@@ -391,7 +391,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'e4ae0c282fafeb7461566834235e9bd813fcfa43',
+            'reference' => '30689bb07ec711d5f14d134cc9f5d06d04571efc',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -12,6 +12,8 @@ use App\Http\Controllers\StudentProfileController;
 use App\Http\Controllers\TeacherProfileController;
 use App\Http\Controllers\BeTeacherController;
 
+use App\Http\Controllers\GetTeacherController;
+use App\Http\Controllers\GetStudentController;
 
 Route::get('/', function () {
     return view('welcome');
