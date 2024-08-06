@@ -7,15 +7,61 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .teacher-request {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .teacher-request:hover {
+            background-color: #f9f9f9;
+            transform: scale(1.02);
+        }
+
+        .teacher-request h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .teacher-request p {
+            margin: 5px 0;
+            color: #666;
+        }
+
         .favorite-button {
             background: none;
             border: none;
             cursor: pointer;
             color: #f00;
+            padding: 0;
+            font-size: 24px;
+            transition: color 0.3s;
+        }
+
+        .favorite-button:hover {
+            color: #c00;
         }
 
         .favorite-button i {
-            font-size: 24px;
+            transition: transform 0.3s;
+        }
+
+        .favorite-button i.fa-solid {
+            color: #f00;
+        }
+
+        .favorite-button i.fa-regular {
+            color: #bbb;
         }
     </style>
 </head>
