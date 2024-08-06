@@ -87,7 +87,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $email = $request->email;
-        $verifyCode = $request->verificationCode; // 確保這與前端一致
+        $verifyCode = $request->verificationCode;
 
         // 從 Cache 中獲取用戶資料
         $userData = Cache::get('user_registration_' . $email);
@@ -113,7 +113,7 @@ class AuthController extends Controller
                 'email' => $userData['registerEmail'],
                 'password' => Hash::make($userData['registerPassword']),
                 'account' => $userData['registerAccount'],
-                'gender' => $userData['registerGender'],
+                'gender' => $userData['registerGender'], 
             ]);
 
             // 清除緩存
@@ -133,7 +133,7 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => '註冊過程中發生錯誤，請稍後再試。',
-                'error' => $e->getMessage() // 可以選擇性提供更多錯誤信息
+                'error' => $e->getMessage()
             ], 500);
         }
     }
