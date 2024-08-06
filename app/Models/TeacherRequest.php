@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class TeacherRequest extends Model
 {
@@ -82,5 +83,12 @@ class TeacherRequest extends Model
             return true;
         }
         return false;
+    }
+    use HasFactory;
+
+    // 定義與 `favorites` 表的多對多關聯
+    public function favoritedBy(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'favorites', 'teacher_request_id', 'user_id');
     }
 }
