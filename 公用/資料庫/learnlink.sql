@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-08-05 08:36:24
+-- 產生時間： 2024-08-06 03:17:04
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -632,11 +632,10 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('1Cw1muC6ui9w2VOlCGsbYUFTgDsLTEHicFwd5lfT', 6, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoid0JHaHdCV0o5RTRwRFNsVEJ2MjJMZjBsQllrUTZwZDBRQWNobEFXeCI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo0NToiaHR0cDovL2xvY2FsaG9zdC9MZWFybkxpbmsvcHVibGljL2ZpbmR0ZWFjaGVyIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy9kaXN0cmljdHMvOCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjY7fQ==', 1722821341),
-('9c1CmKDp6YM9RYEFUok9rtL15OzRkOwUp1vQK4js', 6, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiY3phTnJOSkxVeTNydWtQWFNBYzYxRkduTFlERlAxd2lKTGZxcVFCdiI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo0NToiaHR0cDovL2xvY2FsaG9zdC9MZWFybkxpbmsvcHVibGljL2ZpbmR0ZWFjaGVyIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDA6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy9jaXRpZXMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2O30=', 1722582086),
-('gUJ6eLBMiK0NsxeYSyZhrQjCO1OzG9dGpKwoYv4X', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZFJ5TmJUNVJZMldMQmVZckFVUmNnbXM3bEthdXpaa3RXU3FxeFVMcyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDY6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy9kaXN0cmljdHMvMTEiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1722578316),
-('vzgdAdcUsx3PfWYwoPsdg283rkrdR6CUW6DFKxOO', 6, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiZEpvY2Yxd29ycVpUeUhVdFlyQ3A0ZW1ZN2JkSXVFb2Z1WWZBSGNuViI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo0NToiaHR0cDovL2xvY2FsaG9zdC9MZWFybkxpbmsvcHVibGljL2ZpbmR0ZWFjaGVyIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDI6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy9zdWJqZWN0cyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjY7fQ==', 1722592934),
-('zdp7HzhUbDOaWS0GoZ6gWOasLA3Qbi2hAR4GOrVz', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoia2ZDc0Y2WmgxU2FFdWlwaXpXTUxIbnF1RlVGcTdWTFhVZ3FXZXA3ZCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDY6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy9kaXN0cmljdHMvMTMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1722839729);
+('76Rd5ju0SNif8QvqG8o00BqeDXfJNszjPQmDqxIa', 6, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiMDh5Tnk2eVNkUW9ZazI3ckIyNXNBWmRWZXNpVTJnSHFTUEtWVEFibCI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo0NToiaHR0cDovL2xvY2FsaG9zdC9MZWFybkxpbmsvcHVibGljL2ZpbmR0ZWFjaGVyIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDY6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy9kaXN0cmljdHMvMTIiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2O30=', 1722851892),
+('kHGBFNCsuTO0TThsvXXjN4Con0Exc9XMqNqNkXzS', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiRWJtVHBJRVJ2YkNscTFyTXNRdlRkVWw4N2F6RjdIVG9ETTJRcFBXciI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy9sb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1722852088),
+('lK6vZeuozsusPf4sYX9XsJMJ20WfzLumjlrcH4F5', 6, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiQXU4cHRCd0RLZTA0cWwyWXhVVUVZc05qQU11RWZsOVVOVGk0OU9qRCI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo0NToiaHR0cDovL2xvY2FsaG9zdC9MZWFybkxpbmsvcHVibGljL2ZpbmR0ZWFjaGVyIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy9kaXN0cmljdHMvOCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjY7fQ==', 1722906752),
+('oBK9QsBu1MyRvG5n6eCVVcqjdLyK23iNTuBxrqxc', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoia2pBVHJWQU1YU1lWMGd6VGlicU1tM2Jjb2c5anBJZlJqV1ZraUFkSCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy9sb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1722851980);
 
 -- --------------------------------------------------------
 
@@ -713,20 +712,22 @@ CREATE TABLE `teacher_requests` (
   `district_ids` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`district_ids`)),
   `details` text NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `status` enum('published','in_progress','completed','cancelled') NOT NULL DEFAULT 'published'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- 傾印資料表的資料 `teacher_requests`
 --
 
-INSERT INTO `teacher_requests` (`user_id`, `id`, `title`, `subject_id`, `available_time`, `expected_date`, `hourly_rate_min`, `hourly_rate_max`, `city_id`, `district_ids`, `details`, `created_at`, `updated_at`) VALUES
-(6, 9, 'ccccc', '3', '\"[\\\"afternoon\\\"]\"', '2024-08-07', 2, 5, 14, '\"[\\\"218\\\",\\\"224\\\"]\"', 'csccscs', '2024-08-01 22:24:48', '2024-08-01 22:24:48'),
-(6, 10, '高中數學', '1', '\"[\\\"evening\\\"]\"', '2024-08-07', 10, 200, 15, '\"[\\\"256\\\",\\\"262\\\"]\"', '持續一學期每周1次', '2024-08-01 22:49:03', '2024-08-01 22:49:03'),
-(6, 11, '國中英文', '3', '\"[\\\"evening\\\"]\"', '2024-08-13', 200, 230, 10, '\"[\\\"165\\\",\\\"171\\\"]\"', '找老外', '2024-08-01 22:50:24', '2024-08-01 22:50:24'),
-(6, 12, '標題很難想啦', '11', '\"[\\\"morning\\\"]\"', '2024-08-14', 20, 40, 9, '\"[\\\"138\\\",\\\"144\\\"]\"', '很詳細的內容', '2024-08-01 22:51:06', '2024-08-01 22:51:06'),
-(6, 13, '標題不好想', '12', '\"[\\\"afternoon\\\"]\"', '2024-08-10', 500, 800, 8, '\"[\\\"117\\\",\\\"123\\\"]\"', '帶我去奧運', '2024-08-01 22:51:59', '2024-08-01 22:51:59'),
-(6, 14, 'fffff', '8', '\"[\\\"afternoon\\\",\\\"evening\\\"]\"', '2024-08-14', 200, 500, 8, '\"[\\\"110\\\",\\\"117\\\"]\"', 'fffff', '2024-08-04 17:29:01', '2024-08-04 17:29:01');
+INSERT INTO `teacher_requests` (`user_id`, `id`, `title`, `subject_id`, `available_time`, `expected_date`, `hourly_rate_min`, `hourly_rate_max`, `city_id`, `district_ids`, `details`, `created_at`, `updated_at`, `status`) VALUES
+(6, 9, 'ccccc', '3', '\"[\\\"afternoon\\\"]\"', '2024-08-07', 2, 5, 14, '\"[\\\"218\\\",\\\"224\\\"]\"', 'csccscs', '2024-08-01 22:24:48', '2024-08-01 22:24:48', 'published'),
+(6, 10, '高中數學', '1', '\"[\\\"evening\\\"]\"', '2024-08-07', 10, 200, 15, '\"[\\\"256\\\",\\\"262\\\"]\"', '持續一學期每周1次', '2024-08-01 22:49:03', '2024-08-01 22:49:03', 'published'),
+(6, 11, '國中英文', '3', '\"[\\\"evening\\\"]\"', '2024-08-13', 200, 230, 10, '\"[\\\"165\\\",\\\"171\\\"]\"', '找老外', '2024-08-01 22:50:24', '2024-08-01 22:50:24', 'published'),
+(6, 12, '標題很難想啦', '11', '\"[\\\"morning\\\"]\"', '2024-08-14', 20, 40, 9, '\"[\\\"138\\\",\\\"144\\\"]\"', '很詳細的內容', '2024-08-01 22:51:06', '2024-08-01 22:51:06', 'published'),
+(6, 13, '標題不好想', '12', '\"[\\\"afternoon\\\"]\"', '2024-08-10', 500, 800, 8, '\"[\\\"117\\\",\\\"123\\\"]\"', '帶我去奧運', '2024-08-01 22:51:59', '2024-08-01 22:51:59', 'published'),
+(6, 14, 'fffff', '8', '\"[\\\"afternoon\\\",\\\"evening\\\"]\"', '2024-08-14', 200, 500, 8, '\"[\\\"110\\\",\\\"117\\\"]\"', 'fffff', '2024-08-04 17:29:01', '2024-08-04 17:29:01', 'published'),
+(6, 15, 'fffff', '5', '\"[\\\"evening\\\"]\"', '2024-08-08', 3, 8, 8, '\"[\\\"109\\\",\\\"116\\\"]\"', 'ffff', '2024-08-05 17:12:32', '2024-08-05 17:12:32', 'published');
 
 -- --------------------------------------------------------
 
@@ -904,7 +905,7 @@ ALTER TABLE `student_profiles`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `teacher_requests`
 --
 ALTER TABLE `teacher_requests`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `users`
