@@ -39,6 +39,11 @@ Route::post('/logout', function () {
     Auth::logout();
     return redirect('/');
 })->name('logout');
+
+// 會員中心基本資料
+Route::view('/basic','basicinfo')->name('basic.page');
+
+
 //盧彥辰的路由
 //發案找老師的路由
 // Route::view('/findteacher','findteacher');
