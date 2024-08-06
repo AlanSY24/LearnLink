@@ -65,9 +65,8 @@ Route::get('/welcome', function () {
 })->name('welcome');
 
 
-Route::view('/teacher_lists','teacher_lists');
-
-Route::view('/student_cases','student_cases');
+Route::get('/teacher_lists', [GetTeacherController::class, 'index']);
+Route::get('/student_cases', [GetStudentController::class, 'index']);
 
 // Route::get('/studentpage', [StudentPageController::class, 'index'])->name('studentpage');
 // Route::post('/studentpage/store', [StudentPageController::class, 'store'])->name('studentpage.store');
