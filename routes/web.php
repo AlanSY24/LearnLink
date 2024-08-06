@@ -16,6 +16,9 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\GetTeacherController;
 use App\Http\Controllers\GetStudentController;
 
+use App\Http\Controllers\CalendarController;
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -60,6 +63,10 @@ Route::middleware('auth')->group(function () {
 });
 Route::post('/beteacher', [BeTeacherController::class, 'store'])->name('beteacher.store');
 Route::get('/beteacher', [BeTeacherController::class, 'create'])->name('beteacher.create');
+Route::delete('/delete-event/{id}', [CalendarController::class, 'deleteEvent']);
+Route::post('/submit-events', [CalendarController::class, 'submitEvents']);
+Route::get('/calendar', [CalendarController::class, 'index']);
+Route::post('/store-event', [CalendarController::class, 'storeEvent']);
 
 //-------------------------------------
 
