@@ -32,15 +32,15 @@
         <div class="form-group w-45 mr-5 fl">
             <label>可上課時段(可複選):</label>
             <div class="fl mr-5">
-                <input type="checkbox" id="time_morning" name="available_time[]" value="morning">
+                <input type="checkbox" id="time_morning" name="available_time[]" value="早上">
                 <label for="time_morning">早上</label>
             </div>
             <div class="fl mr-5">
-                <input type="checkbox" id="time_afternoon" name="available_time[]" value="afternoon">
+                <input type="checkbox" id="time_afternoon" name="available_time[]" value="下午">
                 <label for="time_afternoon">下午</label>
             </div>
             <div class="fl">
-                <input type="checkbox" id="time_evening" name="available_time[]" value="evening">
+                <input type="checkbox" id="time_evening" name="available_time[]" value="晚上">
                 <label for="time_evening">晚上</label>
             </div>
         </div>

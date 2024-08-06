@@ -18,11 +18,33 @@ class BeTeacher extends Model
         'district_ids',
         'details',
         'user_id',
+        'status',
+
     ];
 
     protected $casts = [
         'available_time' => 'array',
+        'district_ids' => 'array',
+
     ];
+    const STATUS_PUBLISHED = 'published';
+    const STATUS_IN_PROGRESS = 'in_progress';
+    const STATUS_COMPLETED = 'completed';
+    const STATUS_CANCELLED = 'cancelled';
+
+    protected $attributes = [
+        'status' => self::STATUS_PUBLISHED,
+    ];
+
+    public static function getStatusOptions()
+    {
+        return [
+            self::STATUS_PUBLISHED => '發布中',
+            self::STATUS_IN_PROGRESS => '進行中',
+            self::STATUS_COMPLETED => '完成',
+            self::STATUS_CANCELLED => '取消',
+        ];
+    }
 
     // public function user()
     // {

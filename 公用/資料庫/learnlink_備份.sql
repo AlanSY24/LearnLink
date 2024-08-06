@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-08-06 04:19:42
+-- 產生時間： 2024-08-06 03:17:04
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -33,27 +33,25 @@ CREATE TABLE `be_teachers` (
   `title` varchar(255) NOT NULL,
   `subject_id` int(11) DEFAULT NULL,
   `available_time` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `hourly_rate` int(11) NOT NULL,
+  `hourly_rate` decimal(10,2) NOT NULL,
   `city_id` int(11) DEFAULT NULL,
   `district_ids` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `details` text DEFAULT NULL,
   `resume_id` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `status` enum('published','in_progress','completed','cancelled') NOT NULL DEFAULT 'published'
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- 傾印資料表的資料 `be_teachers`
 --
 
-INSERT INTO `be_teachers` (`id`, `user_id`, `title`, `subject_id`, `available_time`, `hourly_rate`, `city_id`, `district_ids`, `details`, `resume_id`, `created_at`, `updated_at`, `status`) VALUES
-(1, NULL, 'vvvv', 4, '[\"afternoon\"]', 6, 12, '', 'vvvv', NULL, '2024-08-04 19:02:14', '2024-08-04 19:02:14', 'published'),
-(2, NULL, 'Gggg', 4, '\"[\\\"afternoon\\\",\\\"evening\\\"]\"', 66, 16, '[\"299\",\"305\"]', 'ggggg', NULL, '2024-08-04 19:19:32', '2024-08-04 19:19:32', 'published'),
-(3, NULL, 'vvvv', 4, '\"[\\\"afternoon\\\"]\"', 66, 11, '[\"176\",\"177\"]', 'vvvvv', NULL, '2024-08-04 19:22:05', '2024-08-04 19:22:05', 'published'),
-(4, NULL, 'vvvvv', 6, '\"[\\\"afternoon\\\"]\"', 666, 13, '[\"199\",\"205\"]', 'vvvv', NULL, '2024-08-04 19:46:17', '2024-08-04 19:46:17', 'published'),
-(5, NULL, '55555', 5, '\"[\\\"afternoon\\\",\\\"evening\\\"]\"', 115651, 13, '[\"197\",\"203\"]', 'vvvvvvv', NULL, '2024-08-04 22:35:29', '2024-08-04 22:35:29', 'published'),
-(6, 6, '測試時段', 4, '\"[\\\"\\\\u65e9\\\\u4e0a\\\",\\\"\\\\u4e0b\\\\u5348\\\",\\\"\\\\u665a\\\\u4e0a\\\"]\"', 100, 16, '\"[\\\"299\\\",\\\"305\\\"]\"', 'gggggg', NULL, '2024-08-05 18:18:40', '2024-08-05 18:18:40', 'published');
+INSERT INTO `be_teachers` (`id`, `user_id`, `title`, `subject_id`, `available_time`, `hourly_rate`, `city_id`, `district_ids`, `details`, `resume_id`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'vvvv', 4, '[\"afternoon\"]', 6.00, 12, '', 'vvvv', NULL, '2024-08-04 19:02:14', '2024-08-04 19:02:14'),
+(2, NULL, 'Gggg', 4, '\"[\\\"afternoon\\\",\\\"evening\\\"]\"', 66.00, 16, '[\"299\",\"305\"]', 'ggggg', NULL, '2024-08-04 19:19:32', '2024-08-04 19:19:32'),
+(3, NULL, 'vvvv', 4, '\"[\\\"afternoon\\\"]\"', 66.00, 11, '[\"176\",\"177\"]', 'vvvvv', NULL, '2024-08-04 19:22:05', '2024-08-04 19:22:05'),
+(4, NULL, 'vvvvv', 6, '\"[\\\"afternoon\\\"]\"', 666.00, 13, '[\"199\",\"205\"]', 'vvvv', NULL, '2024-08-04 19:46:17', '2024-08-04 19:46:17'),
+(5, NULL, '55555', 5, '\"[\\\"afternoon\\\",\\\"evening\\\"]\"', 115651.00, 13, '[\"197\",\"203\"]', 'vvvvvvv', NULL, '2024-08-04 22:35:29', '2024-08-04 22:35:29');
 
 -- --------------------------------------------------------
 
@@ -600,8 +598,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '0001_01_01_000000_create_users_table', 1),
 (2, '0001_01_01_000001_create_cache_table', 1),
 (3, '0001_01_01_000002_create_jobs_table', 1),
-(4, '2024_07_23_060701_add_fields_to_users_table', 2),
-(5, '2024_08_02_071902_create_teacher_profiles_table', 3);
+(4, '2024_07_23_060701_add_fields_to_users_table', 2);
 
 -- --------------------------------------------------------
 
@@ -637,9 +634,8 @@ CREATE TABLE `sessions` (
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
 ('76Rd5ju0SNif8QvqG8o00BqeDXfJNszjPQmDqxIa', 6, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiMDh5Tnk2eVNkUW9ZazI3ckIyNXNBWmRWZXNpVTJnSHFTUEtWVEFibCI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo0NToiaHR0cDovL2xvY2FsaG9zdC9MZWFybkxpbmsvcHVibGljL2ZpbmR0ZWFjaGVyIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDY6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy9kaXN0cmljdHMvMTIiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2O30=', 1722851892),
 ('kHGBFNCsuTO0TThsvXXjN4Con0Exc9XMqNqNkXzS', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiRWJtVHBJRVJ2YkNscTFyTXNRdlRkVWw4N2F6RjdIVG9ETTJRcFBXciI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy9sb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1722852088),
-('lK6vZeuozsusPf4sYX9XsJMJ20WfzLumjlrcH4F5', 6, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiQXU4cHRCd0RLZTA0cWwyWXhVVUVZc05qQU11RWZsOVVOVGk0OU9qRCI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo0NToiaHR0cDovL2xvY2FsaG9zdC9MZWFybkxpbmsvcHVibGljL2ZpbmR0ZWFjaGVyIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDY6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy9kaXN0cmljdHMvMTYiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2O30=', 1722910720),
-('oBK9QsBu1MyRvG5n6eCVVcqjdLyK23iNTuBxrqxc', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoia2pBVHJWQU1YU1lWMGd6VGlicU1tM2Jjb2c5anBJZlJqV1ZraUFkSCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy9sb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1722851980),
-('thjYurPUMcjMcRREx8azDLIHZTW0pRW3QPJqZ2LX', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoia2E4bUlwdnFyWWJFc0tDRGdCcmNWRlM0dzdBZU1FMWNjMXVobUFxdCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy9sb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1722909193);
+('lK6vZeuozsusPf4sYX9XsJMJ20WfzLumjlrcH4F5', 6, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiQXU4cHRCd0RLZTA0cWwyWXhVVUVZc05qQU11RWZsOVVOVGk0OU9qRCI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo0NToiaHR0cDovL2xvY2FsaG9zdC9MZWFybkxpbmsvcHVibGljL2ZpbmR0ZWFjaGVyIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy9kaXN0cmljdHMvOCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjY7fQ==', 1722906752),
+('oBK9QsBu1MyRvG5n6eCVVcqjdLyK23iNTuBxrqxc', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoia2pBVHJWQU1YU1lWMGd6VGlicU1tM2Jjb2c5anBJZlJqV1ZraUFkSCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy9sb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1722851980);
 
 -- --------------------------------------------------------
 
@@ -700,22 +696,6 @@ INSERT INTO `subject` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `teacher_profiles`
---
-
-CREATE TABLE `teacher_profiles` (
-  `profile_id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `photo` blob DEFAULT NULL,
-  `pdf` blob DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- 資料表結構 `teacher_requests`
 --
 
@@ -724,7 +704,7 @@ CREATE TABLE `teacher_requests` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL,
   `subject_id` varchar(255) NOT NULL,
-  `available_time` longtext NOT NULL,
+  `available_time` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`available_time`)),
   `expected_date` date NOT NULL,
   `hourly_rate_min` int(11) NOT NULL,
   `hourly_rate_max` int(11) NOT NULL,
@@ -747,10 +727,7 @@ INSERT INTO `teacher_requests` (`user_id`, `id`, `title`, `subject_id`, `availab
 (6, 12, '標題很難想啦', '11', '\"[\\\"morning\\\"]\"', '2024-08-14', 20, 40, 9, '\"[\\\"138\\\",\\\"144\\\"]\"', '很詳細的內容', '2024-08-01 22:51:06', '2024-08-01 22:51:06', 'published'),
 (6, 13, '標題不好想', '12', '\"[\\\"afternoon\\\"]\"', '2024-08-10', 500, 800, 8, '\"[\\\"117\\\",\\\"123\\\"]\"', '帶我去奧運', '2024-08-01 22:51:59', '2024-08-01 22:51:59', 'published'),
 (6, 14, 'fffff', '8', '\"[\\\"afternoon\\\",\\\"evening\\\"]\"', '2024-08-14', 200, 500, 8, '\"[\\\"110\\\",\\\"117\\\"]\"', 'fffff', '2024-08-04 17:29:01', '2024-08-04 17:29:01', 'published'),
-(6, 15, 'fffff', '5', '\"[\\\"evening\\\"]\"', '2024-08-08', 3, 8, 8, '\"[\\\"109\\\",\\\"116\\\"]\"', 'ffff', '2024-08-05 17:12:32', '2024-08-05 17:12:32', 'published'),
-(6, 16, '測試時段', '5', '\"[\\\"\\\\u65e9\\\\u4e0a\\\",\\\"\\\\u4e0b\\\\u5348\\\",\\\"\\\\u665a\\\\u4e0a\\\"]\"', '2024-08-08', 100, 500, 12, '\"[\\\"179\\\",\\\"185\\\"]\"', '測試時段', '2024-08-05 18:07:30', '2024-08-05 18:07:30', 'published'),
-(6, 17, '測試時段', '5', '\"[\\\"\\\\u65e9\\\\u4e0a\\\",\\\"\\\\u4e0b\\\\u5348\\\",\\\"\\\\u665a\\\\u4e0a\\\"]\"', '2024-08-08', 1, 2, 12, '\"[\\\"179\\\",\\\"185\\\"]\"', 'rrrrrr', '2024-08-05 18:09:56', '2024-08-05 18:09:56', 'published'),
-(6, 18, '測試時段', '4', '[\"\\u65e9\\u4e0a\",\"\\u4e0b\\u5348\",\"\\u665a\\u4e0a\"]', '2024-08-14', 200, 500, 10, '\"[\\\"164\\\",\\\"170\\\"]\"', 'fffff', '2024-08-05 18:13:39', '2024-08-05 18:13:39', 'published');
+(6, 15, 'fffff', '5', '\"[\\\"evening\\\"]\"', '2024-08-08', 3, 8, 8, '\"[\\\"109\\\",\\\"116\\\"]\"', 'ffff', '2024-08-05 17:12:32', '2024-08-05 17:12:32', 'published');
 
 -- --------------------------------------------------------
 
@@ -869,13 +846,6 @@ ALTER TABLE `student_profiles`
   ADD KEY `student_profiles_user_id_foreign` (`user_id`);
 
 --
--- 資料表索引 `teacher_profiles`
---
-ALTER TABLE `teacher_profiles`
-  ADD PRIMARY KEY (`profile_id`),
-  ADD KEY `teacher_profiles_user_id_foreign` (`user_id`);
-
---
 -- 資料表索引 `teacher_requests`
 --
 ALTER TABLE `teacher_requests`
@@ -899,7 +869,7 @@ ALTER TABLE `users`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `be_teachers`
 --
 ALTER TABLE `be_teachers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `children_card`
@@ -923,7 +893,7 @@ ALTER TABLE `jobs`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `student_profiles`
@@ -932,16 +902,10 @@ ALTER TABLE `student_profiles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- 使用資料表自動遞增(AUTO_INCREMENT) `teacher_profiles`
---
-ALTER TABLE `teacher_profiles`
-  MODIFY `profile_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- 使用資料表自動遞增(AUTO_INCREMENT) `teacher_requests`
 --
 ALTER TABLE `teacher_requests`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `users`
@@ -970,12 +934,6 @@ ALTER TABLE `districts`
 --
 ALTER TABLE `student_profiles`
   ADD CONSTRAINT `student_profiles_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- 資料表的限制式 `teacher_profiles`
---
-ALTER TABLE `teacher_profiles`
-  ADD CONSTRAINT `teacher_profiles_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- 資料表的限制式 `teacher_requests`
