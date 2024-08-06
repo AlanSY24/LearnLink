@@ -17,7 +17,6 @@
         .favorite-button i {
             font-size: 24px;
         }
-
     </style>
 </head>
 <body>
@@ -71,7 +70,6 @@ $(document).ready(function() {
                 } else {
                     icon.removeClass('fa-solid').addClass('fa-regular');
                 }
-
             },
             error: function(xhr) {
                 console.error('An error occurred:', xhr);
@@ -81,9 +79,5 @@ $(document).ready(function() {
     });
 });
 </script>
-
-
-
-
 </body>
 </html>

@@ -2,13 +2,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Favorite;
 use App\Models\TeacherRequest;
 
 class FavoriteController extends Controller
 {
     public function index()
     {
-        // 獲取所有教師請求
+        // 獲取所有教師請求以及相關的 subject 和 city 資料
         $teacherRequests = TeacherRequest::with(['subject', 'city'])->get();
         
         // 傳遞教師請求數據到視圖
@@ -20,11 +21,20 @@ class FavoriteController extends Controller
         $user = $request->user();
         $teacherRequest = TeacherRequest::findOrFail($teacherRequestId);
 
-        if ($user->favoriteTeacherRequests()->where('teacher_request_id', $teacherRequestId)->exists()) {
-            $user->favoriteTeacherRequests()->detach($teacherRequestId);
+        $favorite = Favorite::where('user_id', $user->id)
+                            ->where('teacher_request_id', $teacherRequestId)
+                            ->first();
+
+        if ($favorite) {
+            // 如果已存在收藏，則刪除
+            $favorite->delete();
             $favorited = false;
         } else {
-            $user->favoriteTeacherRequests()->attach($teacherRequestId);
+            // 如果不存在收藏，則添加
+            Favorite::create([
+                'user_id' => $user->id,
+                'teacher_request_id' => $teacherRequestId,
+            ]);
             $favorited = true;
         }
 
@@ -34,9 +44,10 @@ class FavoriteController extends Controller
     public function destroy(Request $request, $teacherRequestId)
     {
         $user = $request->user();
-        $teacherRequest = TeacherRequest::findOrFail($teacherRequestId);
 
-        $user->favoriteTeacherRequests()->detach($teacherRequestId);
+        Favorite::where('user_id', $user->id)
+                ->where('teacher_request_id', $teacherRequestId)
+                ->delete();
 
         return response()->json(['favorited' => false]);
     }
