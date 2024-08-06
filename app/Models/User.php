@@ -48,6 +48,7 @@ class User extends Authenticatable
         ];
     }
 
+<<<<<<< Updated upstream
         // 定義與 StudentPage 模型的關聯
         public function StudentPage()
         {
@@ -63,3 +64,21 @@ class User extends Authenticatable
             return $this->belongsToMany(TeacherRequest::class, 'favorites', 'user_id', 'teacher_request_id');
         }
 }
+=======
+    public function teachers()
+    {
+        return $this->hasMany(Teacher::class);
+    }
+      // 定義與 StudentPage 模型的關聯
+      public function StudentPage()
+      {
+          return $this->hasMany(StudentPage::class);
+      }
+      public function TeacherRequest()
+      {
+          return $this->hasMany(TeacherRequest::class);
+      }
+}
+      
+
+>>>>>>> Stashed changes
