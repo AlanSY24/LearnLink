@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Dropdown with Checkboxes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+        }
+
+        .nav-item {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            padding: 12px 16px;
+        }
+
+        .dropdown label {
+            display: block;
+            padding: 8px;
+            user-select: none;
+            /* 禁止文字選取 */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="nav-item activities">活動</div>
+        <div class="nav-item lectures">新聞</div>
+        <div class="nav-item contact">聯絡</div>
+    </div>
+    <div class="dropdown dropdown1">
+        <label><input type="checkbox"> 活動1</label><br>
+        <label><input type="checkbox"> 活動2</label><br>
+        <label><input type="checkbox"> 活動3</label>
+    </div>
+    <div class="dropdown dropdown2">
+        <label><input type="checkbox"> 新聞1</label><br>
+        <label><input type="checkbox"> 新聞2</label><br>
+        <label><input type="checkbox"> 新聞3</label>
+    </div>
+    <div class="dropdown dropdown3">
+        <label><input type="checkbox"> 聯絡1</label><br>
+        <label><input type="checkbox"> 聯絡2</label><br>
+        <label><input type="checkbox"> 聯絡3</label>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // 隱藏收到的元素
+            function F01(element) {
+                element.style.display = "none";
+            }
+    
+            // 遍歷所有dropdown元素，並用它們來執行 F01
+            function F02() {
+                document.querySelectorAll('.dropdown').forEach(function (dropdown) {
+                    F01(dropdown);
+                });
+            }
+    
+            // 顯示並定位指定的下拉菜單
+            function F03(dropdown, trigger) {
+                F02();
+                dropdown.style.display = "block";
+                var triggerRect = trigger.getBoundingClientRect();
+                var navbarRect = document.querySelector('.navbar').getBoundingClientRect();
+                dropdown.style.left = (triggerRect.left + triggerRect.width / 2 - dropdown.offsetWidth / 2) + 'px';
+                dropdown.style.top = (navbarRect.top + navbarRect.height) + 'px';
+            }
+    
+            function F06(trigger, dropdown) {
+                trigger.addEventListener('mouseenter', function () {
+                    F03(dropdown, trigger);
+                });
+    
+                dropdown.addEventListener('mouseenter', function () {
+                    F03(dropdown, trigger);
+                });
+    
+                trigger.addEventListener('mouseleave', function () {
+                    F01(dropdown);
+                });
+    
+                dropdown.addEventListener('mouseleave', function () {
+                    F01(dropdown);
+                });
+            }
+    
+            F06(document.querySelector('.activities'), document.querySelector('.dropdown1'));
+            F06(document.querySelector('.lectures'), document.querySelector('.dropdown2'));
+            F06(document.querySelector('.contact'), document.querySelector('.dropdown3'));
+        });
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,197 @@
+/* 全局樣式 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* 頁首樣式 */
+header {
+    background-color: #004080;
+    /* 深藍色 */
+    color: #fff;
+    padding: 1em 0;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+/* 容器樣式 */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* 側邊欄樣式 */
+.sidebar {
+    /* background-color: #ffcc00; */
+    /* 黃色 */
+    width: 20%;
+    padding: 1em;
+}
+
+.sidebar h2 {
+    color: #004080;
+    /* 深藍色 */
+}
+
+.sidebar ul {
+    margin-top: 3em;
+    list-style: none;
+
+}
+
+.sidebar ul li {
+    margin: 1em 0;
+}
+
+.sidebar ul li a {
+    color: #004080;
+    /* 深藍色 */
+    text-decoration: none;
+}
+
+.sidebar ul li a:hover {
+    text-decoration: underline;
+}
+
+/* 主要內容樣式 */
+main {
+    flex-grow: 1;
+    padding: 1em;
+}
+
+section h2 {
+    color: #004080;
+    /* 深藍色 */
+}
+
+/* 表單樣式 */
+
+
+.container-confirm,
+.container-resume {
+    position: fixed;
+    top: 10%;
+    left: 30%;
+    width: 40%;
+    height: 50%;
+}
+
+.container-form {
+    background-color: #ffcc00;
+    padding: 20px;
+    border-radius: 5px;
+    /* display: flex; */
+}
+
+
+.container-form h2 {
+    color: #004080;
+    /* 深藍色 */
+}
+
+.container-form label {
+    display: block;
+    margin: 1em 0 0.5em;
+    color: #004080;
+    /* 深藍色 */
+}
+
+.container-form input[type="text"],
+.container-form input[type="file"],
+.container-form select {
+    width: 100%;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.container-form button {
+    background-color: #004080;
+    /* 深藍色 */
+    color: #fff;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.container-form button:hover {
+    background-color: #003060;
+    /* 更深的藍色 */
+}
+
+/* 按鈕樣式 */
+button {
+    background-color: #004080;
+    /* 深藍色 */
+    color: #fff;
+    border: none;
+    padding: 0.5em 1em;
+    margin: 0.5em 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #003060;
+    /* 更深的藍色 */
+}
+
+/* 顯示區域樣式 */
+#areaResume,
+#areaStatus {
+    background-color: #fff;
+    padding: 1em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 1em;
+    margin-bottom: 40px;
+    width: 95%;
+}
+
+/* 頁尾樣式 */
+footer {
+    background-color: #004080;
+    /* 深藍色 */
+    color: #fff;
+    text-align: center;
+    padding: 1em 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+/* 隱藏元素 */
+.hidden {
+    display: none;
+}
+
+
+textarea {
+    width: 70%;
+    height: 100px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+  }
+#resForm input[type="text"] {
+    width: 70%;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+
+}
+
+.form-container {
+    display: none;
+    margin-top: 10px;
+}
