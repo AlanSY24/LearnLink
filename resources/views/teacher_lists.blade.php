@@ -147,10 +147,10 @@
                         <h2>{{ $teacher->title }}</h2>
                         <i class="heart-icon far fa-heart" style="color: red;"></i>
                     </div>
-                    <div id="t_lists_subject">教學的科目：{{ $teacher->subject_id }}</div>
+                    <div id="t_lists_subject">教學的科目：{{ $teacher->subject->name }}</div>
                     <div id="t_lists_name">姓名：{{ $teacher->user_id }}</div>
                     <div id="t_lists_gender">性別：未提供</div>
-                    <div id="t_lists_place">上課預期地點：{{ $teacher->city_id }} {{ $teacher->district_ids}}</div>
+                    <div id="t_lists_place">上課預期地點：{{ $teacher->city_id }} {{ $teacher->district_ids }}</div>
                     <div id="t_lists_time">上課預期時間：{{ $teacher->available_time }}</div>
                     <div id="t_lists_price">上課預期時薪：{{ $teacher->hourly_rate }}</div>
                     <div id="t_lists_picture">大頭貼</div>

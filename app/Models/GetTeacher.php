@@ -23,4 +23,12 @@ class GetTeacher extends Model
 
     // 指定不可填充的欄位
     protected $guarded = [];
+
+    /**
+     * 取得教師所屬的科目
+     */
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'subject_id', 'id');
+    }
 }

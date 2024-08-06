@@ -14,7 +14,7 @@ class GetStudentController extends Controller
      */
     public function index()
     {
-        $students = GetStudent::all(); 
+        $teachers = GetStudent::with('subject')->get(); // 取出所有教師連同科目資料
         return view('student_cases', compact('students'));
     }
 }

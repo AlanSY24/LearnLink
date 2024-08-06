@@ -14,7 +14,7 @@ class GetTeacherController extends Controller
      */
     public function index()
     {
-        $teachers = GetTeacher::all(); // 取出所有教師
+        $teachers = GetTeacher::with('subject')->get(); // 取出所有教師連同科目資料
         return view('teacher_lists', compact('teachers'));
     }
 }

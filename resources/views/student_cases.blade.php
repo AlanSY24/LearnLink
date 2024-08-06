@@ -148,7 +148,7 @@
                         <h2>{{ $student->title }}</h2>
                         <i class="heart-icon far fa-heart" style="color: red;"></i>
                     </div>
-                    <div id="s_lists_subject">教學的科目：{{ $student->subject_id }}</div>
+                    <div id="s_lists_subject">教學的科目：{{ $student->subject->name }}</div>
                     <div id="s_lists_name">姓名：{{ $student->user_id }}</div>
                     <div id="s_lists_gender">性別：未提供</div>
                     <div id="s_lists_place">上課預期地點：{{ $student->city_id }} {{ $student->district_ids }}</div>
