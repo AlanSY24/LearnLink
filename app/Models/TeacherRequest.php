@@ -10,7 +10,7 @@ class TeacherRequest extends Model
     protected $fillable = [
         'title', 'subject_id', 'available_time', 'expected_date',
         'hourly_rate_min', 'hourly_rate_max', 'city_id',
-        'district_ids', 'details', 'status'
+        'district_ids', 'details', 'status','user_id'
     ];
 
     protected $casts = [

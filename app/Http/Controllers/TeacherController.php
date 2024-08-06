@@ -28,8 +28,9 @@ class TeacherController extends Controller
             'city_id' => 'required|exists:cities,id',
             'districts' => 'required|array',
             'details' => 'required|string',
+            
         ]);
-
+        $validatedData['user_id'] = auth()->id();
         // 將 districts 轉換為 JSON 字符串並存儲到 district_ids
         $validatedData['district_ids'] = json_encode($validatedData['districts']);
         unset($validatedData['districts']);
