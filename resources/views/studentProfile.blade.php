@@ -18,7 +18,7 @@
 
 
     <!-- 導入CSS(會員中心老師.css) -->
-    <link rel="stylesheet" href="./css/會員中心老師.css">
+    <link rel="stylesheet" href="./css/會員中心.css">
     <!-- <link rel="stylesheet" href="./css/studentCss.css"> -->
 
 </head>
@@ -37,10 +37,14 @@
             <h2>會員中心-學生</h2>
             <ul>
                 <li><a href="#">基本資料</a></li>
-                <li><a href="#">老師</a></li>
-                <li><a href="#">學生</a></li>
-                <li><a href="#">家長</a></li>
 
+                <li><a href="#">老師</a>
+                    <a href="#" style="font-size: x-small;">評分</a> 
+                </li>
+                <li>
+                    <a href="#">學生</a>
+                    <a href="#" style="font-size: x-small;">家長</a>
+                </li>
             </ul>
         </aside>
         <main>
@@ -72,9 +76,7 @@
 
 
     <!-- 頁尾 -->
-    <footer>
-
-    </footer>
+    <x-footer_alpha />
     <!-- 頁尾 -->
 
 
@@ -83,7 +85,7 @@
     <!-- 上傳隱藏表單==================================================================================================== -->
 
 
-    <!-- 被學生/家長連絡表(V)(X)-->
+    <!-- 被老師連絡表(V)(X)-->
     <div id="formConfirm" class="container-confirm hidden">
         <div class="container-form">
             <form id="confirmFormData">
@@ -131,12 +133,12 @@
                     <button id="btnSubmitformConfirm" type="submit">送出</button>
                 </div>
             </form>
+            <!-- 右上角的關閉按鈕 -->
+            <button id="btnCloseFormConfirm" class="close-button">&times;</button>
+
         </div>
 
     </div>
-
-
-
 
     <script>
         // <!-- script(履歷表)==================================================================================================== -->
@@ -149,24 +151,43 @@
             const favoriteOverlay = document.createElement('div');
             favoriteOverlay.classList.add('s_cases');
             favoriteOverlay.innerHTML = `
-                <div class="s_cases_block">
-                    <div id="t_lists_title" style="display: flex">
-                        <i id="heart" class="far fa-heart" style="color: red ;"></i>
-                        <h2>(B01)國小三年級數學</h2>
-                        
-                    </div>
-                    
-                    <div id="t_lists_subject">(B02)教學的科目：數學</div>
-                    <div id="t_lists_name">(A01)姓名：王XX</div>
-                    <div id="t_lists_gender">(A02)性別：女</div>
-                    <div id="t_lists_place">(B04+B05)上課預期地點：台中北屯區</div>
-                    <div id="t_lists_time">(B??)上課預期時間：上午</div>
-                    <div id="t_lists_price">(B06)上課預期時薪：300 - 400</div>
-                    <div id="t_lists_describe">(B07)關於學生的詳細描述：1. 需要多點耐心 2. 主要以輔導學校數學作業為主</div>
-                    <div class="container-button">
-                        <button id="btnContactStudent">連絡學生</button>
-                    </div>
-                </div>
+    <section class="student_container">
+        <div class="student_header">
+            <h1>顯示標題(國小數學)</h1>
+            <i id="heart" class="far fa-heart" style="color: red ;"></i>
+        </div>
+        <div class="student_info-bar">
+            <div>科目</div>
+            <div>上課地點</div>
+            <div>時間</div>
+            <div>時薪</div>
+        </div>
+        <div class="student_profile">
+            <div class="avatar">大頭貼</div>
+            <div class="description">
+                <p>自我介紹(學經歷)</p>
+            </div>
+        </div>
+        <div class="student_buttons">
+            <div class="rating">
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+            </div>
+            <div class="student_btn">
+                <button id="btnDetailsResume">詳細履歷</button>
+                <button id="btnContactTeacher">聯絡老師</button>
+            </div>
+            <!-- <div class="options">
+                <button>學生</button>
+                <button>家長</button>
+                <button>F資表預設1</button>
+                <button>F資表預設2</button>
+            </div> -->
+        </div>
+    </section>
             `;
             return favoriteOverlay;
         }
@@ -198,16 +219,20 @@
         });
 
 
-        // <!-- script(被學生/家長連絡)==================================================================================================== -->
-        //按鈕:被學生/家長連絡
+
+
+        // <!-- script(被老師連絡)==================================================================================================== -->
+        //按鈕:被老師連絡
         function createContactOverlay() {
             const contactOverlay = document.createElement('div');
             contactOverlay.classList.add('contact_student');
             contactOverlay.innerHTML = `
                 <div class="contact_student">
                     <div id="t_lists_title">
+                        <button id="btnDisappear">下架</button>
                         <h2>(B01)國小三年級數學</h2>
                         <h3 id="t_lists_subject">(B02)教學的科目：數學</h3>
+                        
                     </div>
                     <div class="student" style="display: flex;">
                         <div class="A03">(A03)帳號：</div>
@@ -217,10 +242,13 @@
                         <button id="btnContactCheck">V</button>
                         <button id="btnContactCancel">X</button>
                     </div>
+            
                 </div>
             `;
             return contactOverlay;
         }
+
+
 
         document.getElementById('btnContact').addEventListener('click', function () {
             const areaStatus = document.getElementById('areaStatus');
@@ -230,11 +258,28 @@
         });
 
         document.addEventListener('click', function (event) {
+            if (event.target.id === 'btnDisappear') {
+                const contactOverlay = document.querySelector('.contact_student');
+                if (contactOverlay) {
+                    contactOverlay.remove();
+                }
+            }
+        });
+
+        document.addEventListener('click', function (event) {
             if (event.target.id === 'btnContactCheck') {
                 document.getElementById('formConfirm').classList.remove('hidden');
-            }
-            if (event.target.id === 'btnContactCancel') {
-                document.getElementById('formConfirm').classList.add('hidden');
+            } else if (event.target.id === 'btnContactCancel') {
+                // 顯示確認對話框
+                var confirmRemoval = confirm('請問確定移除該學生訊息嗎？');
+
+                // 如果用戶點擊"確定"，則移除 .student 元素
+                if (confirmRemoval) {
+                    var studentDiv = event.target.parentElement;
+                    studentDiv.remove();
+                } else {
+                    document.getElementById('formConfirm').classList.add('hidden');
+                }
             }
         });
 
@@ -246,6 +291,7 @@
             });
         });
 
+
         // <!-- script(已接案(預定中))==================================================================================================== -->
 
         //按鈕:送出submit->已接案(預定中)
@@ -253,6 +299,10 @@
         let submittedData = ''; // 用於儲存提交的表單數據
         let completedData = ''; // 用於儲存已結案的數據
 
+        // 右上角關閉按鈕的事件監聽
+        document.getElementById('btnCloseFormConfirm').addEventListener('click', function () {
+            document.getElementById('formConfirm').classList.add('hidden');
+        });
 
         document.getElementById('confirmFormData').addEventListener('submit', function (event) {
             if (isSubmitted) {
@@ -266,7 +316,7 @@
             const formData = new FormData(form);
 
             // 生成要顯示的表單數據內容
-            let output = '<h3>(B01)國小三年級數學</h3>';
+            let output = '<h3>(B01)國小三年級數學</h3><div class="A03">(A03)帳號：</div>';
             formData.forEach((value, key) => {
                 output += `<p><strong>${key}:</strong> ${value}</p>`;
             });
@@ -370,13 +420,53 @@
             if (completedData) {
                 //顯示已取消的表單數據和時間
                 areaStatus.innerHTML = completedData;
+
+                // 检查是否已经评分
+                if (!completedData.includes('評分:')) {
+                    // 添加评分按钮
+                    const ratingButton = document.createElement('button');
+                    ratingButton.textContent = '評分';
+                    ratingButton.addEventListener('click', function () {
+                        const rating = prompt('請給出1-5的評分：');
+                        if (rating !== null && rating !== '') {
+                            const ratingNumber = parseInt(rating);
+                            if (ratingNumber >= 1 && ratingNumber <= 5) {
+                                // 在这里可以将评分发送到服务器或进行其他操作
+                                alert(`您的評分是: ${ratingNumber}`);
+
+                                // 将评分添加到completedData
+                                completedData += `<p>評分: ${ratingNumber}</p>`;
+                                areaStatus.innerHTML = completedData;
+
+                                // 移除评分按钮
+                                ratingButton.remove();
+
+                                // 移除結束按鈕
+                                removeEndButton();
+                            } else {
+                                alert('請輸入1-5之間的數字');
+                            }
+                        }
+                    });
+                    areaStatus.appendChild(ratingButton);
+                }
             } else {
                 areaStatus.innerHTML = '尚無資料';
             }
 
-            //隱藏所有按鈕
-            document.querySelector('#btnEnd').style.display = 'none';
+            // 移除結束按鈕
+            removeEndButton();
         });
+
+        // 創建一個移除結束按鈕的函數
+        function removeEndButton() {
+            const endButton = document.querySelector('#btnEnd');
+            if (endButton) {
+                endButton.remove();
+            }
+        }
+
+
 
 
 

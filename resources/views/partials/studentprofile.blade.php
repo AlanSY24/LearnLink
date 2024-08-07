@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>學生自我介紹</title>
-    <style>
+    <!-- <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
@@ -108,7 +108,7 @@
         #ifr {
             display: none; /* 初始隱藏 iframe */
         }
-    </style>
+    </style> -->
 </head>
 <body>
     <div class="container-SP">

@@ -70,11 +70,11 @@
         </main>
     </div>
 
-
+    <x-footer_alpha />
     <!-- 頁尾 -->
-    <footer>
+    <!-- <footer>
 
-    </footer>
+    </footer> -->
     <!-- 頁尾 -->
 
 
