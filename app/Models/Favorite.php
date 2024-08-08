@@ -14,4 +14,14 @@ class Favorite extends Model
         'user_id',
         'teacher_request_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function teacherRequest()
+    {
+        return $this->belongsTo(TeacherRequest::class);
+    }
 }
