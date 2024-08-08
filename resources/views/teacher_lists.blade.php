@@ -71,6 +71,45 @@
             console.log('已將愛心從收藏夾移除');
             // 在這裡可以添加將愛心圖示從收藏夾移除的相應邏輯
         }
+
+        $(document).ready(function() {
+            // 獲取城市列表
+            $.ajax({
+                url: '/LearnLink/public/cities',
+                type: 'GET',
+                success: function(data) {
+                    $('#city').empty();
+                    $('#city').append('<option value="">請選擇縣市</option>');
+                    $.each(data, function(index, city) {
+                        $('#city').append('<option value="' + city.id + '">' + city.city + '</option>');
+                    });
+                }
+            });
+
+            // 當選擇縣市後，獲取對應的區域列表
+            $('#city').change(function() {
+                var selectedCityId = $(this).val();
+                if (selectedCityId) {
+                    $.ajax({
+                        url: '/LearnLink/public/districts/' + selectedCityId,
+                        type: 'GET',
+                        success: function(data) {
+                            $('#district').empty();
+                            $('#district').append('<option value="">請選擇區域</option>');
+                            $.each(data, function(index, district) {
+                                $('#district').append('<option value="' + district.id + '">' + district.district_name + '</option>');
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Districts AJAX Error:', error);
+                        }
+                    });
+                }
+            });
+        });
+        
+
+
     </script>
 </head>
 <body>
@@ -81,14 +120,12 @@
         <div class="t_search">
             <h2>尋找老師</h2>
             <div class="t_search_subject">
-                <p>請選擇想學的科目：</p>
+                <p>請選擇教學的科目：</p>
                 <select name="subject" id="subject">
-                    <!-- 撈資料庫 科目 -->
                     <option value="0">請選擇</option>
-                    <option value="1">國文</option>
-                    <option value="2">英文</option>
-                    <option value="3">數學</option>
-                    <option value="4">自然</option>
+                    @foreach($subjects as $subject)
+                        <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                    @endforeach
                 </select>
             </div>
 
@@ -109,24 +146,18 @@
 
             <div class="t_search_place">
                 <p>請選擇上課地點：</p>
-                <div class="city">
-                    <select name="city" id="city">
-                        <option value="0">請選擇縣/市</option>
-                        <option value="1">台北市</option>
-                        <option value="2">新北市</option>
-                        <option value="3">台中市</option>
-                        <!-- 添加更多縣市選項 -->
-                    </select>
-                </div>
-                <div class="district">
-                    <select name="district" id="district">
-                        <option value="0">請選擇 區</option>
-                        <option value="1">台北市</option>
-                        <option value="2">新北市</option>
-                        <option value="3">台中市</option>
-                        <!-- 添加更多區選項 -->
-                    </select>
-                </div>
+                <label for="city">選擇縣市：</label>
+                <select name="city" id="city">
+                    <option value="">請選擇縣市</option>
+                    @foreach($cities as $city)
+                        <option value="{{ $city->id }}">{{ $city->name }}</option>
+                    @endforeach
+                </select>
+
+                <label for="district">選擇區域：</label>
+                <select name="district" id="district">
+                    <option value="">請選擇區域</option>
+                </select>
             </div>
 
             <div class="t_search_time">
@@ -141,21 +172,42 @@
         </div>
         
         <div class="t_lists">
-            @foreach ($teachers as $teacher)
+        @foreach ($teachers as $teacher)
                 <div class="t_lists_block">
                     <div id="t_lists_title">
                         <h2>{{ $teacher->title }}</h2>
                         <i class="heart-icon far fa-heart" style="color: red;"></i>
                     </div>
-                    <div id="t_lists_subject">教學的科目：{{ $teacher->subject->name }}</div>
-                    <div id="t_lists_name">姓名：{{ $teacher->user_id }}</div>
+                    <div id="t_lists_subject">
+                        教學的科目：{{ $teacher->subject ? $teacher->subject->name : '未提供' }}
+                    </div>
+                    <div id="t_lists_name">
+                        姓名：{{ $teacher->user ? $teacher->user->name : '未提供' }}
+                    </div>
                     <div id="t_lists_gender">性別：未提供</div>
-                    <div id="t_lists_place">上課預期地點：{{ $teacher->city_id }} {{ $teacher->district_ids }}</div>
-                    <div id="t_lists_time">上課預期時間：{{ $teacher->available_time }}</div>
-                    <div id="t_lists_price">上課預期時薪：{{ $teacher->hourly_rate }}</div>
+
+                    <div id="t_lists_place">
+                        上課預期地點：{{ $teacher->city ? $teacher->city->city : '無城市資料' }}
+                        @if($teacher->districts()->isNotEmpty())
+                            @foreach ($teacher->districts() as $district)
+                                {{ $district->district_name }}
+                            @endforeach
+                        @else
+                            無區域資料
+                        @endif
+                    </div>
+
+                    <div id="t_lists_time">
+                        上課預期時間：{{ $teacher->available_time }}
+                    </div>
+                    <div id="t_lists_price">
+                        上課預期時薪：{{ $teacher->hourly_rate }}
+                    </div>
                     <div id="t_lists_picture">大頭貼</div>
                     <div id="t_lists_score">評分</div>
-                    <div id="t_lists_describe">關於老師的詳細描述：{{ $teacher->details }}</div>
+                    <div id="t_lists_describe">
+                        關於老師的詳細描述：{{ $teacher->details }}
+                    </div>
                     <div class="t_lists_buttons">
                         <button class="button">老師履歷</button>
                         <button class="button">聯絡老師</button>

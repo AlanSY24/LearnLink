@@ -8,7 +8,7 @@ class CityController extends Controller
 {
     public function index()
     {
-        $cities = City::all();
+        $cities = City::select('id', 'city')->get();
         return response()->json($cities);
     }
 }
