@@ -19,7 +19,7 @@ class GetTeacherController extends Controller
         $subjects = Subject::select('id', 'name')->get();
 
         // 取得所有城市
-        $cities = City::select('id', 'name')->get();
+        $cities = City::select('id', 'city')->get();
 
         // 取得所有教師資料
         $teachers = GetTeacher::with('subject', 'city', 'user')->get();

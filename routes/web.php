@@ -13,10 +13,15 @@ use App\Http\Controllers\TeacherProfileController;
 use App\Http\Controllers\BeTeacherController;
 use App\Http\Controllers\FavoriteController;
 
-use App\Http\Controllers\GetTeacherController;
-use App\Http\Controllers\GetStudentController;
+
 
 use App\Http\Controllers\CalendarController;
+
+
+use App\Http\Controllers\GetTeacherController;
+use App\Http\Controllers\GetStudentController;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\DistrictController;
 
 
 Route::get('/', function () {
@@ -82,8 +87,9 @@ Route::get('/welcome', function () {
 })->name('welcome');
 
 
-Route::get('/teacher_lists', [GetTeacherController::class, 'index']);
-Route::get('/student_cases', [GetStudentController::class, 'index']);
+
+
+
 
 // Route::get('/studentpage', [StudentPageController::class, 'index'])->name('studentpage');
 // Route::post('/studentpage/store', [StudentPageController::class, 'store'])->name('studentpage.store');
@@ -102,3 +108,11 @@ Route::middleware('auth')->group(function () {
     // 取消收藏教師請求
     Route::delete('/teacher-requests/{teacherRequest}/favorite', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
 });
+
+
+
+Route::get('/teacher_lists', [GetTeacherController::class, 'index']);
+Route::get('/student_cases', [GetStudentController::class, 'index']);
+
+Route::get('/cities', [CityController::class, 'index']);
+Route::get('/districts/{cityId}', [DistrictController::class, 'getDistricts']);

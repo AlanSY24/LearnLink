@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\City;
 
-class City extends Model
+class CityController extends Controller
 {
-    protected $table = 'cities'; // 確保這與資料表名稱一致
-
-    protected $fillable = [
-        'id', 'city' // 確保這裡包含你查詢的欄位
-    ];
+    public function index()
+    {
+        $cities = City::select('id', 'city')->get();
+    }
 }

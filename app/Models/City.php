@@ -18,9 +18,7 @@ class City extends Model
     // 指定可填充的欄位
     protected $fillable = ['city'];
 
-    /**
-     * 取得該城市的名稱
-     */
+    // 自訂屬性名稱方法
     public function getCityAttribute()
     {
         return $this->attributes['city'];

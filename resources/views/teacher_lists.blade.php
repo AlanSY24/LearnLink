@@ -72,36 +72,42 @@
             // 在這裡可以添加將愛心圖示從收藏夾移除的相應邏輯
         }
 
-
-
-        
         $(document).ready(function() {
-            // 當縣市下拉選單的值改變時，觸發這個事件
-            $('#city').on('change', function() {
-                var cityId = $(this).val(); // 獲取選中的縣市ID
-                if (cityId) {
-                    // 發送Ajax請求獲取該縣市的區域
+            // 獲取城市列表
+            $.ajax({
+                url: '/LearnLink/public/cities',
+                type: 'GET',
+                success: function(data) {
+                    $('#city').empty();
+                    $('#city').append('<option value="">請選擇縣市</option>');
+                    $.each(data, function(index, city) {
+                        $('#city').append('<option value="' + city.id + '">' + city.city + '</option>');
+                    });
+                }
+            });
+
+            // 當選擇縣市後，獲取對應的區域列表
+            $('#city').change(function() {
+                var selectedCityId = $(this).val();
+                if (selectedCityId) {
                     $.ajax({
-                        url: '/get-districts/' + cityId,
+                        url: '/LearnLink/public/districts/' + selectedCityId,
                         type: 'GET',
                         success: function(data) {
-                            // 清空區域下拉選單
                             $('#district').empty();
-                            // 添加預設選項
                             $('#district').append('<option value="">請選擇區域</option>');
-                            // 遍歷返回的區域數據並填充到下拉選單
-                            $.each(data, function(key, value) {
-                                $('#district').append('<option value="' + key + '">' + value + '</option>');
+                            $.each(data, function(index, district) {
+                                $('#district').append('<option value="' + district.id + '">' + district.district_name + '</option>');
                             });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Districts AJAX Error:', error);
                         }
                     });
-                } else {
-                    // 如果沒有選擇縣市，清空區域下拉選單
-                    $('#district').empty();
-                    $('#district').append('<option value="">請選擇區域</option>');
                 }
             });
         });
+        
 
 
     </script>
@@ -113,15 +119,7 @@
 
         <div class="t_search">
             <h2>尋找老師</h2>
-            <div class="t_search_subject">
-                <p>請選擇想學的科目：</p>
-                <select name="subject" id="subject">
-                    <option value="0">請選擇</option>
-                    @foreach($subjects as $subject)
-                        <option value="{{ $subject->id }}">{{ $subject->name }}</option>
-                    @endforeach
-                </select>
-            </div>
+            
 
             <div class="t_search_money"> 
                 <p>請選擇上課預算(小時)：</p>
@@ -138,7 +136,7 @@
                 </div>
             </div>
 
-            <div class="s_search_place">
+            <div class="t_search_place">
                 <p>請選擇上課地點：</p>
                 <label for="city">選擇縣市：</label>
                 <select name="city" id="city">
