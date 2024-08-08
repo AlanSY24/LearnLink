@@ -11,7 +11,7 @@ class FavoriteController extends Controller
     {
         // 獲取所有教師請求以及相關的 subject 和 city 資料
         $teacherRequests = TeacherRequest::with(['subject', 'city'])->get();
-        
+        // dd($teacherRequests);
         // 傳遞教師請求數據到視圖
         return view('teacher_requests', compact('teacherRequests'));
     }

@@ -15,7 +15,7 @@ class GetStudent extends Model
     // 指定主鍵
     protected $primaryKey = 'id';
 
-    // 避免 Laravel 嘗試自動增加 `created_at` 和 `updated_at` 欄位
+    // 避免 Laravel 嘗試自動增加 created_at 和 updated_at 欄位
     public $timestamps = true;
 
     // 指定可填充的欄位
@@ -28,10 +28,26 @@ class GetStudent extends Model
     protected $guarded = [];
 
     /**
-     * 取得教師所屬的科目
+     * 取得該學生所屬的科目
      */
     public function subject()
     {
         return $this->belongsTo(Subject::class, 'subject_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id', 'id');
+    }
+
+    public function districts()
+    {
+        $districtIds = json_decode($this->district_ids, true);
+        return is_array($districtIds) ? District::whereIn('id', $districtIds)->get() : collect();
     }
 }

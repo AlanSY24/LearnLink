@@ -1,0 +1,27 @@
+.student_cases_container {
+    display: flex;
+}
+
+.s_search {
+    width: 35%;
+    background-color: antiquewhite;
+}
+
+.s_cases {
+    width: 60%;
+    margin-left: 20px;
+}
+
+#s_lists_title {
+    display: flex;
+}
+
+#s_lists_title h2 {
+    width: 70%;
+}
+
+#s_lists_title i {
+    width: 30%;
+    margin-top: 25px;
+    cursor: pointer;
+}

@@ -68,15 +68,19 @@
 <body>
 @foreach ($teacherRequests as $teacherRequest)
     <div class="teacher-request">
-        <h3>{{ $teacherRequest->title }}</h3>
+    <h3>{{ $teacherRequest->title }}</h3>
         <p>{{ $teacherRequest->subject->name ?? 'N/A' }}</p>
         <p><strong>City:</strong> {{ $teacherRequest->city->city ?? 'N/A' }}</p>
-        <p><strong>Available Time:</strong> {{ $teacherRequest->available_time }}</p>
+        <p><strong>Available Time:</strong> 
+            @php
+                $availableTime = json_decode($teacherRequest->available_time, true);
+            @endphp
+            {{ is_array($availableTime) ? implode(', ', $availableTime) : $teacherRequest->available_time }}
+        </p>
         <p><strong>Expected Date:</strong> {{ $teacherRequest->expected_date }}</p>
         <p><strong>Hourly Rate (Min):</strong> {{ $teacherRequest->hourly_rate_min }}</p>
         <p><strong>Hourly Rate (Max):</strong> {{ $teacherRequest->hourly_rate_max }}</p>
         <p><strong>Details:</strong> {{ $teacherRequest->details }}</p>
-
         <!-- 收藏/取消收藏按鈕 -->
         @auth
             <form action="{{ route('favorites.store', $teacherRequest->id) }}" method="POST" class="favorite-form">

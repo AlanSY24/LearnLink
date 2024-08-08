@@ -62,4 +62,12 @@ class User extends Authenticatable
         {
             return $this->belongsToMany(TeacherRequest::class, 'favorites', 'user_id', 'teacher_request_id');
         }
+
+        /**
+         * 取得該用戶的名字
+         */
+        public function getNameAttribute()
+        {
+            return $this->attributes['name'];
+        }
 }
