@@ -82,12 +82,10 @@
             <div class="s_search_subject">
                 <p>請選擇教學的科目：</p>
                 <select name="subject" id="subject">
-                    <!-- 撈資料庫 科目 -->
                     <option value="0">請選擇</option>
-                    <option value="1">國文</option>
-                    <option value="2">英文</option>
-                    <option value="3">數學</option>
-                    <option value="4">自然</option>
+                    @foreach($subjects as $subject)
+                        <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                    @endforeach
                 </select>
             </div>
 
@@ -148,10 +146,19 @@
                         <h2>{{ $student->title }}</h2>
                         <i class="heart-icon far fa-heart" style="color: red;"></i>
                     </div>
-                    <div id="s_lists_subject">教學的科目：{{ $student->subject->name }}</div>
-                    <div id="s_lists_name">姓名：{{ $student->user_id }}</div>
+                    <div id="s_lists_subject">教學的科目：{{ $student->subject ? $student->subject->name : '未提供' }}</div>
+                    <div id="s_lists_name">姓名：{{ $student->user->name }}</div>
                     <div id="s_lists_gender">性別：未提供</div>
-                    <div id="s_lists_place">上課預期地點：{{ $student->city_id }} {{ $student->district_ids }}</div>
+                    <div id="t_lists_place">
+                        上課預期地點：{{ $student->city ? $student->city->city : '無城市資料' }}
+                        @if($student->districts()->isNotEmpty())
+                            @foreach ($student->districts() as $district)
+                                {{ $district->district_name }}
+                            @endforeach
+                        @else
+                            無區域資料
+                        @endif
+                    </div>
                     <div id="s_lists_time">上課預期時間：{{ $student->available_time }}</div>
                     <div id="s_lists_price">上課預期時薪：{{ $student->hourly_rate_min }} - {{ $student->hourly_rate_max }}</div>
                     <div id="s_lists_picture">大頭貼</div>
