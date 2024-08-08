@@ -9,21 +9,21 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    min-height: 100vh;
+    min-height: 90vh;
     display: flex;
     flex-direction: column;
 }
 
 
 /* 頁首樣式 */
-header {
+/* header {
     background-color: #004080;
-    /* 深藍色 */
+    /* 深藍色 
     color: #fff;
     padding: 1em 0;
     text-align: center;
     font-size: 1.5em;
-}
+} */
 
 /* 容器樣式 */
 .container {
@@ -63,6 +63,7 @@ header {
 .sidebar ul li a:hover {
     text-decoration: underline;
 }
+
 /* 主要內容樣式 */
 main {
     flex-grow: 1;
@@ -176,6 +177,7 @@ button:hover {
 .hidden {
     display: none;
 }
+
 /* ------------------------------會員中心-學生------------------------------ */
 .student_header,
 .teacher_header {
@@ -399,3 +401,163 @@ textarea {
 }
 
 /* ↑↑↑↑↑↑↑↑↑ footer ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ */
+
+/* ↓↓↓↓↓↓↓↓ nav ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*/
+.nav-ll-navbar {
+    background-color: var(--main-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 1002;
+}
+
+.nav-ll-navbar-brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.nav-ll-navbar-brand img {
+    height: 50px;
+    padding: 5px 0;
+}
+
+.nav-ll-navbar-brand h1 {
+    color: var(--text-color);
+    margin: 0 0 0 10px;
+    font-size: 24px;
+}
+
+.nav-ll-navbar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.nav-ll-navbar-menu {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.nav-ll-navbar-menu li {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.nav-ll-navbar-menu a,
+.nav-ll-navbar-menu .nav-ll-logout-form button {
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    font-size: inherit;
+    font-family: inherit;
+    cursor: pointer;
+    height: 100%;
+}
+
+.nav-ll-navbar-menu a:hover,
+.nav-ll-navbar-menu .nav-ll-logout-form button:hover {
+    color: var(--accent-color);
+}
+
+.nav-ll-logout-form {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.nav-ll-logout-button {
+    margin: 0;
+    padding: 0 10px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+/* 添加這個樣式來為內容區域添加上邊距 */
+body {
+    padding-top: 60px; /* 與導航欄高度相同 */
+}
+
+@media (max-width: 768px) {
+    .nav-ll-navbar-toggle {
+        display: block;
+    }
+
+    .nav-ll-navbar-menu {
+        position: fixed;
+        top: 60px;
+        right: -100%;
+        width: 250px;
+        height: calc(100vh - 60px);
+        background-color: var(--main-color);
+        flex-direction: column;
+        padding: 20px;
+        transition: right 0.3s ease-in-out;
+        z-index: 1001;
+    }
+
+    .nav-ll-navbar-menu.active {
+        right: 0;
+    }
+
+    .nav-ll-navbar-menu li {
+        margin: 10px 0;
+        order: 5; /* 設定一個較大的默認順序 */
+    }
+
+    /* 調整小螢幕狀態下的排序 */
+    .nav-ll-navbar-menu li:nth-child(4) { /* 會員中心 */
+        order: 2;
+    }
+    .nav-ll-navbar-menu li:first-child { /* 發案 */
+        order: 3;
+    }
+    .nav-ll-navbar-menu li:nth-child(2) { /* 接案 */
+        order: 4;
+    }
+    .nav-ll-navbar-menu li:nth-child(3) { /* 登出 */
+        order: 5;
+    }
+
+    /* 登入 */
+    .nav-ll-navbar-menu li:last-child a[href*="login"] {
+        order: 1;
+    }
+
+    .nav-ll-overlay {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 60px);
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+
+    .nav-ll-overlay.active {
+        display: block;
+    }
+}
+
+/* ↑↑↑↑↑↑↑↑ nav ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ */

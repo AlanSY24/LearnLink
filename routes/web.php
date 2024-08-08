@@ -43,7 +43,7 @@ Route::post('/send-email', [AuthController::class,'sendEmail']);
 Route::view('/auth_status', 'auth_status')->name('auth.status');
 Route::post('/logout', function () {
     Auth::logout();
-    return redirect('/');
+    return redirect('/homePage');
 })->name('logout');
 
 // 會員中心基本資料

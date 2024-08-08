@@ -12,9 +12,12 @@
             word-break: break-all;
         }
     </style>
+    <link rel="stylesheet" href="{{ asset('css/會員中心.css') }}">
 </head>
 
 <body>
+    <script src="{{ asset('js/nav.js') }}"></script>
+    <x-nav />
     <div class="container mt-4">
         <table class="table table-bordered">
             <thead>
