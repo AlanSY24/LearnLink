@@ -119,7 +119,15 @@
 
         <div class="t_search">
             <h2>尋找老師</h2>
-            
+            <div class="t_search_subject">
+                <p>請選擇教學的科目：</p>
+                <select name="subject" id="subject">
+                    <option value="0">請選擇</option>
+                    @foreach($subjects as $subject)
+                        <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                    @endforeach
+                </select>
+            </div>
 
             <div class="t_search_money"> 
                 <p>請選擇上課預算(小時)：</p>
