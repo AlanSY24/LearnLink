@@ -36,7 +36,7 @@ class TeacherController extends Controller
         unset($validatedData['districts']);
 
         // 確保 available_time 也被轉換為 JSON 字符串
-        $validatedData['available_time'] = json_encode($validatedData['available_time']);
+        $validatedData['available_time'] = ($validatedData['available_time']);
 
         // 設置初始狀態為"發布中"
         $validatedData['status'] = TeacherRequest::STATUS_PUBLISHED;
