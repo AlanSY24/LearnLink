@@ -17,21 +17,34 @@ class GetTeacher extends Model
 
     protected $guarded = [];
 
+    
+    /**
+     * 取得教師所屬科目
+     */
     public function subject()
     {
         return $this->belongsTo(Subject::class, 'subject_id', 'id');
     }
 
+    /**
+     * 取得教師的使用者資訊
+     */
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    /**
+     * 取得教師所在城市
+     */
     public function city()
     {
         return $this->belongsTo(City::class, 'city_id', 'id');
     }
 
+    /**
+     * 取得教師所屬區域
+     */
     public function districts()
     {
         $districtIds = json_decode($this->district_ids, true);

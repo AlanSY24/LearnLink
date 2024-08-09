@@ -71,7 +71,7 @@
                 </select>
             </div>
 
-            <button>搜尋</button>
+            <button id="searchButtons">搜尋</button>
         </div>
         
         <div class="s_cases">
