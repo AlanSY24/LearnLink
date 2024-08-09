@@ -14,10 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleMenu();
     });
 
-    // 點擊遮罩層關閉彈出視窗
     overlay.addEventListener('click', toggleMenu);
 
-    // 點擊彈出視窗外的地方關閉彈出視窗
     document.addEventListener('click', function(event) {
         if (menu.classList.contains('active') && 
             !menu.contains(event.target) && 
@@ -26,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // 防止點擊彈出視窗內部時關閉彈出視窗
     menu.addEventListener('click', function(event) {
         event.stopPropagation();
     });

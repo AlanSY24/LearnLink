@@ -51,6 +51,12 @@ Route::post('/logout', function () {
     return redirect('/homePage');
 })->name('logout');
 
+Route::post('/forgot-password', [AuthController::class,'forgot']);
+Route::post('/forgot_2', [AuthController::class, 'forgot_2'])->name('forgot_2');
+Route::post('/forget_3', [AuthController::class, 'forgot_3'])->name('forgot_3');
+Route::view('/reset', 'reset_code')->name('reset');
+
+
 // 會員中心基本資料
 Route::view('/basic','basicinfo_alpha')->name('basic.page');
 Route::view('/bbasic','basicinfo_beta')->name('bbasic.page');
