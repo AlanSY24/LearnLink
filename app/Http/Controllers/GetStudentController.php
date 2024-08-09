@@ -45,6 +45,17 @@ class GetStudentController extends Controller
             $query->whereBetween('hourly_rate', [$request->minBudget, $request->maxBudget]);
         }
 
+        // 篩選上課時間
+        if ($request->has('time') && $request->time != '0') {
+            $time = '';
+            switch ($request->time) {
+                case '1': $time = '早上'; break;
+                case '2': $time = '下午'; break;
+                case '3': $time = '晚上'; break;
+            }
+            $query->where('available_time', 'like', "%$time%");
+        }
+
         // 取得所有學生資料
         $students = $query->with('subject', 'city', 'user')->get();
 

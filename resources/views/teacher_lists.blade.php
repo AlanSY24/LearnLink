@@ -64,7 +64,7 @@
                 <p>請選擇預期上課時間：</p>
                 <select name="time" id="time">
                     <option value="0">請選擇上課時間</option>
-                    <option value="1">上午</option>
+                    <option value="1">早上</option>
                     <option value="2">下午</option>
                     <option value="3">晚上</option>
                 </select>
