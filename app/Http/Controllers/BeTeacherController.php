@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\City;
 use App\Models\District;
 use App\Models\Subject;
+use Illuminate\Support\Facades\DB;
 
 class BeTeacherController extends Controller
 {
@@ -32,11 +33,11 @@ class BeTeacherController extends Controller
         'details' => 'required|string',
     ]);
 
-    $validatedData['available_time'] = json_encode($validatedData['available_time']);
+    // $validatedData['available_time'] = json_encode($validatedData['available_time']);
     $validatedData['district_ids'] = ($validatedData['districts']);
     $validatedData['user_id'] = auth()->id();
     $validatedData['status'] = BeTeacher::STATUS_PUBLISHED;  // 設置初始狀態為發布中
-
+    $validatedData['available_time'] = implode(', ', $validatedData['available_time']);
 
     // 移除 districts，因為它不是表的直接列
     unset($validatedData['districts']);

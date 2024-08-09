@@ -23,7 +23,7 @@ class BeTeacher extends Model
     ];
 
     protected $casts = [
-        'available_time' => 'array',
+        
         'district_ids' => 'array',
 
     ];
