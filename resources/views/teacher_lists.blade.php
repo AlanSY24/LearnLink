@@ -34,11 +34,11 @@
                 <div class="price-input"> 
                     <div class="price-field"> 
                         <span>最低預算</span> 
-                        <input type="number" class="min-input" value="100"> 
+                        <input type="number" class="min-input" placeholder="最低預算：100"> 
                     </div> 
                     <div class="price-field"> 
                         <span>最高預算</span> 
-                        <input type="number" class="max-input" value="100000"> 
+                        <input type="number" class="max-input" placeholder="最高預算：100000"> 
                     </div>
                     <!-- 要在加判斷，不可以低於 100 不可以高於 100000，min 不可以大於等於 max  -->
                 </div>
@@ -69,6 +69,9 @@
                     <option value="3">晚上</option>
                 </select>
             </div>
+
+            <button>搜尋</button>
+
         </div>
         
         <div class="t_lists">
