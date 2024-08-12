@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('subject_id');
-            $table->json('available_time');
+            $table->longText('available_time');
             $table->date('expected_date');
             $table->integer('hourly_rate_min');
             $table->integer('hourly_rate_max');

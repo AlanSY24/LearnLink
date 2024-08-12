@@ -17,13 +17,14 @@ return new class extends Migration
             $table->string('title');
             $table->integer('subject_id')->nullable();
             $table->longText('available_time')->nullable();
-            $table->decimal('hourly_rate', 10);
+            $table->integer('hourly_rate');
             $table->integer('city_id')->nullable();
             $table->longText('district_ids');
             $table->text('details')->nullable();
             $table->integer('resume_id')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
+            $table->enum('status', ['published', 'in_progress', 'completed', 'cancelled'])->default('published');
         });
     }
 
