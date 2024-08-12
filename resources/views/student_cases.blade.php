@@ -71,6 +71,23 @@
                 </select>
             </div>
 
+            <div class="s_search_time">
+                <label>請選擇預期上課時間(可複選):</label>
+                <div>
+                    <input type="checkbox" id="time_morning" value="早上">
+                    <label for="time_morning">早上</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="time_afternoon" value="下午">
+                    <label for="time_afternoon">下午</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="time_evening" value="晚上">
+                    <label for="time_evening">晚上</label>
+                </div>
+            </div>
+
+
             <button id="searchButtons">搜尋</button>
         </div>
         

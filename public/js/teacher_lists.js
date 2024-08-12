@@ -80,7 +80,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const district = document.getElementById('district').value;
         const minBudget = document.querySelector('.min-input').value;
         const maxBudget = document.querySelector('.max-input').value;
-        const time = document.getElementById('time').value;
+        
+        
+        const selectedTimes = Array.from(document.querySelectorAll('.s_search_time input[type="checkbox"]:checked'))
+            .map(checkbox => checkbox.value);
 
         // 檢查預算輸入的合法性
         if ((minBudget && minBudget < 100) || (maxBudget && maxBudget > 100000) || (minBudget && maxBudget && minBudget >= maxBudget)) {
@@ -106,8 +109,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (maxBudget) {
             queryParams.append('maxBudget', maxBudget);
         }
-        if (time && time !== '0') {
-            queryParams.append('time', time);
+        if (selectedTimes.length > 0) {
+            queryParams.append('time', selectedTimes.join(','));
         }
 
         // 導向帶有查詢參數的 URL

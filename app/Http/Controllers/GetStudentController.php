@@ -6,6 +6,7 @@ use App\Models\City;
 use App\Models\GetStudent;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 class GetStudentController extends Controller
 {
@@ -22,46 +23,45 @@ class GetStudentController extends Controller
         // 取得所有城市
         $cities = City::select('id', 'city')->get();
 
-        // 初始化查詢
+        // 初始化查询
         $query = GetStudent::query();
 
-        // 篩選科目
+        // 筛选科目
         if ($request->has('subject') && $request->subject != '0') {
             $query->where('subject_id', $request->subject);
         }
 
-        // 篩選城市
+        // 筛选城市
         if ($request->has('city') && $request->city != '') {
             $query->where('city_id', $request->city);
         }
 
-        // 篩選區域
+        // 筛选区
         if ($request->has('district') && $request->district != '') {
             $query->whereJsonContains('district_ids', $request->district);
         }
 
-        // 篩選預算
+        // 筛选预算
         if ($request->has('minBudget') && $request->has('maxBudget')) {
             $query->whereBetween('hourly_rate', [$request->minBudget, $request->maxBudget]);
         }
 
-        // 篩選上課時間
-        if ($request->has('time') && $request->time != '0') {
-            $time = '';
-            switch ($request->time) {
-                case '1': $time = '早上'; break;
-                case '2': $time = '下午'; break;
-                case '3': $time = '晚上'; break;
+        // 筛选可用时间
+        if ($request->has('time')) {
+            $times = explode(',', $request->time);
+            $conditions = [];
+            foreach ($times as $time) {
+                // 确保时间值被正确包裹在引号中
+                $conditions[] = 'FIND_IN_SET(\''. $time .'\', available_time) > 0';
             }
-            $query->where('available_time', 'like', "%$time%");
+            $query->whereRaw(implode(' OR ', $conditions));
         }
 
-        // 取得所有學生資料
+        // 获取所有学生数据
         $students = $query->with('subject', 'city', 'user')->get();
 
-
-        // 使用 compact 將變量名改為 'teachers', 'subjects', 'cities'
         return view('student_cases', compact('students', 'subjects', 'cities'));
-
     }
+
+
 }

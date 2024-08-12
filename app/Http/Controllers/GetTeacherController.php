@@ -45,15 +45,15 @@ class GetTeacherController extends Controller
             $query->whereBetween('hourly_rate', [$request->minBudget, $request->maxBudget]);
         }
 
-        // 篩選上課時間
-        if ($request->has('time') && $request->time != '0') {
-            $time = '';
-            switch ($request->time) {
-                case '1': $time = '早上'; break;
-                case '2': $time = '下午'; break;
-                case '3': $time = '晚上'; break;
+        // 筛选可用时间
+        if ($request->has('time')) {
+            $times = explode(',', $request->time);
+            $conditions = [];
+            foreach ($times as $time) {
+                // 确保时间值被正确包裹在引号中
+                $conditions[] = 'FIND_IN_SET(\''. $time .'\', available_time) > 0';
             }
-            $query->where('available_time', 'like', "%$time%");
+            $query->whereRaw(implode(' OR ', $conditions));
         }
 
         // 取得篩選後的教師資料

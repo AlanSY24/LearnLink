@@ -73,21 +73,19 @@ $(document).ready(function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('searchButtons').addEventListener('click', function() {
-        // 獲取篩選條件
         const subject = document.getElementById('subject').value;
         const city = document.getElementById('city').value;
         const district = document.getElementById('district').value;
         const minBudget = document.querySelector('.min-input').value;
         const maxBudget = document.querySelector('.max-input').value;
-        const time = document.getElementById('time').value;
+        const selectedTimes = Array.from(document.querySelectorAll('.s_search_time input[type="checkbox"]:checked'))
+            .map(checkbox => checkbox.value);
 
-        // 檢查預算輸入的合法性
         if ((minBudget && minBudget < 100) || (maxBudget && maxBudget > 100000) || (minBudget && maxBudget && minBudget >= maxBudget)) {
-            alert('請檢查預算輸入是否正確');
+            alert('请检查预算输入是否正确');
             return;
         }
 
-        // 構建查詢字串
         const queryParams = new URLSearchParams();
 
         if (subject && subject !== '0') {
@@ -105,11 +103,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (maxBudget) {
             queryParams.append('maxBudget', maxBudget);
         }
-        if (time && time !== '0') {
-            queryParams.append('time', time);
+        if (selectedTimes.length > 0) {
+            queryParams.append('time', selectedTimes.join(','));
         }
 
-        // 導向帶有查詢參數的 URL
         window.location.href = `http://localhost/LearnLink/public/student_cases?${queryParams.toString()}`;
     });
 });
