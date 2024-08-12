@@ -70,4 +70,12 @@ class User extends Authenticatable
         {
             return $this->attributes['name'];
         }
+
+
+            // 定義與 `favoriteBeTeachers` 表的多對多關聯
+
+        public function favoriteBeTeachers()
+        {
+            return $this->belongsToMany(BeTeacher::class, 'favorites_student', 'user_id', 'be_teachers_id');
+        }
 }
