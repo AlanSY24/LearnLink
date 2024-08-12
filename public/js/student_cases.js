@@ -57,25 +57,31 @@ $(document).ready(function() {
                 url: '/LearnLink/public/districts/' + selectedCityId,
                 type: 'GET',
                 success: function(data) {
-                    $('#district').empty();
-                    $('#district').append('<option value="">請選擇區域</option>');
+                    $('#districts').empty();
                     $.each(data, function(index, district) {
-                        $('#district').append('<option value="' + district.id + '">' + district.district_name + '</option>');
+                        $('#districts').append(
+                            '<label><input type="checkbox" name="districts[]" value="' + district.id + '"> ' + district.district_name + '</label><br>'
+                        );
                     });
                 },
                 error: function(xhr, status, error) {
                     console.error('Districts AJAX Error:', error);
                 }
             });
+        } else {
+            $('#districts').empty(); // 如果未選擇縣市，清空區域選擇
         }
     });
 });
+
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('searchButtons').addEventListener('click', function() {
         const subject = document.getElementById('subject').value;
         const city = document.getElementById('city').value;
-        const district = document.getElementById('district').value;
+        // 取得選中的多個區域
+        const selectedDistricts = Array.from(document.querySelectorAll('#districts input[type="checkbox"]:checked'))
+            .map(checkbox => checkbox.value);
         const minBudget = document.querySelector('.min-input').value;
         const maxBudget = document.querySelector('.max-input').value;
         const selectedTimes = Array.from(document.querySelectorAll('.s_search_time input[type="checkbox"]:checked'))
@@ -94,8 +100,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (city) {
             queryParams.append('city', city);
         }
-        if (district) {
-            queryParams.append('district', district);
+        if (selectedDistricts.length > 0) {
+            queryParams.append('districts', selectedDistricts.join(',')); // 将所有选中的区用逗号分隔
         }
         if (minBudget) {
             queryParams.append('minBudget', minBudget);

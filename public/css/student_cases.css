@@ -25,3 +25,10 @@
     margin-top: 25px;
     cursor: pointer;
 }
+
+.districts_container {
+    overflow-y: auto;  /* 允許縱向滾動 */
+    border: 1px solid #ccc; /* 可選：為容器添加邊框 */
+    padding: 5px; /* 可選：為容器添加內邊距 */
+    box-sizing: border-box; /* 確保 padding 和 border 包含在容器的總高度內 */
+}
