@@ -6,7 +6,7 @@ use App\Models\City;
 use App\Models\GetStudent;
 use App\Models\Subject;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class GetStudentController extends Controller
 {
@@ -36,9 +36,13 @@ class GetStudentController extends Controller
             $query->where('city_id', $request->city);
         }
 
-        // 筛选区
-        if ($request->has('district') && $request->district != '') {
-            $query->whereJsonContains('district_ids', $request->district);
+        if ($request->has('districts') && $request->districts != '') {
+            $districts = explode(',', $request->districts); // 处理多个区
+            $query->where(function ($q) use ($districts) {
+                foreach ($districts as $district) {
+                    $q->where('district_ids', 'like', '%"'.$district.'"%');
+                }
+            });
         }
 
         // 筛选预算
@@ -51,7 +55,6 @@ class GetStudentController extends Controller
             $times = explode(',', $request->time);
             $conditions = [];
             foreach ($times as $time) {
-                // 确保时间值被正确包裹在引号中
                 $conditions[] = 'FIND_IN_SET(\''. $time .'\', available_time) > 0';
             }
             $query->whereRaw(implode(' OR ', $conditions));
@@ -62,6 +65,4 @@ class GetStudentController extends Controller
 
         return view('student_cases', compact('students', 'subjects', 'cities'));
     }
-
-
 }
