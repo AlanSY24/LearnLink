@@ -5,8 +5,8 @@
     </a>
     <button class="nav-ll-navbar-toggle" id="navLLToggle">☰</button>
     <ul class="nav-ll-navbar-menu" id="navLLMenu">
-        <li><a href="">發案</a></li>
-        <li><a href="">接案</a></li>
+        <li><a href="/LearnLink/public/findteacher">發案</a></li>
+        <li><a href="/LearnLink/public/beteacher">接案</a></li>
         @auth
             <li>
                 <form action="{{ route('logout') }}" method="POST" class="nav-ll-logout-form">
