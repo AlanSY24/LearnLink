@@ -49,6 +49,7 @@ class FavoriteStudentController extends Controller
                     'available_time' => $availableTime,  // 保持字符串格式
                     'hourly_rate' => $beTeacher->hourly_rate,
                     'districts' => $districts,
+                    'id' => $beTeacher->id,
                 ],
                 'is_favorite' => true,
             ];
@@ -88,5 +89,28 @@ class FavoriteStudentController extends Controller
                        ->delete();
 
         return response()->json(['favorited' => false]);
+    }
+    public function toggleFavorite(Request $request)
+    {
+        $user = auth()->user();
+        $teacherId = $request->input('teacher_id');
+
+        // 查找收藏紀錄
+        $favorite = FavoriteStudent::where('user_id', $user->id)
+                                    ->where('be_teachers_id', $teacherId)
+                                    ->first();
+
+        if ($favorite) {
+            // 如果已經收藏，則取消收藏
+            $favorite->delete();
+            return response()->json(['is_favorite' => false]);
+        } else {
+            // 如果沒有收藏，則添加收藏
+            FavoriteStudent::create([
+                'user_id' => $user->id,
+                'be_teachers_id' => $teacherId,
+            ]);
+            return response()->json(['is_favorite' => true]);
+        }
     }
 }

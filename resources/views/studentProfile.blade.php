@@ -161,13 +161,14 @@
                         return; // 如果 be_teacher 為 null，則跳過
                     }
 
-                    // 生成 districts 列表
+                    // 判斷收藏狀態並設置愛心圖標
+                    let heartClass = item.is_favorite ? 'fas fa-heart' : 'far fa-heart';
 
                     html += `
                 <section class="student_container">
                     <div class="student_header">
                         <h1>${item.be_teacher.title}</h1>
-                        <i id="heart" class="far fa-heart" style="color: red ;"></i>
+                        <i id="heart" class="${heartClass}" data-id="${item.be_teacher.id}" style="color: red ;cursor: pointer;"></i>
                     </div>
                     <div class="student_info-bar">
                         <div>${item.be_teacher.subject}</div>
@@ -200,6 +201,32 @@
                 });
                 html += '</ul>';
                 $('#areaStatus').html(html);
+                // 綁定愛心圖標的點擊事件
+                $('.student_header i').on('click', function() {
+                    let teacherId = $(this).data('id');
+                    let item = $(this).closest('.student_container'); // 獲取點擊圖標的父容器（整個項目）
+                    let icon = $(this);
+                    $.ajax({
+                        url: '{{ route('favorites_student.toggleFavorite') }}', // 你需要在後端設置一個路由來處理這個請求
+                        type: 'POST',
+                        data: {
+                            teacher_id: teacherId,
+                            _token: '{{ csrf_token() }}' // Laravel 的 CSRF 保護
+                        },
+                        success: function(response) {
+                            if (response.is_favorite) {
+                                icon.removeClass('far fa-heart').addClass('fas fa-heart');
+                                item.addClass('hidden'); // 如果取消收藏，則從 DOM 中移除該項目
+                            } else {
+                                icon.removeClass('fas fa-heart').addClass('far fa-heart');
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error('An error occurred:', xhr);
+                            alert('操作失敗，請稍後重試。');
+                        }
+                    });
+                });
             },
             error: function(xhr) {
                 console.error('An error occurred:', xhr);
