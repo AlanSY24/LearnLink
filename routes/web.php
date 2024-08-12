@@ -115,6 +115,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/be-teachers', [FavoriteStudentController::class, 'index'])->name('be-teachers.index');
     Route::post('/be-teachers/{beTeacher}/favorite', [FavoriteStudentController::class, 'store'])->name('favorites_student.store');
     Route::delete('/be-teachers/{beTeacher}/favorite', [FavoriteStudentController::class, 'destroy'])->name('favorites_student.destroy');
+    // 獲取收藏列表
+    Route::get('/favorites-student', [FavoriteStudentController::class, 'studentFavorite'])->name('favorites_student.studentFavorite');
+
+    // 其他按鈕功能待定
 });
 
 

@@ -15,7 +15,21 @@ class FavoriteStudentController extends Controller
     public function index()
     {
         $beTeachers = BeTeacher::with(['subject', 'city'])->get();
+        dd($beTeachers);
+
         return view('student_requests', compact('beTeachers'));
+    }
+
+    public function studentFavorite()
+    {
+        $user = auth()->user();
+
+        // 獲取用戶收藏的教師
+        $favorites = FavoriteStudent::where('user_id', $user->id)
+                                    ->with('beTeacher')  // 預加載關聯資料
+                                    ->get();
+
+        return response()->json($favorites);
     }
 
     public function store(Request $request, $beTeacherId)
