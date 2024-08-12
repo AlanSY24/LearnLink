@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\FavoriteStudent;
 use App\Models\BeTeacher;
+use App\Models\District;
+use App\Models\City;
+
 
 class FavoriteStudentController extends Controller
 {
@@ -15,7 +18,7 @@ class FavoriteStudentController extends Controller
     public function index()
     {
         $beTeachers = BeTeacher::with(['subject', 'city'])->get();
-        dd($beTeachers);
+        // dd($beTeachers);
 
         return view('student_requests', compact('beTeachers'));
     }
@@ -24,11 +27,32 @@ class FavoriteStudentController extends Controller
     {
         $user = auth()->user();
 
-        // 獲取用戶收藏的教師
         $favorites = FavoriteStudent::where('user_id', $user->id)
-                                    ->with('beTeacher')  // 預加載關聯資料
-                                    ->get();
+        ->with('beTeacher.subject', 'beTeacher.city',
+        )
+        ->get()
+        ->map(function ($favorite) {
+            $beTeacher = $favorite->beTeacher;
+            // 直接使用 available_time 字段的字符串值
+            $availableTime = $beTeacher->available_time;
+            $districtsIds = $favorite->beTeacher->district_ids;
+            $districts = $beTeacher->city->districts
+                ->whereIn('id', $districtsIds)
+                ->pluck('district_name')
+                ->toArray();
 
+            return [
+                'be_teacher' => [
+                    'title' => $beTeacher->title,
+                    'subject' => $beTeacher->subject->name ?? 'N/A',
+                    'city' => $beTeacher->city->city ?? 'N/A',
+                    'available_time' => $availableTime,  // 保持字符串格式
+                    'hourly_rate' => $beTeacher->hourly_rate,
+                    'districts' => $districts,
+                ],
+                'is_favorite' => true,
+            ];
+        });
         return response()->json($favorites);
     }
 

@@ -65,4 +65,10 @@ class BeTeacher extends Model
     {
         return $this->belongsToMany(District::class);
     }
+
+    // 定義與 FavoriteStudent 的關聯
+    public function favorites()
+    {
+        return $this->hasMany(FavoriteStudent::class, 'be_teachers_id');
+    }
 }

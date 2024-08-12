@@ -149,63 +149,65 @@
     <script>
     $(document).ready(function() {
         $('#btnFavorite').on('click', function() {
-            $.ajax({
-                url: '{{ route('favorites_student.studentFavorite') }}',
-                type: 'GET',
-                success: function(response) {
-                    let html = '<h3>我的收藏</h3><ul>';
-                    response.forEach(function(item) {
-                        console.log(item);
-                        
-                        html += `
-            <section class="student_container">
-                <div class="student_header">
-                    <h1>${item.be_teacher.title}</h1>
-                    <i id="heart" class="far fa-heart" style="color: red ;"></i>
-                </div>
-                <div class="student_info-bar">
-                    <div>${item.be_teacher.subject_id}</div>
-                    <div>${item.be_teacher.relations}</div>
-                    <div>${item.be_teacher.available_time}</div>
-                    <div>${item.be_teacher.hourly_rate}</div>
-                </div>
-                <div class="student_profile">
-                    <div class="avatar">大頭貼</div>
-                    <div class="description">
-                        <p>自我介紹(學經歷)</p>
+        $.ajax({
+            url: '{{ route('favorites_student.studentFavorite') }}',
+            type: 'GET',
+            success: function(response) {
+                
+                let html = '<h3>我的收藏</h3><ul>';
+                response.forEach(function(item) {
+                    console.log(item);
+                    if (!item.be_teacher) {
+                        return; // 如果 be_teacher 為 null，則跳過
+                    }
+
+                    // 生成 districts 列表
+
+                    html += `
+                <section class="student_container">
+                    <div class="student_header">
+                        <h1>${item.be_teacher.title}</h1>
+                        <i id="heart" class="far fa-heart" style="color: red ;"></i>
                     </div>
-                </div>
-                <div class="student_buttons">
-                    <div class="rating">
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
+                    <div class="student_info-bar">
+                        <div>${item.be_teacher.subject}</div>
+                        <div>${item.be_teacher.city}</div>
+                        <div>${item.be_teacher.available_time}</div>
+                        <div>${item.be_teacher.hourly_rate}</div>
+                        <div>${item.be_teacher.districts}</div>
                     </div>
-                    <div class="student_btn">
-                        <button id="btnDetailsResume">詳細履歷</button>
-                        <button id="btnContactTeacher">聯絡老師</button>
+                    <div class="student_profile">
+                        <div class="avatar">大頭貼</div>
+                        <div class="description">
+                            <p>自我介紹(學經歷)</p>
+                        </div>
                     </div>
-                    <!-- <div class="options">
-                        <button>學生</button>
-                        <button>家長</button>
-                        <button>F資表預設1</button>
-                        <button>F資表預設2</button>
-                    </div> -->
-                </div>
-            </section>
-            `;
-                    });
-                    html += '</ul>';
-                    $('#areaStatus').html(html);
-                },
-                error: function(xhr) {
-                    console.error('An error occurred:', xhr);
-                    $('#areaStatus').html('<p>載入收藏列表時發生錯誤。</p>');
-                }
-            });
+                    <div class="student_buttons">
+                        <div class="rating">
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                        </div>
+                        <div class="student_btn">
+                            <button id="btnDetailsResume">詳細履歷</button>
+                            <button id="btnContactTeacher">聯絡老師</button>
+                        </div>
+                    </div>
+                </section>
+                `;
+                });
+                html += '</ul>';
+                $('#areaStatus').html(html);
+            },
+            error: function(xhr) {
+                console.error('An error occurred:', xhr);
+                $('#areaStatus').html('<p>載入收藏列表時發生錯誤aa。</p>');
+            }
         });
+    });
+
 
         // 其他按鈕功能的 AJAX 請求可根據需要進行設置
         $('#btnContact').on('click', function() {
