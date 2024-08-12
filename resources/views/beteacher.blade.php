@@ -8,8 +8,14 @@
     <meta name="base-url" content="{{ url('/') }}">
     <title>Document</title>
     <link rel="stylesheet" href="{{ asset('luyen/findteacher.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/header_footer.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 </head>
 <body>
+<script src="{{ asset('js/nav.js') }}"></script>
+<x-nav />
+<div class="spacer"></div>
 <div>
         <form id="jobForm" method="POST"  >
             @csrf
@@ -90,6 +96,8 @@
             <button type="submit">提交</button>
         </form>
     </div>
+    <div class="spacer"></div>
+    <x-footer_alpha/>
             <script src="{{ asset('luyen/beteacher.js') }}"></script>
 </body>
 </html>
