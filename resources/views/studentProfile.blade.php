@@ -18,7 +18,7 @@
 
 
     <!-- 導入CSS(會員中心老師.css) -->
-    <link rel="stylesheet" href="./css/會員中心.css">
+    <link rel="stylesheet" href="./css/member.css">
     <!-- <link rel="stylesheet" href="./css/studentCss.css"> -->
 
 </head>

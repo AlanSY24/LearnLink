@@ -1,0 +1,401 @@
+:root {
+    --main-color: #004080;
+    --accent-color: #ffcc00;
+    --text-color: #fff;
+    --bg-color: #f4f4f4;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* 頁首樣式 */
+header {
+    background-color: #004080;
+    /* 深藍色 */
+    color: #fff;
+    padding: 1em 0;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+/* 容器樣式 */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* 側邊欄樣式 */
+.sidebar {
+    /* background-color: #ffcc00; */
+    /* 黃色 */
+    width: 20%;
+    padding: 1em;
+}
+
+.sidebar h2 {
+    color: #004080;
+    /* 深藍色 */
+}
+
+.sidebar ul {
+    margin-top: 3em;
+    list-style: none;
+
+}
+
+.sidebar ul li {
+    margin: 1em 0;
+}
+
+.sidebar ul li a {
+    color: #004080;
+    /* 深藍色 */
+    text-decoration: none;
+}
+
+.sidebar ul li a:hover {
+    text-decoration: underline;
+}
+/* 主要內容樣式 */
+main {
+    flex-grow: 1;
+    padding: 1em;
+}
+
+section h2 {
+    color: #004080;
+    /* 深藍色 */
+}
+
+/* 表單樣式 */
+
+
+.container-confirm,
+.container-resume {
+    position: fixed;
+    top: 10%;
+    left: 30%;
+    width: 40%;
+    height: 50%;
+}
+
+.container-form {
+    background-color: #ffcc00;
+    padding: 20px;
+    border-radius: 5px;
+    /* display: flex; */
+}
+
+
+.container-form h2 {
+    color: #004080;
+    /* 深藍色 */
+}
+
+.container-form label {
+    display: block;
+    margin: 1em 0 0.5em;
+    color: #004080;
+    /* 深藍色 */
+}
+
+.container-form input[type="text"],
+.container-form input[type="file"],
+.container-form select {
+    width: 100%;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.container-form button {
+    background-color: #004080;
+    /* 深藍色 */
+    color: #fff;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.container-form button:hover {
+    background-color: #003060;
+    /* 更深的藍色 */
+}
+
+/* 按鈕樣式 */
+button {
+    background-color: #004080;
+    /* 深藍色 */
+    color: #fff;
+    border: none;
+    padding: 0.5em 1em;
+    margin: 0.5em 0;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+button:hover {
+    background-color: #003060;
+    /* 更深的藍色 */
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* 顯示區域樣式 */
+
+#areaStatus {
+    background-color: #fff;
+    padding: 1em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 1em;
+    margin-bottom: 40px;
+    width: 70%;
+}
+
+
+
+/* 隱藏元素 */
+.hidden {
+    display: none;
+}
+/* ------------------------------會員中心-學生------------------------------ */
+.student_header,
+.teacher_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.student_header h1 {
+    font-size: 20px;
+    margin: 0;
+    color: #333;
+    flex: 1;
+}
+
+.student_header .collect {
+    font-size: 20px;
+    color: red;
+    cursor: pointer;
+}
+
+.student_info-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    /* flex-wrap: wrap; */
+    gap: 10px;
+}
+
+.student_info-bar div {
+    flex: 1 1 45%;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.student_profile {
+    display: flex;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.student_profile .avatar {
+    width: 100px;
+    height: 100px;
+    background-color: #ddd;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 100px;
+    font-size: 14px;
+    color: #777;
+    flex-shrink: 0;
+}
+
+.student_profile .description {
+    flex: 1 1 calc(100% - 120px);
+}
+
+.student_profile .description p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+
+
+.rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.rating span {
+    font-size: 20px;
+    color: #FFD700;
+    margin-right: 5px;
+}
+
+
+.student_btn {
+    display: flex;
+    justify-content: flex-end;
+
+}
+
+.student_btn button {
+    margin-left: 10px;
+}
+
+
+
+
+textarea {
+    width: 100%;
+    height: 70px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+}
+
+#resForm input[type="text"] {
+    width: 70%;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+
+}
+
+.form-container {
+    display: none;
+    margin-top: 10px;
+}
+
+/* ↓↓↓↓↓↓↓↓ footer ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*/
+.ll-footer {
+    background-color: var(--main-color);
+    color: var(--text-color);
+    padding: 2em 0;
+}
+
+.ll-footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.ll-footer-section {
+    flex: 1;
+    min-width: 250px;
+    margin: 0 15px 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.ll-footer-section:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+}
+
+.ll-footer-section h3 {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    color: var(--accent-color);
+}
+
+.ll-footer-section p,
+.ll-footer-section ul {
+    line-height: 1.6;
+    margin: 0;
+}
+
+.ll-footer-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.ll-footer-section ul li {
+    margin-bottom: 8px;
+}
+
+.ll-social-icons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.ll-social-icons a {
+    color: var(--text-color);
+    font-size: 1.2em;
+    margin: 0 10px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+}
+
+.ll-social-icons a:hover {
+    color: var(--accent-color);
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@media (max-width: 768px) {
+    .ll-footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .ll-footer-section {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* ↑↑↑↑↑↑↑↑↑ footer ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ */

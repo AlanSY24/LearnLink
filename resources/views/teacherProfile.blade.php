@@ -18,7 +18,7 @@
 
 
     <!-- 導入CSS(會員中心老師.css) -->
-    <link rel="stylesheet" href="./css/會員中心.css">
+    <link rel="stylesheet" href="./css/member.css">
     <!-- <link rel="stylesheet" href="./css/studentCss.css"> -->
 
 </head>
@@ -63,8 +63,31 @@
                 <button id="btnRecord">紀錄表</button>
 
 
-                <!-- 顯示數據的區域 -->
-                <div id="areaStatus"></div>
+                <!-- 顯示數據的區域 -->     
+                <div id="areaStatus">
+
+                    @foreach( $favorites_array as $favorite_item)
+                    <div class="s_cases_block">
+                        
+                        <div class="teacher_header">
+                            <h1>{{ $favorite_item["title"]  }}</h1>
+                            <i id="heart" class="far fa-heart" style="color: red ;"></i>
+                        </div>
+                        
+                        <div id="t_lists_subject">科目 : {{ $favorite_item["subjectname"]  }}</div>
+                        <div id="t_lists_name">姓名：{{ $favorite_item["name"]  }}</div>
+                        <div id="t_lists_gender">(A02)性別：女</div>
+                        <div id="t_lists_place">(B04+B05)上課預期地點：台中北屯區</div>
+                        <div id="t_lists_time">(B??)上課預期時間：上午</div>
+                        <div id="t_lists_price">(B06)上課預期時薪：300 - 400</div>
+                        <div id="t_lists_describe">(B07)關於學生的詳細描述：1. 需要多點耐心 2. 主要以輔導學校數學作業為主</div>
+                        <div class="container-button">
+                            <button id="btnContactStudent">連絡學生/家長</button>
+                        </div>
+                    </div>
+                    @endforeach     
+
+                </div>
                 <!-- 顯示數據的區域 -->
             </section>
 
@@ -86,7 +109,7 @@
 
 
    <!-- 被學生/家長連絡表(V)(X)-->
-   <div id="formConfirm" class="container-confirm hidden">
+    <div id="formConfirm" class="container-confirm hidden">
         <div class="container-form">
             <form id="confirmFormData">
                 <h2>(B01)國小三年級數學</h2>
@@ -137,7 +160,6 @@
             <button id="btnCloseFormConfirm" class="close-button">&times;</button>
 
         </div>
-
     </div>
 
 
@@ -152,6 +174,10 @@
             const favoriteOverlay = document.createElement('div');
             favoriteOverlay.classList.add('s_cases');
             favoriteOverlay.innerHTML = `
+
+
+
+            
                 <div class="s_cases_block">
                     <div class="teacher_header">
                         <h1>(B01)國小三年級數學</h1>
@@ -169,6 +195,9 @@
                         <button id="btnContactStudent">連絡學生/家長</button>
                     </div>
                 </div>
+
+
+                
             `;
             return favoriteOverlay;
         }

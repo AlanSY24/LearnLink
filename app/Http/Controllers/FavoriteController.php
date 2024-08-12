@@ -51,5 +51,34 @@ class FavoriteController extends Controller
 
         return response()->json(['favorited' => false]);
     }
+
+    public function showFavorites()
+    {
+        // 獲取當前用戶的收藏
+        $user = Auth::user();
+        $favorites = Favorite::where('user_id', $user->id)->get();
+        $favorites_array= array();
+        $i=0;
+        foreach( $favorites as $item){
+            $favorites_array[$i] =array();
+            $request_id = $item->teacher_request_id;
+            $teacher_item = TeacherRequest::where([
+                ['user_id'=> $user->id],
+                ['id'=> $request_id]
+            ])->first();
+            $favorite_array =array(
+                "title"=>"test"
+            );
+            $favorites_array[$i] =$favorite_array;
+            $i++;
+        }
+
+
+
+        // 傳遞收藏資料到視圖
+        return view('teacherProfile',['favorites'=>$favorites_array ]);
+        //return view('teacherProfile', compact('favorites'));
+    }
+
 }
 ?>

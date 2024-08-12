@@ -9,6 +9,8 @@ class Favorite extends Model
 {
     use HasFactory;
 
+    protected $table = 'favorites';
+    
     // 定義填充屬性
     protected $fillable = [
         'user_id',
@@ -24,4 +26,8 @@ class Favorite extends Model
     {
         return $this->belongsTo(TeacherRequest::class);
     }
+
+
+
+
 }

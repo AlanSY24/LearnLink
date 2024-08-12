@@ -118,23 +118,122 @@
             </div>
         @endif
 
-        <h1>學生自我介紹與學歷</h1>
+        <!-- <h1>學生自我介紹與學歷</h1> -->
+        <button id="btnAddResume">新增/編輯 學歷與自我介紹</button>
 
-        <form action="{{ route('studentprofile.store') }}" method="POST">
-            @csrf
 
-            <div class="form-group-SP">
-                <label for="education">學歷</label><br>
-                <textarea id="education" name="education" rows="4" required>{{ old('education', $profile->education ?? '') }}</textarea>
+        @if($profile)
+            <div>
+                <div>
+                    <h3>學歷 : <br></h3>
+                    <p>{{ $profile->education }}</p>
+                    <h3>自我介紹: <br></h3>
+                    <p>{{ $profile->introduction }}</p>
+                </div>
             </div>
+        @endif
+        
+        <!-- 學歷自我介紹表單 -->
+        <div id="formResume" class="container-resume hidden">
+            <div class="container-form">
+                <form action="{{ route('studentprofile.store') }}" method="POST">
+                    @csrf
 
-            <div class="form-group-SP">
-                <label for="introduction">自我介紹</label><br>
-                <textarea id="introduction" name="introduction" rows="4" required>{{ old('introduction', $profile->introduction ?? '') }}</textarea>
+                    <div class="form-group-SP">
+                        <label for="education">學歷</label><br>
+                        <textarea id="education" name="education" rows="4" required>{{ old('education', $profile->education ?? '') }}</textarea>
+                    </div>
+
+                    <div class="form-group-SP">
+                        <label for="introduction">自我介紹</label><br>
+                        <textarea id="introduction" name="introduction" rows="4" required>{{ old('introduction', $profile->introduction ?? '') }}</textarea>
+                    </div>
+
+                    <button type="submit" class="btn-SP">儲存</button>
+                    <button type="button" id="btnCloseResume" class="close-button">&times;</button>
+                </form>
             </div>
+        </div>
 
-            <button type="submit" class="btn-SP">儲存</button>
-        </form>
+
+
     </div>
 </body>
+<script>
+    // <!-- script(履歷表)==================================================================================================== -->
+        //按鈕:新增/編輯 學歷與自我介紹
+        document.getElementById('btnAddResume').addEventListener('click', function () {
+            document.getElementById('formResume').classList.remove('hidden');
+        });
+        //按鈕:右上角關閉X
+        document.getElementById('btnCloseResume').addEventListener('click', function () {
+            document.getElementById('formResume').classList.add('hidden');
+        });
+
+        //表單:新增(送出sumbit)
+        document.getElementById('resumeFormData').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            var formData = new FormData(this);
+            var file = formData.get('resumeFile');
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var pdfBlob = new Blob([e.target.result], { type: 'application/pdf' });
+                var url = URL.createObjectURL(pdfBlob);
+
+                var resumeTitle = formData.get('resumeTitle');
+                var photoFile = formData.get('resumePhoto');
+                var photoReader = new FileReader();
+
+                photoReader.onload = function (e) {
+                    var photoURL = e.target.result;
+                    var photoImg = document.createElement('img');
+                    photoImg.src = photoURL;
+                    photoImg.width = 100;
+
+                    var dataContainer = document.createElement('div');
+                    dataContainer.innerHTML = `
+                        <div style="display: flex">
+                            <button class="btn-delete">刪除</button>
+                            <div>
+                                <div>
+                                    <h3>${resumeTitle}</h3>
+                                    <div>${photoImg.outerHTML}</div>
+                                    <embed src="${url}" type="application/pdf" width="250" height="200">   
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    document.getElementById('areaResume').appendChild(dataContainer);
+                    document.getElementById('formResume').classList.add('hidden');
+                    this.reset();
+                }.bind(this);
+                photoReader.readAsDataURL(photoFile);
+            }.bind(this);
+
+            reader.readAsArrayBuffer(file);
+        });
+
+        //刪除功能
+        document.getElementById('areaResume').addEventListener('click', function (e) {
+            if (e.target.classList.contains('btn-delete')) {
+                if (confirm('請問是否確定刪除?')) {
+                    e.target.parentElement.remove();
+                }
+            }
+        });
+        
+
+
+
+
+
+
+</script>
+
+
+
+
+
 </html>
