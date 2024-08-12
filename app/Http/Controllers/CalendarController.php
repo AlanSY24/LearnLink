@@ -11,16 +11,20 @@ use Illuminate\Support\Facades\Auth;
 
 class CalendarController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('calendar');
+        // 模擬從其他頁面接收到的教師ID
+        $simulatedTeacherId = '12345'; // 這裡使用一個固定的值來模擬
+
+        // 在實際情況下，您會從請求中獲取教師ID
+        // $teacherUserId = $request->input('teacher_id');
+
+        // 使用模擬的教師ID
+        $teacherUserId = $simulatedTeacherId;
+
+        return view('calendar', compact('teacherUserId'));
     }
 
-    public function getCities()
-    {
-        $cities = City::with('districts')->get();
-        return response()->json($cities);
-    }
 
     public function storeEvent(Request $request)
     {
@@ -35,14 +39,14 @@ class CalendarController extends Controller
                 'hourly_rate' => 'required|numeric',
             ]);
 
-            $externalUserId = $request->input('user_id'); // 從請求中獲取外部 user_id
+            // $externalUserId = $request->input('user_id'); // 從請求中獲取外部 user_id
             $loggedInUserId = Auth::id(); // 獲取當前登入用戶的 ID
 
             if (!$loggedInUserId) {
                 return response()->json(['error' => '用戶未登入'], 401);
             }
 
-            if (!$externalUserId) {
+            if (!$teacherId) {
                 return response()->json(['error' => '未提供教師用戶 ID'], 400);
             }
 
@@ -53,7 +57,7 @@ class CalendarController extends Controller
             $calendar = Calendar::create($calendarData);
 
             // 同時儲存到 TeacherCalendar 模型，使用外部傳入的 user_id
-            $teacherCalendarData = array_merge($validatedData, ['user_id' => $externalUserId]);
+            $teacherCalendarData = array_merge($validatedData, ['teacher_id' => $teacherId]);
             TeacherCalendar::create($teacherCalendarData);
 
             DB::commit();
@@ -97,7 +101,7 @@ class CalendarController extends Controller
     {
         try {
             $events = $request->input('events');
-            $externalUserId = $request->input('user_id'); // 從請求中獲取外部 user_id
+            $teacherId = $request->input('teacher_id'); // 從請求中獲取外部 user_id
             
             $loggedInUserId = Auth::id(); // 獲取當前登入用戶的 ID
 
@@ -105,9 +109,9 @@ class CalendarController extends Controller
                 return response()->json(['error' => '用戶未登入'], 401);
             }
 
-            if (!$externalUserId) {
-                return response()->json(['error' => '未提供教師用戶 ID'], 400);
-            }
+            // if (!$externalUserId) {
+            //     return response()->json(['error' => '未提供教師用戶 ID'], 400);
+            // }
 
             DB::beginTransaction();
             
@@ -119,7 +123,7 @@ class CalendarController extends Controller
                 Calendar::create($calendarData);
                 
                 // 創建 TeacherCalendar 條目，使用外部傳入的 user_id
-                $teacherCalendarData = array_merge($validatedData, ['user_id' => $externalUserId]);
+                $teacherCalendarData = array_merge($validatedData, ['user_id' => $teacherId]);
                 TeacherCalendar::create($teacherCalendarData);
             }
             

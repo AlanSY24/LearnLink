@@ -4,8 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const baseUrl = document.querySelector('meta[name="base-url"]').getAttribute('content');
     
-    // 模擬的 teacherUserId
-    const teacherUserId = '12345'; // 這裡使用一個固定的值來模擬教師ID
+    // 從 meta 標籤中獲取模擬的 teacherUserId
+    const teacherUserId = document.querySelector('meta[name="teacher-user-id"]').getAttribute('content');
+    console.log('Using simulated teacher ID:', teacherUserId);
 
     // 固定的事件類型
     const EVENT_TYPE = "數學課";
@@ -296,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({ 
                 events: events,
-                user_id: teacherUserId  // 使用模擬的教師用戶ID
+                teacher_id: teacherUserId  // 使用模擬的教師用戶ID
             })
         })
         .then(response => response.json())
