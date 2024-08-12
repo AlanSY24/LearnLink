@@ -12,6 +12,7 @@ use App\Http\Controllers\StudentProfileController;
 use App\Http\Controllers\TeacherProfileController;
 use App\Http\Controllers\BeTeacherController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\FavoriteStudentController;
 
 
 
@@ -111,6 +112,9 @@ Route::middleware('auth')->group(function () {
 
     // 取消收藏教師請求
     Route::delete('/teacher-requests/{teacherRequest}/favorite', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+    Route::get('/be-teachers', [FavoriteStudentController::class, 'index'])->name('be-teachers.index');
+    Route::post('/be-teachers/{beTeacher}/favorite', [FavoriteStudentController::class, 'store'])->name('favorites_student.store');
+    Route::delete('/be-teachers/{beTeacher}/favorite', [FavoriteStudentController::class, 'destroy'])->name('favorites_student.destroy');
 });
 
 
