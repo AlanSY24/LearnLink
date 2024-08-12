@@ -44,6 +44,8 @@
                 </div>
             </div>
 
+            
+
             <div class="t_search_place">
                 <p>請選擇上課地點：</p>
                 <label for="city">選擇縣市：</label>
@@ -54,10 +56,10 @@
                     @endforeach
                 </select>
 
-                <label for="district">選擇區域：</label>
-                <select name="district" id="district">
-                    <option value="">請選擇區域</option>
-                </select>
+                <label for="districts">選擇區域：</label>
+                <div id="districts" class="districts_container">
+                    <!-- 區域的 checkbox 會動態加到這裡 -->
+                </div>
             </div>
 
 

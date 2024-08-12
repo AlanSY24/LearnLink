@@ -35,9 +35,21 @@ class GetTeacherController extends Controller
             $query->where('city_id', $request->city);
         }
 
-        // 篩選區域
-        if ($request->has('district') && $request->district != '') {
-            $query->whereJsonContains('district_ids', $request->district);
+        // 筛选区
+        if ($request->has('districts') && $request->districts != '') {
+            $districts = explode(',', $request->districts); // 处理多个区
+
+            // 创建 JSON_CONTAINS 条件
+            $districtConditions = [];
+            foreach ($districts as $district) {
+                $district = (int) $district; // 确保区 ID 是整数
+                $districtConditions[] = "JSON_CONTAINS(district_ids, '\"$district\"', '$')";
+            }
+
+            // 使用 orWhereRaw 连接多个条件
+            if (!empty($districtConditions)) {
+                $query->whereRaw(implode(' OR ', $districtConditions));
+            }
         }
 
         // 篩選預算

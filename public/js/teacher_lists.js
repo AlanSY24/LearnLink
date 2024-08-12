@@ -56,42 +56,41 @@ $(document).ready(function() {
                 url: '/LearnLink/public/districts/' + selectedCityId,
                 type: 'GET',
                 success: function(data) {
-                    $('#district').empty();
-                    $('#district').append('<option value="">請選擇區域</option>');
+                    $('#districts').empty();
                     $.each(data, function(index, district) {
-                        $('#district').append('<option value="' + district.id + '">' + district.district_name + '</option>');
+                        $('#districts').append(
+                            '<label><input type="checkbox" name="districts[]" value="' + district.id + '"> ' + district.district_name + '</label><br>'
+                        );
                     });
                 },
                 error: function(xhr, status, error) {
                     console.error('Districts AJAX Error:', error);
                 }
             });
+        } else {
+            $('#districts').empty(); // 如果未選擇縣市，清空區域選擇
         }
     });
-
 });
 
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('searchButtont').addEventListener('click', function() {
-        // 獲取篩選條件
         const subject = document.getElementById('subject').value;
         const city = document.getElementById('city').value;
-        const district = document.getElementById('district').value;
+        // 取得选中的多个区域
+        const selectedDistricts = Array.from(document.querySelectorAll('#districts input[type="checkbox"]:checked'))
+            .map(checkbox => checkbox.value);
         const minBudget = document.querySelector('.min-input').value;
         const maxBudget = document.querySelector('.max-input').value;
-        
-        
         const selectedTimes = Array.from(document.querySelectorAll('.s_search_time input[type="checkbox"]:checked'))
             .map(checkbox => checkbox.value);
 
-        // 檢查預算輸入的合法性
         if ((minBudget && minBudget < 100) || (maxBudget && maxBudget > 100000) || (minBudget && maxBudget && minBudget >= maxBudget)) {
-            alert('請檢查預算輸入是否正確');
+            alert('请检查预算输入是否正确');
             return;
         }
 
-        // 構建查詢字串
         const queryParams = new URLSearchParams();
 
         if (subject && subject !== '0') {
@@ -100,8 +99,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (city) {
             queryParams.append('city', city);
         }
-        if (district) {
-            queryParams.append('district', district);
+        if (selectedDistricts.length > 0) {
+            queryParams.append('districts', selectedDistricts.join(',')); // 将所有选中的区用逗号分隔
+            console.log('districts', selectedDistricts.join(','));
+            
         }
         if (minBudget) {
             queryParams.append('minBudget', minBudget);
@@ -112,7 +113,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (selectedTimes.length > 0) {
             queryParams.append('time', selectedTimes.join(','));
         }
-
         // 導向帶有查詢參數的 URL
         window.location.href = `http://localhost/LearnLink/public/teacher_lists?${queryParams.toString()}`;
     });
