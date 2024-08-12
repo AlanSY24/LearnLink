@@ -19,8 +19,8 @@ class Calendar extends Model
         'detail_address',
         'hourly_rate'
     ];
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class);
+    // }
 }

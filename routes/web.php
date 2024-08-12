@@ -17,6 +17,8 @@ use App\Http\Controllers\FavoriteStudentController;
 
 
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\OtherCalendarController;
+
 
 
 use App\Http\Controllers\GetTeacherController;
@@ -85,6 +87,10 @@ Route::post('/submit-events', [CalendarController::class, 'submitEvents']);
 Route::get('/calendar', [CalendarController::class, 'index']);
 Route::post('/store-event', [CalendarController::class, 'storeEvent']);
 Route::get('/show-events', [CalendarController::class, 'showEvents'])->name('show.events');
+
+
+Route::post('/studentSubmit-events', [OtherCalendarController::class, 'submitEvents']);
+Route::get('/otherCalendar', [OtherCalendarController::class, 'index']);
 
 
 //-------------------------------------
