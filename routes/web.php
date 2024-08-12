@@ -52,9 +52,7 @@ Route::post('/logout', function () {
 })->name('logout');
 
 Route::post('/forgot-password', [AuthController::class,'forgot']);
-Route::post('/forgot_2', [AuthController::class, 'forgot_2'])->name('forgot_2');
-Route::post('/forget_3', [AuthController::class, 'forgot_3'])->name('forgot_3');
-Route::view('/reset', 'reset_code')->name('reset');
+Route::post('/forgot-password-reset', [AuthController::class, 'forgot_2'])->name('forgot_2');
 
 
 // 會員中心基本資料

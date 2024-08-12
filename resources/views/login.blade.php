@@ -257,12 +257,6 @@
                 <a href="#" data-show-form="registerForm">註冊</a>
             </div>
         </form>
-        <label id="ifForgot" class="d-none"> <!-- 作為變數 -->
-            {{ session('forgotExist') ? 'true' : 'false' }}
-        </label>
-        <label id="forgotMessage" class="d-none">
-            {{ session('forgotMessage') }}
-        </label>
     </div>
     <!-- 驗證視窗 -->
     <dialog id="fotget_2_dialog" class="form-container rounded-3 shadow p-4 position-relative">
@@ -292,51 +286,8 @@
         </form>
     </dialog>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            let forgotCheck_1 = document.getElementById('ifForgot').textContent.trim();
+    <script src="{{ asset('js/checkout_form.js') }}"></script>
 
-            if (forgotCheck_1 == "true") {
-                console.log('有拿到true');
-                fotget_2_dialog.showModal();
-
-                setTimeout(() => {
-                    alert('已寄送驗證碼至您的 email');
-                }, 100); // 0.1秒的延遲
-            } else {
-                console.log('現在是false');
-            }
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            //  class 為 'links' 的元素下的 a 標籤，並存入 links 變數
-            const links = document.querySelectorAll('.links a');
-            // class 為 'outdiv' 的元素，並存入 forms 變數
-            const forms = document.querySelectorAll('.outdiv');
-
-            // 對每所有link操作
-            links.forEach(link => {
-                // 當 link 被點擊時，執行此函數
-                link.addEventListener('click', function (event) {
-                    // 阻止 link 的預設行為
-                    event.preventDefault();
-                    // 獲取 link 的 'data-show-form' 屬性值，並存入 formIdToShow 變數
-                    const formIdToShow = this.getAttribute('data-show-form');
-
-                    // 針對每一個 form，如果 form 的 id 等於 formIdToShow 就移除其 d-none 讓它顯示，反之
-                    forms.forEach(form => {
-                        if (form.id === formIdToShow) {
-                            form.classList.remove('d-none');
-                        } else {
-                            form.classList.add('d-none');
-                        }
-                    });
-                });
-            });
-        });
-
-    </script>
 </body>
 
 </html>
