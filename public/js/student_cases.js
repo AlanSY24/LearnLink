@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('searchButtons').addEventListener('click', function() {
         const subject = document.getElementById('subject').value;
         const city = document.getElementById('city').value;
-        // 取得選中的多個區域
+        // 取得选中的多个区域
         const selectedDistricts = Array.from(document.querySelectorAll('#districts input[type="checkbox"]:checked'))
             .map(checkbox => checkbox.value);
         const minBudget = document.querySelector('.min-input').value;
@@ -102,6 +102,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (selectedDistricts.length > 0) {
             queryParams.append('districts', selectedDistricts.join(',')); // 将所有选中的区用逗号分隔
+            console.log('districts', selectedDistricts.join(','));
+            
         }
         if (minBudget) {
             queryParams.append('minBudget', minBudget);

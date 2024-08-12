@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\City;
 use App\Models\GetStudent;
 use App\Models\Subject;
@@ -36,14 +35,28 @@ class GetStudentController extends Controller
             $query->where('city_id', $request->city);
         }
 
+        
+        
+        
+
+        // 筛选区
         if ($request->has('districts') && $request->districts != '') {
             $districts = explode(',', $request->districts); // 处理多个区
-            $query->where(function ($q) use ($districts) {
-                foreach ($districts as $district) {
-                    $q->where('district_ids', 'like', '%"'.$district.'"%');
-                }
-            });
+
+            // 创建 JSON_CONTAINS 条件
+            $districtConditions = [];
+            foreach ($districts as $district) {
+                $district = (int) $district; // 确保区 ID 是整数
+                $districtConditions[] = "JSON_CONTAINS(district_ids, '\"$district\"', '$')";
+            }
+
+            // 使用 orWhereRaw 连接多个条件
+            if (!empty($districtConditions)) {
+                $query->whereRaw(implode(' OR ', $districtConditions));
+            }
         }
+
+        
 
         // 筛选预算
         if ($request->has('minBudget') && $request->has('maxBudget')) {
