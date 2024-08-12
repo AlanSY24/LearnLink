@@ -7,12 +7,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- 導入CSS-->
     <link rel="stylesheet" href="./css/teacher_lists.css">
+    <link rel="stylesheet" href="./css/header_footer.css">
+
 
     <script src="{{ asset('js/teacher_lists.js') }}"></script>
     <title>找老師履歷</title>
 
 </head>
 <body>
+    <x-nav />
     <h1>老師履歷列表</h1>
 
     <div class="teacher_lists_container">
@@ -129,5 +132,6 @@
             @endforeach
         </div>
     </div>
+    <x-footer_alpha/>
 </body>
 </html>
