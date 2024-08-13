@@ -63,6 +63,7 @@ class TeacherProfileController extends Controller
 
 
             $favorite_array = array(
+                "id"=>$request_id,
                 //標題
                 "title"=>$teacher_request_item->title,
                 //科目

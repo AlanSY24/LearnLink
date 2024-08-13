@@ -170,17 +170,22 @@
                             <h1>${item.be_teacher.title}</h1>
                             <i id="heart" class="${heartClass}" data-id="${item.be_teacher.id}" style="color: red ;cursor: pointer;"></i>
                         </div>
+
                         <div class="student_info-bar">
-                            <div>${item.be_teacher.subject}</div>
-                            <div>${item.be_teacher.city}</div>
-                            <div>${item.be_teacher.available_time}</div>
-                            <div>${item.be_teacher.hourly_rate}</div>
-                            <div>${item.be_teacher.districts}</div>
+                            <div>縣市:${item.be_teacher.city}</div>
+                            <div>地區:${item.be_teacher.districts}</div>
+                        </div>
+
+                        <div class="student_info-bar">
+                            <div>科目:<br>${item.be_teacher.subject}</div>
+                            <div>時段:<br>${item.be_teacher.available_time}</div>
+                            <div>時薪:<br>${item.be_teacher.hourly_rate}</div>
                         </div>
                         <div class="student_profile">
                             <div class="avatar">大頭貼</div>
                             <div class="description">
-                                <p>自我介紹(學經歷)</p>
+                                <h3 style="color: #004080 ;">自我介紹(學經歷)：</h3>
+                                <p style="text-indent: 6em;">${item.be_teacher.details}</p>
                             </div>
                         </div>
                         <div class="student_buttons">
