@@ -10,11 +10,13 @@
 
     <!-- 導入CSS-->
     <link rel="stylesheet" href="./css/student_cases.css">
+    <link rel="stylesheet" href="./css/header_footer.css">
 
     <script src="{{ asset('js/student_cases.js') }}"></script>
 
 </head>
 <body>
+    <x-nav />   
     <h1>學生案件列表</h1>
 
     <div class="student_cases_container">
@@ -123,5 +125,7 @@
             @endforeach
         </div>
     </div>
+    <x-footer_alpha/>
+
 </body>
 </html>

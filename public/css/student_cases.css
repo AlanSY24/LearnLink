@@ -1,5 +1,6 @@
 .student_cases_container {
     display: flex;
+    justify-content: center
 }
 
 .s_search {
