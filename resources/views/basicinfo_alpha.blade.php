@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script>
 
     <!-- 導入CSS(會員中心老師.css) -->
-    <link rel="stylesheet" href="{{ asset('css/會員中心.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/header_footer.css') }}">
 </head>
 
 <body>
@@ -26,7 +26,9 @@
             <h2>會員中心</h2>
             <ul>
                 <li><a href="#" class="active">基本資料</a></li>
-                <!-- 其他選項... -->
+                <li><a href="#">老師</a></li>
+                <li><a href="#">學生</a></li>
+                <li><a href="#">家長</a></li>
             </ul>
         </aside>
         <main>

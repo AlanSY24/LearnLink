@@ -8,7 +8,7 @@
     <link rel='stylesheet' href='https://chinese-fonts-cdn.deno.dev/packages/zhbtt/dist/字魂扁桃体/result.css' />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    <link rel="stylesheet" href="{{ asset('css/會員中心.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/header_footer.css') }}">
     <style>
         .identity-selection {
             background-color: #f4f4f4;
