@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\BasicController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FindTeacherController;
 use App\Http\Controllers\StudentPageController;
@@ -60,7 +61,8 @@ Route::post('/forgot-password-reset', [AuthController::class, 'forgot_2'])->name
 
 
 // 會員中心基本資料
-Route::view('/basic','basicinfo_alpha')->name('basicinfoForm');
+Route::view('/basic','basicinfo_alpha')->name('basic.page');
+Route::post('/infoEdit', [BasicController::class,'infoEdit'])->name('basicinfoForm');
 
 
 

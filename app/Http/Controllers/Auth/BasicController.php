@@ -40,6 +40,6 @@ class BasicController extends Controller
         $user->save();
 
         // 重定向到指定的路由
-        return Redirect::route('auth.status');
+        return Redirect::route('basic.page');
     }
 }
