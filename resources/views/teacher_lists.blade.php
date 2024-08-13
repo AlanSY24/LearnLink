@@ -15,6 +15,7 @@
 
 </head>
 <body>
+    <script src="{{asset('js/nav.js')}}"></script>
     <x-nav />
     <h1>老師履歷列表</h1>
 

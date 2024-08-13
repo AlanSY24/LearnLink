@@ -309,22 +309,22 @@
     // <!-- 抓取大頭照==================================================================================================== -->
 
     $(document).ready(function() {
-    $.ajax({
-        url: "{{ route('get.teacher.photo', ['studentId' => Auth::id()]) }}",
-        type: 'GET',
-        xhrFields: {
-            responseType: 'blob'
-        },
-        success: function(data) {
-            var img = document.createElement('img');
-            img.src = URL.createObjectURL(data);
-            $('.avatar').html(img);
-        },
-        error: function() {
-            $('.avatar').html('No photo available');
-        }
+        $.ajax({
+            url: "{{ route('get.teacher.photo', ['studentId' => Auth::id()]) }}",
+            type: 'GET',
+            xhrFields: {
+                responseType: 'blob'
+            },
+            success: function(data) {
+                var img = document.createElement('img');
+                img.src = URL.createObjectURL(data);
+                $('.avatar').html(img);
+            },
+            error: function() {
+                $('.avatar').html('No photo available');
+            }
+        });
     });
-});
 
 
 
