@@ -13,6 +13,7 @@ use App\Http\Controllers\TeacherProfileController;
 use App\Http\Controllers\BeTeacherController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FavoriteStudentController;
+use App\Http\Controllers\ContactTeacherController;
 
 
 
@@ -129,6 +130,10 @@ Route::middleware('auth')->group(function () {
 
 
     // 其他按鈕功能待定
+
+    Route::post('/contact-teacher', [ContactTeacherController::class, 'contactTeacher'])->name('contact_teacher.contactTeacher');
+    Route::get('/contact/check', [ContactTeacherController::class, 'checkContactStatus'])->name('contact_teacher.check');
+
 });
 
 

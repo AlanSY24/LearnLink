@@ -149,92 +149,139 @@
     <script>
     $(document).ready(function() {
         $('#btnFavorite').on('click', function() {
-        $.ajax({
-            url: '{{ route('favorites_student.studentFavorite') }}',
-            type: 'GET',
-            success: function(response) {
-                
-                let html = '<h3>我的收藏</h3><ul>';
-                response.forEach(function(item) {
-                    console.log(item);
-                    if (!item.be_teacher) {
-                        return; // 如果 be_teacher 為 null，則跳過
-                    }
+            $.ajax({
+                url: '{{ route('favorites_student.studentFavorite') }}',
+                type: 'GET',
+                success: function(response) {
 
-                    // 判斷收藏狀態並設置愛心圖標
-                    let heartClass = item.is_favorite ? 'fas fa-heart' : 'far fa-heart';
-
-                    html += `
-                <section class="student_container">
-                    <div class="student_header">
-                        <h1>${item.be_teacher.title}</h1>
-                        <i id="heart" class="${heartClass}" data-id="${item.be_teacher.id}" style="color: red ;cursor: pointer;"></i>
-                    </div>
-                    <div class="student_info-bar">
-                        <div>${item.be_teacher.subject}</div>
-                        <div>${item.be_teacher.city}</div>
-                        <div>${item.be_teacher.available_time}</div>
-                        <div>${item.be_teacher.hourly_rate}</div>
-                        <div>${item.be_teacher.districts}</div>
-                    </div>
-                    <div class="student_profile">
-                        <div class="avatar">大頭貼</div>
-                        <div class="description">
-                            <p>自我介紹(學經歷)</p>
-                        </div>
-                    </div>
-                    <div class="student_buttons">
-                        <div class="rating">
-                            <span>★</span>
-                            <span>★</span>
-                            <span>★</span>
-                            <span>★</span>
-                            <span>★</span>
-                        </div>
-                        <div class="student_btn">
-                            <button id="btnDetailsResume">詳細履歷</button>
-                            <button id="btnContactTeacher">聯絡老師</button>
-                        </div>
-                    </div>
-                </section>
-                `;
-                });
-                html += '</ul>';
-                $('#areaStatus').html(html);
-                // 綁定愛心圖標的點擊事件
-                $('.student_header i').on('click', function() {
-                    let teacherId = $(this).data('id');
-                    let item = $(this).closest('.student_container'); // 獲取點擊圖標的父容器（整個項目）
-                    let icon = $(this);
-                    $.ajax({
-                        url: '{{ route('favorites_student.toggleFavorite') }}', // 你需要在後端設置一個路由來處理這個請求
-                        type: 'POST',
-                        data: {
-                            teacher_id: teacherId,
-                            _token: '{{ csrf_token() }}' // Laravel 的 CSRF 保護
-                        },
-                        success: function(response) {
-                            if (response.is_favorite) {
-                                icon.removeClass('far fa-heart').addClass('fas fa-heart');
-                                item.addClass('hidden'); // 如果取消收藏，則從 DOM 中移除該項目
-                            } else {
-                                icon.removeClass('fas fa-heart').addClass('far fa-heart');
-                            }
-                        },
-                        error: function(xhr) {
-                            console.error('An error occurred:', xhr);
-                            alert('操作失敗，請稍後重試。');
+                    let html = '<h3>我的收藏</h3><ul>';
+                    response.forEach(function(item) {
+                        console.log(item);
+                        if (!item.be_teacher) {
+                            return; // 如果 be_teacher 為 null，則跳過
                         }
-                    });
-                });
-            },
-            error: function(xhr) {
-                console.error('An error occurred:', xhr);
-                $('#areaStatus').html('<p>載入收藏列表時發生錯誤aa。</p>');
-            }
-        });
-    });
 
+                        // 判斷收藏狀態並設置愛心圖標
+                        let heartClass = item.is_favorite ? 'fas fa-heart' : 'far fa-heart';
+
+                        html += `
+                    <section class="student_container">
+                        <div class="student_header">
+                            <h1>${item.be_teacher.title}</h1>
+                            <i id="heart" class="${heartClass}" data-id="${item.be_teacher.id}" style="color: red ;cursor: pointer;"></i>
+                        </div>
+                        <div class="student_info-bar">
+                            <div>${item.be_teacher.subject}</div>
+                            <div>${item.be_teacher.city}</div>
+                            <div>${item.be_teacher.available_time}</div>
+                            <div>${item.be_teacher.hourly_rate}</div>
+                            <div>${item.be_teacher.districts}</div>
+                        </div>
+                        <div class="student_profile">
+                            <div class="avatar">大頭貼</div>
+                            <div class="description">
+                                <p>自我介紹(學經歷)</p>
+                            </div>
+                        </div>
+                        <div class="student_buttons">
+                            <div class="rating">
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                            </div>
+                            <div class="student_btn">
+                                <button class="btnDetailsResume">詳細履歷</button>
+                                <button class="btnContactTeacher" data-teacher-id="${item.be_teacher.id}">聯絡老師</button>
+                            </div>
+                        </div>
+                    </section>
+                    `;
+                    });
+                    html += '</ul>';
+                    $('#areaStatus').html(html);
+                    // 綁定愛心圖標的點擊事件
+                    $('.student_header i').on('click', function() {
+                        let teacherId = $(this).data('id');
+                        let item = $(this).closest('.student_container'); // 獲取點擊圖標的父容器（整個項目）
+                        let icon = $(this);
+                        $.ajax({
+                            url: '{{ route('favorites_student.toggleFavorite') }}', // 你需要在後端設置一個路由來處理這個請求
+                            type: 'POST',
+                            data: {
+                                teacher_id: teacherId,
+                                _token: '{{ csrf_token() }}' // Laravel 的 CSRF 保護
+                            },
+                            success: function(response) {
+                                if (response.is_favorite) {
+                                    icon.removeClass('far fa-heart').addClass('fas fa-heart');
+                                } else {
+                                    item.addClass('hidden'); // 如果取消收藏，則從 DOM 中移除該項目
+                                    icon.removeClass('fas fa-heart').addClass('far fa-heart');
+                                }
+                            },
+                            error: function(xhr) {
+                                console.error('An error occurred:', xhr);
+                                alert('操作失敗，請稍後重試。');
+                            }
+                        });
+                    });
+                },
+                error: function(xhr) {
+                    console.error('An error occurred:', xhr);
+                    $('#areaStatus').html('<p>載入收藏列表時發生錯誤aa。</p>');
+                }
+            });
+        });
+         // 綁定點擊事件處理器到所有聯絡老師的按鈕
+        $(document).on('click', '.btnContactTeacher', function() {
+            // 獲取教師 ID
+            var beTeacherId  = $(this).data('teacher-id');
+            
+            // 發送 AJAX 請求
+            $.ajax({
+                url: '{{ route('contact_teacher.contactTeacher') }}', // 替換為實際的路由名稱
+                type: 'POST',
+                data: {
+                    be_teacher_id: beTeacherId ,
+                    _token: '{{ csrf_token() }}' // CSRF Token
+                },
+                success: function(response) {
+                    alert('聯絡成功');
+                    // 可以在這裡處理成功後的 UI 更新，例如隱藏按鈕
+                    $(this).hide();
+                    $(this).after('<p>聯絡成功！</p>');
+                },
+                error: function(xhr) {
+                    console.error('發生錯誤:', xhr);
+                    alert(xhr.responseJSON.message);
+                }
+            });
+        });
+        // $('.btnContactTeacher').each(function() {
+        //     var beTeacherId = $(this).data('teacher-id');
+        //     var button = $(this);
+
+
+        //     $.ajax({
+        //         url: '{{ route('contact_teacher.check') }}',
+        //         type: 'GET',
+        //         data: {
+        //             be_teacher_id: beTeacherId,
+        //             _token: '{{ csrf_token() }}'
+        //         },
+        //         success: function(response) {
+        //             if (response.exists) {
+        //                 button.hide(); // 隱藏按鈕
+        //                 button.after('<p>您已經聯絡過這位老師了。</p>'); // 顯示已聯絡訊息
+        //             }
+        //         },
+        //         error: function(xhr) {
+        //             console.error('檢查聯絡狀態時發生錯誤:', xhr);
+        //         }
+        //     });
+        // });
 
         // 其他按鈕功能的 AJAX 請求可根據需要進行設置
         $('#btnContact').on('click', function() {

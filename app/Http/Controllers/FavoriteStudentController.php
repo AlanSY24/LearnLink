@@ -19,6 +19,7 @@ class FavoriteStudentController extends Controller
     {
         $beTeachers = BeTeacher::with(['subject', 'city'])->get();
         // dd($beTeachers);
+        
 
         return view('student_requests', compact('beTeachers'));
     }
@@ -40,7 +41,6 @@ class FavoriteStudentController extends Controller
                 ->whereIn('id', $districtsIds)
                 ->pluck('district_name')
                 ->toArray();
-
             return [
                 'be_teacher' => [
                     'title' => $beTeacher->title,
