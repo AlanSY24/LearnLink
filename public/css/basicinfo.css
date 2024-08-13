@@ -1,0 +1,161 @@
+:root {
+    --main-color: #004080;
+    --accent-color: #ffcc00;
+    --text-color: #fff;
+    --bg-color: #f4f4f4;
+    --sidebar-border-color: #ccc;
+    --sidebar-shadow-color: rgba(0, 0, 0, 0.1);
+    --hover-bg-color: #e0e0e0; /* 淺灰色 */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    padding-top: 60px;
+}
+
+/* 容器樣式 */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+/* 側邊欄樣式 */
+.sidebar {
+    margin: 1em 0 1em 0;
+    width: 20%;
+    padding: 1em;
+    border: 1px solid var(--sidebar-border-color);
+    box-shadow: 0 4px 8px var(--sidebar-shadow-color);
+}
+
+.sidebar h2 {
+    color: var(--main-color);
+}
+
+.sidebar ul {
+    margin-top: 3em;
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 1em 0;
+}
+
+.sidebar ul li a {
+    color: var(--main-color);
+    text-decoration: none;
+    display: block;
+    padding: 0.5em;
+    border-radius: 4px;
+}
+
+.sidebar ul li a:hover {
+    background-color: var(--hover-bg-color);
+    transition: background-color 0.3s ease;
+}
+
+/* 主要內容樣式 */
+main {
+    flex-grow: 1;
+    padding: 1em;
+}
+
+section h3 {
+    color: var(--main-color);
+}
+
+/* 表單樣式 */
+.container-form {
+    background-color: var(--accent-color);
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.container-form h3 {
+    color: var(--main-color);
+}
+
+.container-form label {
+    display: inline-block;
+    font-weight: bold; /* 加粗 */
+    margin: 1em 0 0.5em;
+    color: var(--main-color);
+    width: 150px; /* 固定寬度 */
+}
+
+.container-form span {
+    display: inline-block;
+    color: #333; /* 默認文字顏色 */
+    vertical-align: middle; /* 垂直對齊 */
+    margin-left: 10px;
+}
+
+/* 圖標樣式 */
+.icon-edit {
+    color: var(--main-color);
+    cursor: pointer;
+    margin-right: 10px; /* 圖標與文本之間的間距 */
+    vertical-align: middle; /* 圖標與文本對齊 */
+}
+
+/* 輸入框樣式 */
+.container-form input[type="text"],
+.container-form input[type="tel"],
+.container-form select {
+    width: 300px; /* 大螢幕時寬度 */
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: inline-block; /* 讓輸入框與其他元素在同一行 */
+    margin-left: 10px; /* 輸入框與標籤之間的間距 */
+}
+
+/* 提交按鈕樣式 */
+.container-form button {
+    background-color: var(--main-color);
+    color: var(--text-color);
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 4px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.container-form button:hover {
+    background-color: #003060;
+}
+
+/* RWD */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        width: 90%;
+    }
+
+    .sidebar {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    main {
+        width: 100%;
+    }
+
+    .container-form input[type="text"],
+    .container-form input[type="tel"],
+    .container-form select {
+        width: 70%; /* 小螢幕時寬度 */
+    }
+}

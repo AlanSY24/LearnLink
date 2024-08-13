@@ -14,7 +14,7 @@
                     <button type="submit" class="nav-ll-logout-button">登出</button>
                 </form>
             </li>
-            <li><a href="{{ route('basic.page') }}">會員中心</a></li>
+            <li><a href="{{ route('basicinfoForm') }}">會員中心</a></li>
         @else
             <li><a href="{{ route('login') }}">登入/註冊</a></li>
         @endauth

@@ -60,8 +60,7 @@ Route::post('/forgot-password-reset', [AuthController::class, 'forgot_2'])->name
 
 
 // 會員中心基本資料
-Route::view('/basic','basicinfo_alpha')->name('basic.page');
-Route::view('/bbasic','basicinfo_beta')->name('bbasic.page');
+Route::view('/basic','basicinfo_alpha')->name('basicinfoForm');
 
 
 
