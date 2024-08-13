@@ -41,6 +41,9 @@ class FavoriteStudentController extends Controller
                 ->whereIn('id', $districtsIds)
                 ->pluck('district_name')
                 ->toArray();
+            $details = $beTeacher->details;
+
+            
             return [
                 'be_teacher' => [
                     'title' => $beTeacher->title,
@@ -50,6 +53,10 @@ class FavoriteStudentController extends Controller
                     'hourly_rate' => $beTeacher->hourly_rate,
                     'districts' => $districts,
                     'id' => $beTeacher->id,
+                    'details' => $details, 
+
+
+
                 ],
                 'is_favorite' => true,
             ];

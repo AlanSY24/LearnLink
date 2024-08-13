@@ -73,14 +73,29 @@
                             <h1>{{ $favorite_item["title"]  }}</h1>
                             <i id="heart" class="far fa-heart" style="color: red ;"></i>
                         </div>
+                        <div class="student_info-bar">
+                            <div id="t_lists_place">縣市：{{ $favorite_item["cityname"]  }}</div>
+                            <div id="t_lists_place">地區：
+                                @if(is_array($favorite_item["district_ids"]))
+                                    {{ implode(', ', $favorite_item["district_ids"]) }}
+                                @else
+                                    {{ $favorite_item["district_ids"] }}
+                                @endif
+                            </div>
+                        </div>
+                        <div class="student_info-bar">
+                            <div id="t_lists_subject">科目 : <br>{{ $favorite_item["subjectname"]  }}</div>
+                            <div id="t_lists_name">姓名：<br>{{ $favorite_item["name"]  }}</div>
+                            <div id="t_lists_gender">性別：<br>{{ $favorite_item["gender"]  }}</div>
+                            <div id="t_lists_time">時段:<br>{{ $favorite_item["available_time"] }}</div>
+                            <div id="t_lists_price">時薪：<br>{{ $favorite_item["hourly_rate_min"] }} - {{ $favorite_item["hourly_rate_max"] }}</div>
+                        </div>
                         
-                        <div id="t_lists_subject">科目 : {{ $favorite_item["subjectname"]  }}</div>
-                        <div id="t_lists_name">姓名：{{ $favorite_item["name"]  }}</div>
-                        <div id="t_lists_gender">(A02)性別：女</div>
-                        <div id="t_lists_place">(B04+B05)上課預期地點：台中北屯區</div>
-                        <div id="t_lists_time">(B??)上課預期時間：上午</div>
-                        <div id="t_lists_price">(B06)上課預期時薪：300 - 400</div>
-                        <div id="t_lists_describe">(B07)關於學生的詳細描述：1. 需要多點耐心 2. 主要以輔導學校數學作業為主</div>
+                        <div id="t_lists_describe">
+                            <h3 style="color: #004080 ;">關於學生的詳細描述：</h3>
+                            <p style="text-indent: 6em;">{{ $favorite_item["details"] }}</p>
+   
+                        </div>
                         <div class="container-button">
                             <button id="btnContactStudent">連絡學生/家長</button>
                         </div>

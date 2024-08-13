@@ -143,3 +143,6 @@ Route::get('/student_cases', [GetStudentController::class, 'index']);
 
 Route::get('/cities', [CityController::class, 'index']);
 Route::get('/districts/{cityId}', [DistrictController::class, 'getDistricts']);
+
+// 抓大頭照
+Route::get('/get-teacher-photo/{studentId}', [YourController::class, 'getTeacherPhoto'])->name('get.teacher.photo');

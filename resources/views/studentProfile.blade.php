@@ -154,7 +154,7 @@
                 type: 'GET',
                 success: function(response) {
 
-                    let html = '<h3>我的收藏</h3><ul>';
+                    let html = '<h3></h3><ul>';
                     response.forEach(function(item) {
                         console.log(item);
                         if (!item.be_teacher) {
@@ -300,6 +300,33 @@
             $('#areaStatus').html('<p>顯示紀錄表的內容</p>');
         });
     });
+
+    // <!-- 抓取大頭照==================================================================================================== -->
+
+    $(document).ready(function() {
+    $.ajax({
+        url: "{{ route('get.teacher.photo', ['studentId' => Auth::id()]) }}",
+        type: 'GET',
+        xhrFields: {
+            responseType: 'blob'
+        },
+        success: function(data) {
+            var img = document.createElement('img');
+            img.src = URL.createObjectURL(data);
+            $('.avatar').html(img);
+        },
+        error: function() {
+            $('.avatar').html('No photo available');
+        }
+    });
+});
+
+
+
+
+
+
+
 
     </script>
 

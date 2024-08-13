@@ -125,10 +125,10 @@
         @if($profile)
             <div>
                 <div>
-                    <h3>學歷 : <br></h3>
-                    <p>{{ $profile->education }}</p>
-                    <h3>自我介紹: <br></h3>
-                    <p>{{ $profile->introduction }}</p>
+                    <h3 style="color: #004080;">● 學歷 : <br></h3>
+                    <p style="text-indent: 2em;">{{ $profile->education }}</p>
+                    <h3 style="color: #004080;">● 自我介紹: <br></h3>
+                    <p style="text-indent: 2em;">{{ $profile->introduction }}</p>
                 </div>
             </div>
         @endif
