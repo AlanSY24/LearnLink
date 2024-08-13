@@ -258,15 +258,21 @@
             </div>
         </form>
     </div>
-    <!-- 驗證視窗 -->
+    <!-- 驗證視窗，寄出驗證碼後顯示此視窗 -->
     <dialog id="fotget_2_dialog" class="form-container rounded-3 shadow p-4 position-relative">
         <form method="POST" action="{{ route('forgot_2') }}">
             @csrf
-            <h1 class="mb-4">輸入驗證碼</h1>
+            <h1 class="mb-4">重設密碼</h1>
             <div class="mb-3">
                 <div class="textbox">
                     <i class="fas fa-envelope"></i>
                     <input value="{{ session('forgotEmail') }}" disabled> <!-- 假的輸入框 -->
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="textbox">
+                    <i class="fas fa-key"></i>
+                    <input value="{{ session('forgotAccount') }}" disabled>
                 </div>
             </div>
             <!-- 真的輸入框 -->
@@ -277,7 +283,7 @@
             <div class="mb-3">
                 <div class="textbox">
                     <i class="fas fa-key"></i>
-                    <input type="text" id="fotget_2_code" placeholder="輸入驗證碼" name="fotget_2_code" required>
+                    <input type="text" id="fotget_2_code" placeholder="輸入收到的驗證碼" name="fotget_2_code" required>
                 </div>
             </div>
             <div class="links mt-3">

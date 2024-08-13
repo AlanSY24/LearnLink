@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FindTeacherController;
 use App\Http\Controllers\StudentPageController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\forgot;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ChildrenCardController;
@@ -54,8 +55,8 @@ Route::post('/logout', function () {
     return redirect('/homePage');
 })->name('logout');
 
-Route::post('/forgot-password', [AuthController::class,'forgot']);
-Route::post('/forgot-password-reset', [AuthController::class, 'forgot_2'])->name('forgot_2');
+Route::post('/forgot-password', [forgot::class,'forgot']);
+Route::post('/forgot-password-reset', [forgot::class, 'forgot_2'])->name('forgot_2');
 
 
 // 會員中心基本資料
