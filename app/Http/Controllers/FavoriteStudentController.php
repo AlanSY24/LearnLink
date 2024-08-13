@@ -119,5 +119,7 @@ class FavoriteStudentController extends Controller
             ]);
             return response()->json(['is_favorite' => true]);
         }
+        return response()->json(['favorited' => $favorited]);
+
     }
 }

@@ -16,9 +16,56 @@ class FavoriteController extends Controller
         return view('teacher_requests', compact('teacherRequests'));
     }
 
+    public function teacherFavorite()
+    {
+        $user = auth()->user();
+
+        $favorites = Favorite::where('user_id', $user->id)
+        ->with('teacherRequest.subject', 'teacherRequest.city',
+        )
+        ->get()
+        ->map(function ($favorite) {
+            $teacherRequest = $favorite->teacherRequest;
+            // 直接使用 available_time 字段的字符串值
+            $availableTime = $teacherRequest->available_time;
+            $districtsIds = $favorite->teacherRequest->district_ids;
+            $districts = $teacherRequest->city->districts
+                ->whereIn('id', $districtsIds)
+                ->pluck('district_name')
+                ->toArray();
+            $details = $teacherRequest->details;
+
+            
+            return [
+                'be_teacher' => [
+                    'title' => $teacherRequest->title,
+                    'subject' => $teacherRequest->subject->name ?? 'N/A',
+                    'city' => $teacherRequest->city->city ?? 'N/A',
+                    'available_time' => $availableTime,  // 保持字符串格式
+                    'hourly_rate_min' => $teacherRequest->hourly_rate_min,
+                    'hourly_rate_max' => $teacherRequest->hourly_rate_max,
+                    'districts' => $districts,
+                    'id' => $teacherRequest->id,
+                    'details' => $details, 
+                    'expected_date' => $teacherRequest->expected_date,
+                    'status' => $teacherRequest->status,
+
+
+
+
+                ],
+                'is_favorite' => true,
+            ];
+        });
+        return response()->json($favorites);
+    }
+
     public function store(Request $request, $teacherRequestId)
     {
-        $user = $request->user();
+        $user = auth()->user();
+        // $teacherId = $request->input('teacher_id');
+
+
         $teacherRequest = TeacherRequest::findOrFail($teacherRequestId);
 
         $favorite = Favorite::where('user_id', $user->id)
@@ -36,6 +83,33 @@ class FavoriteController extends Controller
                 'teacher_request_id' => $teacherRequestId,
             ]);
             $favorited = true;
+        }
+        return response()->json(['favorited' => $favorited]);
+
+    }
+    public function toggleFavorite(Request $request)
+    {
+        $user = auth()->user();
+        $teacherId = $request->input('teacher_id');
+
+
+        // $teacherRequest = TeacherRequest::findOrFail($teacherRequestId);
+
+        $favorite = Favorite::where('user_id', $user->id)
+                            ->where('teacher_request_id', $teacherId)
+                            ->first();
+
+        if ($favorite) {
+            // 如果已存在收藏，則刪除
+            $favorite->delete();
+            return response()->json(['is_favorite' => false]);
+        } else {
+            // 如果不存在收藏，則添加
+            Favorite::create([
+                'user_id' => $user->id,
+                'teacher_request_id' => $teacherId,
+            ]);
+            return response()->json(['is_favorite' => true]);
         }
 
         return response()->json(['favorited' => $favorited]);

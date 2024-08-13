@@ -121,13 +121,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/teacher-requests/{teacherRequest}/favorite', [FavoriteController::class, 'store'])->name('favorites.store');
 
     // 取消收藏教師請求
-    Route::delete('/teacher-requests/{teacherRequest}/favorite', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+    // Route::delete('/teacher-requests/{teacherRequest}/favorite', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
     Route::get('/be-teachers', [FavoriteStudentController::class, 'index'])->name('be-teachers.index');
     Route::post('/be-teachers/{beTeacher}/favorite', [FavoriteStudentController::class, 'store'])->name('favorites_student.store');
-    Route::delete('/be-teachers/{beTeacher}/favorite', [FavoriteStudentController::class, 'destroy'])->name('favorites_student.destroy');
+    // Route::delete('/be-teachers/{beTeacher}/favorite', [FavoriteStudentController::class, 'destroy'])->name('favorites_student.destroy');
     // 獲取收藏列表
     Route::get('/favorites-student', [FavoriteStudentController::class, 'studentFavorite'])->name('favorites_student.studentFavorite');
+    Route::get('/favorites-teacher', [FavoriteController::class, 'teacherFavorite'])->name('favorites_teacher.teacherFavorite');
     Route::post('/toggle-favorite', [FavoriteStudentController::class, 'toggleFavorite'])->name('favorites_student.toggleFavorite');
+    Route::post('/toggle-favorite-teacher', [FavoriteController::class, 'toggleFavorite'])->name('favorites_teacher.toggleFavorite');
 
 
     // 其他按鈕功能待定
