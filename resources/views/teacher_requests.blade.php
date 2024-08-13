@@ -83,13 +83,13 @@
         <p><strong>Details:</strong> {{ $teacherRequest->details }}</p>
         <!-- 收藏/取消收藏按鈕 -->
         @auth
-            <form action="{{ route('favorites.store', $teacherRequest->id) }}" method="POST" class="favorite-form">
-                @csrf
-                @method('POST')
-                <button type="submit" class="favorite-button">
-                    <i class="fa{{ auth()->user()->favoriteTeacherRequests->contains($teacherRequest->id) ? 's' : 'r' }} fa-heart"></i>
-                </button>
-            </form>
+        <form action="{{ route('favorites.store', $teacherRequest->id) }}" method="POST" class="favorite-form">
+            @csrf
+            <button type="submit" class="favorite-button"">
+                <i class="fa{{ auth()->user()->favoriteTeacherRequests->contains($teacherRequest->id) ? 's' : 'r' }} fa-heart"></i>
+
+            </button>
+        </form>
         @else
             <!-- 如果用戶未登入，顯示登入提示 -->
             <a href="{{ route('login') }}" class="favorite-button">
@@ -109,12 +109,14 @@ $(document).ready(function() {
         var icon = button.find('i');
         var url = form.attr('action');
         var method = form.attr('method');
-
+        
         $.ajax({
             url: url,
             type: method,
             data: form.serialize(),
             success: function(response) {
+                console.log(response);
+                
                 if (response.favorited) {
                     icon.removeClass('fa-regular').addClass('fa-solid');
                 } else {

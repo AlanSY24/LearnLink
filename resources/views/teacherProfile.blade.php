@@ -64,30 +64,7 @@
 
 
                 <!-- 顯示數據的區域 -->     
-                <div id="areaStatus">
-
-                    @foreach( $favorites_array as $favorite_item)
-                    <div class="s_cases_block">
-                        
-                        <div class="teacher_header">
-                            <h1>{{ $favorite_item["title"]  }}</h1>
-                            <i id="heart" class="far fa-heart" style="color: red ;"></i>
-                        </div>
-                        
-                        <div id="t_lists_subject">科目 : {{ $favorite_item["subjectname"]  }}</div>
-                        <div id="t_lists_name">姓名：{{ $favorite_item["name"]  }}</div>
-                        <div id="t_lists_gender">(A02)性別：女</div>
-                        <div id="t_lists_place">(B04+B05)上課預期地點：台中北屯區</div>
-                        <div id="t_lists_time">(B??)上課預期時間：上午</div>
-                        <div id="t_lists_price">(B06)上課預期時薪：300 - 400</div>
-                        <div id="t_lists_describe">(B07)關於學生的詳細描述：1. 需要多點耐心 2. 主要以輔導學校數學作業為主</div>
-                        <div class="container-button">
-                            <button id="btnContactStudent">連絡學生/家長</button>
-                        </div>
-                    </div>
-                    @endforeach     
-
-                </div>
+                <div id="areaStatus"></div>
                 <!-- 顯示數據的區域 -->
             </section>
 
@@ -164,280 +141,161 @@
 
 
     <script>
-        // <!-- script(履歷表)==================================================================================================== -->
-
-
-
-        // <!-- script(收藏)==================================================================================================== -->
-        //按鈕:收藏
-        function createFavoriteOverlay() {
-            const favoriteOverlay = document.createElement('div');
-            favoriteOverlay.classList.add('s_cases');
-            favoriteOverlay.innerHTML = `
-
-
-
-            
-                <div class="s_cases_block">
-                    <div class="teacher_header">
-                        <h1>(B01)國小三年級數學</h1>
-                        <i id="heart" class="far fa-heart" style="color: red ;"></i>
-                    </div>
+       $(document).ready(function() {
+        $('#btnFavorite').on('click', function() {
+            $.ajax({
+                url: '{{ route('favorites_teacher.teacherFavorite') }}',
+                type: 'GET',
+                success: function(response) {
+                    console.log(response);
                     
-                    <div id="t_lists_subject">(B02)教學的科目：數學</div>
-                    <div id="t_lists_name">(A01)姓名：王XX</div>
-                    <div id="t_lists_gender">(A02)性別：女</div>
-                    <div id="t_lists_place">(B04+B05)上課預期地點：台中北屯區</div>
-                    <div id="t_lists_time">(B??)上課預期時間：上午</div>
-                    <div id="t_lists_price">(B06)上課預期時薪：300 - 400</div>
-                    <div id="t_lists_describe">(B07)關於學生的詳細描述：1. 需要多點耐心 2. 主要以輔導學校數學作業為主</div>
-                    <div class="container-button">
-                        <button id="btnContactStudent">連絡學生/家長</button>
-                    </div>
-                </div>
+                    let html = '<h3></h3><ul>';
+                    response.forEach(function(item) {
+                        console.log(item);
+                        if (!item.be_teacher) {
+                            return; // 如果 be_teacher 為 null，則跳過
+                        }
 
+                        // 判斷收藏狀態並設置愛心圖標
+                        let heartClass = item.is_favorite ? 'fas fa-heart' : 'far fa-heart';
 
-                
-            `;
-            return favoriteOverlay;
-        }
-
-        document.getElementById('btnFavorite').addEventListener('click', function () {
-            const areaStatus = document.getElementById('areaStatus');
-            const favoriteOverlay = createFavoriteOverlay();
-            areaStatus.innerHTML = '';
-            areaStatus.appendChild(favoriteOverlay);
-        });
-
-        //按鈕:連絡學生/家長
-        document.addEventListener('DOMContentLoaded', function () {
-            const areaStatus = document.getElementById('areaStatus');
-            document.addEventListener('click', function (event) {
-                if (event.target && event.target.id === 'btnContactStudent') {
-                    const currentTime = new Date().toLocaleString();
-
-                    alert('已成功連絡 請耐心等待回復');
-                    //創建新的時間顯示元素
-                    const timeDisplay = document.createElement('div');
-                    timeDisplay.textContent = `已連絡: ${currentTime}`;
-
-                    //清空 areaStatus 並添加新的時間顯示
-                    areaStatus.innerHTML = '';
-                    areaStatus.appendChild(timeDisplay);
-                }
-            });
-        });
-
-
-        // <!-- script(被學生/家長連絡)==================================================================================================== -->
-        //按鈕:被學生/家長連絡
-        function createContactOverlay() {
-            const contactOverlay = document.createElement('div');
-            contactOverlay.classList.add('contact_student');
-            contactOverlay.innerHTML = `
-                <div class="contact_student">
-                    <div id="t_lists_title">
-                        <button id="btnDisappear">下架</button>
-                        <h2>(B01)國小三年級數學</h2>
-                        <h3 id="t_lists_subject">(B02)教學的科目：數學</h3>
+                        html += `
+                    <section class="student_container">
+                        <div class="student_header">
+                            <h1>${item.be_teacher.title}</h1>
+                            <i id="heart" class="${heartClass}" data-id="${item.be_teacher.id}" style="color: red ;cursor: pointer;"></i>
+                        </div>
+                        <div class="student_info-bar">
+                            <div>${item.be_teacher.subject}</div>
+                            <div>${item.be_teacher.city}</div>
+                            <div>${item.be_teacher.available_time}</div>
+                            <div>${item.be_teacher.hourly_rate}</div>
+                            <div>${item.be_teacher.districts}</div>
+                        </div>
+                        <div class="student_profile">
+                            <div class="avatar">大頭貼</div>
+                            <div class="description">
+                                <p>自我介紹(學經歷)</p>
+                            </div>
+                        </div>
+                        <div class="student_buttons">
+                            <div class="rating">
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                            </div>
+                            <div class="student_btn">
+                                <button class="btnDetailsResume">詳細履歷</button>
+                                <button class="btnContactTeacher" data-teacher-id="${item.be_teacher.id}">聯絡老師</button>
+                            </div>
+                        </div>
+                    </section>
+                    `;
+                    });
+                    html += '</ul>';
+                    $('#areaStatus').html(html);
+                    // 綁定愛心圖標的點擊事件
+                    $('.student_header i').on('click', function() {
+                        let teacherId = $(this).data('id');
+                        let item = $(this).closest('.student_container'); // 獲取點擊圖標的父容器（整個項目）
+                        let icon = $(this);
                         
-                    </div>
-                    <div class="student" style="display: flex;">
-                        <div class="A03">(A03)帳號：</div>
-                        <div class="A06">(A06)手機：</div>
-                        <div class="A07">(B07)信箱：</div>
-                        <div class="A08">(???)內容(需求)：</div>
-                        <button id="btnContactCheck">V</button>
-                        <button id="btnContactCancel">X</button>
-                    </div>
+                        $.ajax({
+                            url: '{{ route('favorites_teacher.toggleFavorite') }}', // 你需要在後端設置一個路由來處理這個請求
+                            type: 'POST',
+                            data: {
+                                teacher_id: teacherId,
+                                _token: '{{ csrf_token() }}' // Laravel 的 CSRF 保護
+                            },
+                            success: function(response) {
+                                if (response.is_favorite) {
+                                    icon.removeClass('far fa-heart').addClass('fas fa-heart');
+                                } else {
+                                    item.addClass('hidden'); // 如果取消收藏，則從 DOM 中移除該項目
+                                    icon.removeClass('fas fa-heart').addClass('far fa-heart');
+                                }
+                            },
+                            error: function(xhr) {
+                                console.error('An error occurred:', xhr);
+                                alert('操作失敗，請稍後重試。');
+                            }
+                        });
+                    });
+                },
+                error: function(xhr) {
+                    console.error('An error occurred:', xhr);
+                    $('#areaStatus').html('<p>載入收藏列表時發生錯誤aa。</p>');
+                }
+            });
+        });
+         // 綁定點擊事件處理器到所有聯絡老師的按鈕
+        // $(document).on('click', '.btnContactTeacher', function() {
+        //     // 獲取教師 ID
+        //     var beTeacherId  = $(this).data('teacher-id');
             
-                </div>
-            `;
-            return contactOverlay;
-        }
+        //     // 發送 AJAX 請求
+        //     $.ajax({
+        //         url: '{{ route('contact_teacher.contactTeacher') }}', // 替換為實際的路由名稱
+        //         type: 'POST',
+        //         data: {
+        //             be_teacher_id: beTeacherId ,
+        //             _token: '{{ csrf_token() }}' // CSRF Token
+        //         },
+        //         success: function(response) {
+        //             alert('聯絡成功');
+        //             // 可以在這裡處理成功後的 UI 更新，例如隱藏按鈕
+        //             $(this).hide();
+        //             $(this).after('<p>聯絡成功！</p>');
+        //         },
+        //         error: function(xhr) {
+        //             console.error('發生錯誤:', xhr);
+        //             alert(xhr.responseJSON.message);
+        //         }
+        //     });
+        // });
+        // $('.btnContactTeacher').each(function() {
+        //     var beTeacherId = $(this).data('teacher-id');
+        //     var button = $(this);
 
 
+        //     $.ajax({
+        //         url: '{{ route('contact_teacher.check') }}',
+        //         type: 'GET',
+        //         data: {
+        //             be_teacher_id: beTeacherId,
+        //             _token: '{{ csrf_token() }}'
+        //         },
+        //         success: function(response) {
+        //             if (response.exists) {
+        //                 button.hide(); // 隱藏按鈕
+        //                 button.after('<p>您已經聯絡過這位老師了。</p>'); // 顯示已聯絡訊息
+        //             }
+        //         },
+        //         error: function(xhr) {
+        //             console.error('檢查聯絡狀態時發生錯誤:', xhr);
+        //         }
+        //     });
+        // });
 
-        document.getElementById('btnContact').addEventListener('click', function () {
-            const areaStatus = document.getElementById('areaStatus');
-            const contactOverlay = createContactOverlay();
-            areaStatus.innerHTML = '';
-            areaStatus.appendChild(contactOverlay);
+        // 其他按鈕功能的 AJAX 請求可根據需要進行設置
+        $('#btnContact').on('click', function() {
+            $('#areaStatus').html('<p>顯示被學生/家長連絡的內容</p>');
         });
 
-        document.addEventListener('click', function (event) {
-            if (event.target.id === 'btnDisappear') {
-                const contactOverlay = document.querySelector('.contact_student');
-                if (contactOverlay) {
-                    contactOverlay.remove();
-                }
-            }
+        $('#btnProgress').on('click', function() {
+            $('#areaStatus').html('<p>顯示已接案(預定中)的內容</p>');
         });
 
-        document.addEventListener('click', function (event) {
-            if (event.target.id === 'btnContactCheck') {
-                document.getElementById('formConfirm').classList.remove('hidden');
-            } else if (event.target.id === 'btnContactCancel') {
-                // 顯示確認對話框
-                var confirmRemoval = confirm('請問確定移除該學生訊息嗎？');
-
-                // 如果用戶點擊"確定"，則移除 .student 元素
-                if (confirmRemoval) {
-                    var studentDiv = event.target.parentElement;
-                    studentDiv.remove();
-                } else {
-                    document.getElementById('formConfirm').classList.add('hidden');
-                }
-            }
+        $('#btnSchedule').on('click', function() {
+            $('#areaStatus').html('<p>顯示課表的內容</p>');
         });
 
-        // 初始化日期選擇器並設置語言為中文
-        document.addEventListener('DOMContentLoaded', function () {
-
-            flatpickr("#datePicker", {
-                locale: "zh"
-            });
+        $('#btnRecord').on('click', function() {
+            $('#areaStatus').html('<p>顯示紀錄表的內容</p>');
         });
-
-        // <!-- script(已接案(預定中))==================================================================================================== -->
-
-        //按鈕:送出submit->已接案(預定中)
-        let isSubmitted = false; // 標誌位
-        let submittedData = ''; // 用於儲存提交的表單數據
-        let completedData = ''; // 用於儲存已結案的數據
-
-        // 右上角關閉按鈕的事件監聽
-        document.getElementById('btnCloseFormConfirm').addEventListener('click', function () {
-            document.getElementById('formConfirm').classList.add('hidden');
-        });
-
-        document.getElementById('confirmFormData').addEventListener('submit', function (event) {
-            if (isSubmitted) {
-                return; // 如果已提交，直接返回
-            }
-            isSubmitted = true; // 設置為已提交
-
-            event.preventDefault(); // 阻止表單默認提交行為
-
-            const form = document.getElementById('confirmFormData');
-            const formData = new FormData(form);
-
-            // 生成要顯示的表單數據內容
-            let output = '<h3>(B01)國小三年級數學</h3><div class="A03">(A03)帳號：</div>';
-            formData.forEach((value, key) => {
-                output += `<p><strong>${key}:</strong> ${value}</p>`;
-            });
-
-            // 添加三個按鈕
-            output += `
-                <div id="btnEnd">
-                    <button id="btnCancel" class="btn-cancel">取消</button>
-                    <button id="btnEdit">修改</button>
-                    <button id="btnFinish" class="btn-finish">完成</button>
-                </div>
-            `;
-
-            // 儲存生成內容
-            submittedData = output;
-
-            // 隱藏表單
-            document.getElementById('formConfirm').classList.add('hidden');
-        });
-
-        document.getElementById('btnProgress').addEventListener('click', function () {
-            const areaStatus = document.getElementById('areaStatus');
-            // 顯示已儲存的表單數據
-            areaStatus.innerHTML = isSubmitted ? submittedData : '尚無預定資料';
-
-            // 取消按鈕
-            document.getElementById('btnCancel').addEventListener('click', function () {
-                // 獲取當前時間
-                const currentTime = new Date().toLocaleString();
-                alert('課程已取消');
-                completedData = `<h3>取消時間: ${currentTime}</h3>${submittedData}`;
-                document.getElementById('areaStatus').innerHTML = '';
-            });
-
-
-
-            // 修改按钮
-            document.getElementById('btnEdit').addEventListener('click', function () {
-                // 移除已顯示的數據
-                areaStatus.innerHTML = '';
-                // 顯示表單
-                document.getElementById('formConfirm').classList.remove('hidden');
-                isSubmitted = false; // 重置提交标志
-                // 顯示送出按鈕
-                document.querySelector('#btnSubmitformConfirm').style.display = 'block';
-            });
-
-            // 完成按钮
-            document.getElementById('btnFinish').addEventListener('click', function () {
-                // 獲取當前時間
-                const currentTime = new Date().toLocaleString();
-                alert('課程已完成');
-                completedData = `<h3>完成時間: ${currentTime}</h3>${submittedData}`;
-                document.getElementById('areaStatus').innerHTML = '';
-            });
-
-
-        });
-
-        //隱藏送出按鈕
-        document.getElementById('confirmFormData').addEventListener('submit', function (event) {
-            event.preventDefault(); //阻止表單默認提交行為
-
-            //隱藏送出按鈕
-            document.querySelector('#btnSubmitformConfirm').style.display = 'none';
-
-            //顯示成功消息或其他行為
-            alert('表單已成功提交');
-        });
-
-        // <!-- script(已接案(預定中))==================================================================================================== -->
-        // 移除顯示的數據:取消 完成
-        // 按鈕:取消
-        document.addEventListener('click', function (event) {
-            if (event.target.classList.contains('btn-cancel')) {
-                const caseBlock = event.target.parentNode;
-                caseBlock.remove();
-                submittedData = '';
-            }
-        });
-
-        // 按鈕:完成
-        document.addEventListener('click', function (event) {
-            if (event.target.classList.contains('btn-finish')) {
-                const caseBlock = event.target.parentNode;
-                caseBlock.remove();
-                submittedData = '';
-            }
-        });
-        // <!-- script(課表)==================================================================================================== -->
-        //按鈕:課表
-        document.getElementById('btnSchedule').addEventListener('click', function () {
-            const areaStatus = document.getElementById('areaStatus');
-            areaStatus.textContent = '課表';
-        });
-        // <!-- script(紀錄表)==================================================================================================== -->
-        //按鈕:紀錄表
-        document.getElementById('btnRecord').addEventListener('click', function () {
-            const areaStatus = document.getElementById('areaStatus');
-            if (completedData) {
-                //顯示已取消的表單數據和時間
-                areaStatus.innerHTML = completedData;
-            } else {
-                areaStatus.innerHTML = '尚無資料';
-            }
-
-            //隱藏所有按鈕
-            document.querySelector('#btnEnd').style.display = 'none';
-        });
-
-
-
-
-
+    });
     </script>
 
 

@@ -115,6 +115,8 @@
                     type: method,
                     data: form.serialize(),
                     success: function(response) {
+                        console.log(response);
+                        
                         if (response.favorited) {
                             icon.removeClass('fa-regular').addClass('fa-solid');
                         } else {
