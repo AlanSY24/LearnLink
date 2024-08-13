@@ -106,6 +106,7 @@ section h3 {
     cursor: pointer;
     margin-right: 10px; /* 圖標與文本之間的間距 */
     vertical-align: middle; /* 圖標與文本對齊 */
+    font-size: xx-small;
 }
 
 /* 輸入框樣式 */

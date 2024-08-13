@@ -64,6 +64,14 @@ Route::post('/forgot-password-reset', [AuthController::class, 'forgot_2'])->name
 Route::view('/basic','basicinfo_alpha')->name('basic.page');
 Route::post('/infoEdit', [BasicController::class,'infoEdit'])->name('basicinfoForm');
 
+// 寄送email
+Route::view('/send-email','send-email')->name('send-email-page');
+Route::post('/send-email', [AuthController::class,'sendEmail'])->name('send-email-act');
+
+
+
+
+
 
 
 //盧彥辰的路由

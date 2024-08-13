@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Auth; // 確保使用 Auth
-use App\Models\User; // 確保使用 User 模型
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class BasicController extends Controller
 {
@@ -14,10 +14,10 @@ class BasicController extends Controller
     {
         // 驗證輸入數據
         $request->validate([
-            'name' => 'nullable|string|max:255', // 名稱，最多255個字元
-            'gender' => 'nullable|in:0,1,2', // 性別，值只能是0, 1, 2
-            'phone' => 'nullable|string', // 可以為空，並且是字串
-            'birthday' => 'nullable|date', // 可以為空，並且是有效日期
+            'name' => 'nullable|string|max:30', 
+            'gender' => 'nullable|in:1,2', 
+            'phone' => 'nullable|string', 
+            'birthday' => 'nullable|date', 
         ]);
 
         $user = Auth::user();
