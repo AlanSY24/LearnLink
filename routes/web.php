@@ -68,8 +68,8 @@ Route::post('/forgot-password-reset', [forgot::class, 'forgot_2'])->name('forgot
 Route::view('/basic','basicinfo_alpha')->name('basic.page');
 Route::post('/infoEdit', [BasicController::class,'infoEdit'])->name('basicinfoForm');
 
-// 寄送email
-Route::view('/st','resetPassword')->name('resetPassword');
+// 寄送email且驗證
+Route::view('/st','Auth_reset')->name('resetPassword');
 Route::post('/seadEmail', [EmailController::class,'sendEmail'])->name('seadEmail');
 Route::post('/verify-code', [VerifyCodeController::class, 'verify'])->name('verifyCode');
 
