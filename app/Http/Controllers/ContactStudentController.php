@@ -96,7 +96,7 @@ class ContactStudentController extends Controller
 
         // 刪除 ContactStudent 資料
         ContactStudent::where('user_id', $userId)
-            ->where('teacher_request_id', $teacherRequestId)
+            ->where('teacher_requests_id', $teacherRequestId)
             ->delete();
 
         return response()->json(['success' => true]);
