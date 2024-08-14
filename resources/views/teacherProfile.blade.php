@@ -231,53 +231,30 @@
             });
         });
          // 綁定點擊事件處理器到所有聯絡老師的按鈕
-        // $(document).on('click', '.btnContactTeacher', function() {
-        //     // 獲取教師 ID
-        //     var beTeacherId  = $(this).data('teacher-id');
+         $(document).on('click', '.btnContactTeacher', function() {
+            // 獲取教師 ID
+            var beTeacherId  = $(this).data('teacher-id');
             
-        //     // 發送 AJAX 請求
-        //     $.ajax({
-        //         url: '{{ route('contact_teacher.contactTeacher') }}', // 替換為實際的路由名稱
-        //         type: 'POST',
-        //         data: {
-        //             be_teacher_id: beTeacherId ,
-        //             _token: '{{ csrf_token() }}' // CSRF Token
-        //         },
-        //         success: function(response) {
-        //             alert('聯絡成功');
-        //             // 可以在這裡處理成功後的 UI 更新，例如隱藏按鈕
-        //             $(this).hide();
-        //             $(this).after('<p>聯絡成功！</p>');
-        //         },
-        //         error: function(xhr) {
-        //             console.error('發生錯誤:', xhr);
-        //             alert(xhr.responseJSON.message);
-        //         }
-        //     });
-        // });
-        // $('.btnContactTeacher').each(function() {
-        //     var beTeacherId = $(this).data('teacher-id');
-        //     var button = $(this);
-
-
-        //     $.ajax({
-        //         url: '{{ route('contact_teacher.check') }}',
-        //         type: 'GET',
-        //         data: {
-        //             be_teacher_id: beTeacherId,
-        //             _token: '{{ csrf_token() }}'
-        //         },
-        //         success: function(response) {
-        //             if (response.exists) {
-        //                 button.hide(); // 隱藏按鈕
-        //                 button.after('<p>您已經聯絡過這位老師了。</p>'); // 顯示已聯絡訊息
-        //             }
-        //         },
-        //         error: function(xhr) {
-        //             console.error('檢查聯絡狀態時發生錯誤:', xhr);
-        //         }
-        //     });
-        // });
+            // 發送 AJAX 請求
+            $.ajax({
+                url: '{{ route('contact_student.contactStudent') }}', // 替換為實際的路由名稱
+                type: 'POST',
+                data: {
+                    teacher_requests_id: beTeacherId ,
+                    _token: '{{ csrf_token() }}' // CSRF Token
+                },
+                success: function(response) {
+                    alert('聯絡成功');
+                    // 可以在這裡處理成功後的 UI 更新，例如隱藏按鈕
+                    $(this).hide();
+                    $(this).after('<p>聯絡成功！</p>');
+                },
+                error: function(xhr) {
+                    console.error('發生錯誤:', xhr);
+                    alert(xhr.responseJSON.message);
+                }
+            });
+        });
 
         // 其他按鈕功能的 AJAX 請求可根據需要進行設置
         $('#btnContact').on('click', function() {

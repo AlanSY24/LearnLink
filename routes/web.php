@@ -17,6 +17,7 @@ use App\Http\Controllers\BeTeacherController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FavoriteStudentController;
 use App\Http\Controllers\ContactTeacherController;
+use App\Http\Controllers\ContactStudentController;
 
 
 
@@ -145,6 +146,7 @@ Route::middleware('auth')->group(function () {
     // 其他按鈕功能待定
 
     Route::post('/contact-teacher', [ContactTeacherController::class, 'contactTeacher'])->name('contact_teacher.contactTeacher');
+    Route::post('/contact-student', [ContactStudentController::class, 'contactStudent'])->name('contact_student.contactStudent');
     Route::get('/contact/check', [ContactTeacherController::class, 'checkContactStatus'])->name('contact_teacher.check');
 
 });
