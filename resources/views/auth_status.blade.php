@@ -12,7 +12,7 @@
             word-break: break-all;
         }
     </style>
-    <link rel="stylesheet" href="{{ asset('css/會員中心.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/header_footer.css') }}">
 </head>
 
 <body>

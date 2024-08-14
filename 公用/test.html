@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+    <!-- 引入 Font Awesome 字體圖標庫  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+
+<body>
+    <div>
+        <h2>標題</h2>
+        <i id="heart" class="far fa-heart" style="color: red ;"></i>
+    </div>
+    <script>
+        // 獲取 heart 圖標元素
+        const heartIcon = document.getElementById('heart');
+
+        // 為 heart 圖標添加點擊事件
+        heartIcon.addEventListener('click', function () {
+            // 切換愛心的填滿狀態
+            this.classList.toggle('fas');
+            this.classList.toggle('far');
+
+            // 如果愛心已經填滿，再次點擊時移除包含愛心的 div
+            if (this.classList.contains('fas')) {
+                alert('收藏成功！');
+            } else {
+                const heartContainer = document.getElementById('heartContainer');
+                heartContainer.remove();
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -190,9 +190,9 @@
     align-items: center;
 }
 
-/* 添加這個樣式來為內容區域添加上邊距 */
+/* 在nav下方加上空白 */
 body {
-    padding-top: 60px; /* 與導航欄高度相同 */
+    padding-top: 60px; /* 與nav同高 */
 }
 
 @media (max-width: 768px) {

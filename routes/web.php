@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\BasicController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FindTeacherController;
 use App\Http\Controllers\StudentPageController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\TeacherProfileController;
 use App\Http\Controllers\BeTeacherController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FavoriteStudentController;
+use App\Http\Controllers\ContactTeacherController;
 
 
 
@@ -61,7 +63,15 @@ Route::post('/forgot-password-reset', [forgot::class, 'forgot_2'])->name('forgot
 
 // 會員中心基本資料
 Route::view('/basic','basicinfo_alpha')->name('basic.page');
-Route::view('/bbasic','basicinfo_beta')->name('bbasic.page');
+Route::post('/infoEdit', [BasicController::class,'infoEdit'])->name('basicinfoForm');
+
+// 寄送email
+Route::view('/send-email','send-email')->name('send-email-page');
+Route::post('/send-email', [AuthController::class,'sendEmail'])->name('send-email-act');
+
+
+
+
 
 
 
@@ -120,16 +130,22 @@ Route::middleware('auth')->group(function () {
     Route::post('/teacher-requests/{teacherRequest}/favorite', [FavoriteController::class, 'store'])->name('favorites.store');
 
     // 取消收藏教師請求
-    Route::delete('/teacher-requests/{teacherRequest}/favorite', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+    // Route::delete('/teacher-requests/{teacherRequest}/favorite', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
     Route::get('/be-teachers', [FavoriteStudentController::class, 'index'])->name('be-teachers.index');
     Route::post('/be-teachers/{beTeacher}/favorite', [FavoriteStudentController::class, 'store'])->name('favorites_student.store');
-    Route::delete('/be-teachers/{beTeacher}/favorite', [FavoriteStudentController::class, 'destroy'])->name('favorites_student.destroy');
+    // Route::delete('/be-teachers/{beTeacher}/favorite', [FavoriteStudentController::class, 'destroy'])->name('favorites_student.destroy');
     // 獲取收藏列表
     Route::get('/favorites-student', [FavoriteStudentController::class, 'studentFavorite'])->name('favorites_student.studentFavorite');
+    Route::get('/favorites-teacher', [FavoriteController::class, 'teacherFavorite'])->name('favorites_teacher.teacherFavorite');
     Route::post('/toggle-favorite', [FavoriteStudentController::class, 'toggleFavorite'])->name('favorites_student.toggleFavorite');
+    Route::post('/toggle-favorite-teacher', [FavoriteController::class, 'toggleFavorite'])->name('favorites_teacher.toggleFavorite');
 
 
     // 其他按鈕功能待定
+
+    Route::post('/contact-teacher', [ContactTeacherController::class, 'contactTeacher'])->name('contact_teacher.contactTeacher');
+    Route::get('/contact/check', [ContactTeacherController::class, 'checkContactStatus'])->name('contact_teacher.check');
+
 });
 
 
@@ -139,3 +155,6 @@ Route::get('/student_cases', [GetStudentController::class, 'index']);
 
 Route::get('/cities', [CityController::class, 'index']);
 Route::get('/districts/{cityId}', [DistrictController::class, 'getDistricts']);
+
+// 抓大頭照
+Route::get('/get-teacher-photo/{studentId}', [YourController::class, 'getTeacherPhoto'])->name('get.teacher.photo');
