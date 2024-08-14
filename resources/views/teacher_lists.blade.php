@@ -69,7 +69,7 @@
 
 
             <div class="t_search_time">
-                <label>請選擇預計上課時間(可複選):</label>
+                <label>請選擇預期上課時間(可複選):</label>
                 <div>
                     <input type="checkbox" id="time_morning" value="早上">
                     <label for="time_morning">早上</label>
