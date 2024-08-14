@@ -91,4 +91,10 @@ class TeacherRequest extends Model
     {
         return $this->belongsToMany(User::class, 'favorites', 'teacher_request_id', 'user_id');
     }
+
+    // 定義與 ContactStudent 的一對多關係
+    public function contactStudents()
+    {
+        return $this->hasMany(ContactStudent::class, 'teacher_requests_id');
+    }
 }
