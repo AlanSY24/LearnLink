@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\BasicController;
 use App\Http\Controllers\Auth\EmailController;
 use App\Http\Controllers\Auth\forgot;
+use App\Http\Controllers\Auth\VerifyCodeController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ChildrenCardController;
@@ -70,6 +71,8 @@ Route::post('/infoEdit', [BasicController::class,'infoEdit'])->name('basicinfoFo
 // 寄送email
 Route::view('/st','a_forgot')->name('st');
 Route::post('/seadEmail', [EmailController::class,'sendEmail'])->name('seadEmail');
+Route::post('/verify-code', [VerifyCodeController::class, 'verify'])->name('verifyCode');
+
 
 
 

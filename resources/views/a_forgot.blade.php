@@ -3,34 +3,138 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>發送驗證碼</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="{{ asset('css/header_footer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/basicinfo.css') }}">
+
+    <style>
+        main {
+            flex-grow: 1;
+            padding: 1em;
+            margin: auto;
+        }
+
+        #mainDiv {
+            min-height: 50vh;
+        }
+
+        .container-form {
+            background-color: var(--accent-color);
+            padding: 20px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .container-form h3 {
+            color: var(--main-color);
+            text-align: center;
+        }
+
+        .container-form label {
+            display: inline-block;
+            font-weight: bold;
+            margin: 1em 0 0.5em;
+            color: var(--main-color);
+            width: 150px;
+        }
+
+        .container-form input[type="email"],
+        .container-form input[type="text"] {
+            width: 300px;
+            padding: 0.5em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .container-form button {
+            background-color: var(--main-color);
+            color: var(--text-color);
+            border: none;
+            padding: 0.5em 1em;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .container-form button:hover {
+            background-color: #003060;
+        }
+
+        #verifyWindow {
+            border: none;
+            padding: 0;
+            border-radius: 5px;
+            background-color: var(--bg-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                width: 90%;
+            }
+
+            .container-form input[type="email"],
+            .container-form input[type="text"] {
+                width: 70%;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <form id="emailForm">
-        @csrf
-        <input type="email" id="email" required value="sean2000.cy@gmail.com">
-        <button type="submit">發送</button>
-    </form>
-    <dialog id="verifyWindow">
-        <form action="">
-            @csrf
-            <label for="code">請輸入驗證碼</label>
-            <input type="text" id="code" required>
-            <button type="submit">驗證</button>
-        </form>
-    </dialog>
+    <script src="{{ asset('js/nav.js') }}"></script>
+    <x-nav />
+    <div class="container" id="mainDiv">
+        <main>
+            <div class="container-form">
+                <h3>重設密碼</h3>
+                <form id="emailForm">
+                    @csrf
+                    <label for="email">電子郵件：</label>
+                    <input type="email" id="email" required value="sean2000.cy@gmail.com">
+                    <button type="submit">發送</button>
+                </form>
+            </div>
+        </main>
+    </div>
 
-    <script src="{{ asset('js/loadingMask.js') }}"></script>    <!-- 引入loadingMask -->
+    <dialog id="verifyWindow">
+        <div class="container-form">
+            <h3>驗證碼確認及密碼重設</h3>
+            <form id="verifyForm">
+                @csrf
+                <input type="hidden" id="verifyEmail" name="email">
+                <label for="code">請輸入驗證碼：</label>
+                <input type="text" id="code" name="code" required><br>
+                <label for="newPassword">輸入新密碼：</label>
+                <input type="password" id="newPassword" name="newPassword" required
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="密碼必須包含至少一個數字、一個小寫字母、一個大寫字母，且長度至少為8個字符"><br>
+                <label for="confirmPassword">再次輸入新密碼：</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="密碼必須包含至少一個數字、一個小寫字母、一個大寫字母，且長度至少為8個字符">
+                <button type="submit">驗證並重設密碼</button>
+            </form>
+        </div>
+    </dialog>
+    <x-footer_alpha />
+
+    <script src="{{ asset('js/loadingMask.js') }}"></script>
     <script>
         const emailForm = document.getElementById('emailForm');
         const verifyWindow = document.getElementById('verifyWindow');
+        const verifyForm = document.getElementById('verifyForm');
+        let userEmail = '';
 
+        // 寄送email並皆收回傳訊息 ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
         emailForm.addEventListener('submit', async function (e) {
             e.preventDefault();
-            showLoadingMask(); // 顯示遮罩層
+            showLoadingMask();
+            userEmail = document.getElementById('email').value;
 
             try {
                 const response = await fetch('{{ route('seadEmail') }}', {
@@ -39,24 +143,69 @@
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     },
-                    body: JSON.stringify({
-                        email: document.getElementById('email').value
-                    })
+                    body: JSON.stringify({ email: userEmail })
                 });
 
                 const data = await response.json();
-
-                hideLoadingMask(); // 隱藏遮罩層
+                hideLoadingMask();
 
                 if (data.success) {
                     alert(data.message);
+                    document.getElementById('verifyEmail').value = userEmail;
                     verifyWindow.showModal();
                 } else {
                     alert('發送失敗: ' + data.message);
                 }
             } catch (error) {
-                hideLoadingMask(); // 發生錯誤時也要隱藏遮罩層
+                hideLoadingMask();
                 alert('發送失敗: ' + error.message);
+            }
+        });
+
+        //  收到驗證碼後輸入驗證碼及新密碼  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+        verifyForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            showLoadingMask();
+
+            const formData = new FormData(verifyForm);
+            const email = formData.get('email');
+            const code = formData.get('code');
+            const newPassword = formData.get('newPassword');
+            const confirmPassword = formData.get('confirmPassword');
+
+            if (newPassword !== confirmPassword) {
+                hideLoadingMask();
+                alert('兩次輸入的密碼不一致，請重新輸入。');
+                return;
+            }
+
+            try {
+                const response = await fetch('{{ route('verifyCode') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        code: code,
+                        newPassword: newPassword
+                    })
+                });
+
+                const data = await response.json();
+                hideLoadingMask();
+
+                if (data.success) {
+                    alert(data.message);
+                    verifyWindow.close();
+                    // 這裡可以添加密碼重設成功後的其他操作
+                } else {
+                    alert('驗證失敗或密碼重設失敗: ' + data.message);
+                }
+            } catch (error) {
+                hideLoadingMask();
+                alert('驗證失敗或密碼重設失敗: ' + error.message);
             }
         });
     </script>
