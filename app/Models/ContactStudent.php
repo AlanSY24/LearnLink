@@ -18,11 +18,11 @@ class ContactStudent extends Model
 
     public function teacherRequest()
     {
-        return $this->belongsTo(TeacherRequest::class);
+        return $this->belongsTo(TeacherRequest::class, 'teacher_requests_id');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->select(['id', 'name', 'email', 'phone']); // 這裡指定要選取的字段
     }
 }

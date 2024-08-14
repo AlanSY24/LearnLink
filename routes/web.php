@@ -151,6 +151,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/contact-teacher', [ContactTeacherController::class, 'contactTeacher'])->name('contact_teacher.contactTeacher');
     Route::post('/contact-student', [ContactStudentController::class, 'contactStudent'])->name('contact_student.contactStudent');
     Route::get('/contact/check', [ContactTeacherController::class, 'checkContactStatus'])->name('contact_teacher.check');
+    Route::get('teacher-requests/contact', [ContactStudentController::class, 'showUserTeacherRequestsWithContacts'])->name('user.teacher_requests');
 
 });
 

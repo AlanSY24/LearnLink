@@ -72,4 +72,20 @@ class ContactStudentController extends Controller
 
         return response()->json($contacts);
     }
+
+    // 顯示特定使用者的所有 TeacherRequests 及其相關的 ContactStudents
+    public function showUserTeacherRequestsWithContacts()
+    {
+
+        // 獲取已登入使用者的 ID
+        $userId = Auth::id();
+
+        // 查找指定使用者的 TeacherRequests 並加載相關的 ContactStudents
+        $teacherRequests = TeacherRequest::where('user_id', $userId)
+            ->with('contactStudents.user', 'subject', 'city')
+            ->get();
+            
+
+        return response()->json(['teacherRequests' => $teacherRequests]);
+    }
 }
