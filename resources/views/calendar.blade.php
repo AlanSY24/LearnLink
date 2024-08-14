@@ -11,7 +11,7 @@
     <link rel="icon" href="data:,">
 </head>
 <body>
-<h2>當前查看的教師ID: {{ $teacherUserId }} (模擬值)</h2>
+<h2>當前查看的教師ID: {{ $teacherUserId }}{{$teacherRequest}} (模擬值)</h2>
 <div class="calendar">
         <div class="header">
             <button id="prevMonth">&lt;</button>
@@ -61,5 +61,9 @@
     </div>
 
     <script src="{{ asset('luyen/calendar.js') }}"></script>
+    <script>
+        console.log(teacherUserId);
+        
+    </script>
 </body>
 </html>
