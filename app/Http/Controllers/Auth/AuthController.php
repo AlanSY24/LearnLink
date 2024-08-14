@@ -177,14 +177,11 @@ class AuthController extends Controller
 
             return response()->json(['success' => true, 'message' => '驗證碼已發送到您的郵箱']);
         } catch (\Exception $e) {
-            // 紀錄錯誤日誌
-            \Log::error('Email 發送失敗: ' . $e->getMessage());
-
-            // 返回詳細錯誤信息
+            
             return response()->json([
                 'success' => false,
-                'message' => 'email 發送失敗，請重試',
-                'error' => $e->getMessage() // 可以選擇性提供更多錯誤信息
+                'message' => 'email 發送失敗',
+                'error' => $e->getMessage()
             ], 500);
         }
     }
