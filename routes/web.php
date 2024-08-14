@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\Auth\BasicController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FindTeacherController;
 use App\Http\Controllers\StudentPageController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\BasicController;
+use App\Http\Controllers\Auth\EmailController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ChildrenCardController;
@@ -65,8 +66,8 @@ Route::view('/basic','basicinfo_alpha')->name('basic.page');
 Route::post('/infoEdit', [BasicController::class,'infoEdit'])->name('basicinfoForm');
 
 // 寄送email
-Route::view('/send-email','send-email')->name('send-email-page');
-Route::post('/send-email', [AuthController::class,'sendEmail'])->name('send-email-act');
+Route::view('/st','send-email')->name('st');
+Route::post('/seadEmail', [EmailController::class,'sendEmail'])->name('seadEmail');
 
 
 
