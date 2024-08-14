@@ -87,17 +87,19 @@
             top: 10px;
             right: 10px;
             font-size: 24px;
-            background: none;
-            border: none;
             color: var(--main-color);
             cursor: pointer;
-            padding: 0;
-            line-height: 1;
-            z-index: 1000;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.3s;
         }
 
         #closeDialog:hover {
-            color: #003060;
+            background-color: rgba(0, 0, 0, 0.1);
         }
 
         /* 覆蓋 .container-form button 的樣式 for 叉叉按鈕 */
@@ -138,7 +140,7 @@
                 <form id="emailForm">
                     @csrf
                     <label for="email">電子郵件：</label>
-                    <input type="email" id="email" required value="sean2000.cy@gmail.com">
+                    <input type="email" id="email" required>
                     <button type="submit">發送</button>
                 </form>
             </div>
@@ -147,7 +149,7 @@
 
     <dialog id="verifyWindow">
         <div class="container-form">
-            <button id="closeDialog">&times;</button>
+            <div id="closeDialog">&times;</div>
             <h3>驗證及重設密碼</h3>
             <form id="verifyForm">
                 @csrf
