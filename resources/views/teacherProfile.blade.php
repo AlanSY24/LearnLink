@@ -169,7 +169,7 @@
                             <div>${item.be_teacher.subject}</div>
                             <div>${item.be_teacher.city}</div>
                             <div>${item.be_teacher.available_time}</div>
-                            <div>${item.be_teacher.hourly_rate}</div>
+                            <div>${item.be_teacher.hourly_rate_min}-${item.be_teacher.hourly_rate_max}</div>
                             <div>${item.be_teacher.districts}</div>
                         </div>
                         <div class="student_profile">
