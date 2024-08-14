@@ -11,6 +11,9 @@ class EmailController extends Controller
 {
     public function sendEmail(Request $request)
     {
+
+// 要在加上條件以分辨是註冊還是忘記密碼
+
         $verifyCode = rand(100000, 999999);
         $email = $request->email;
 
