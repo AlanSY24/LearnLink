@@ -8,8 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const teacherUserId = document.querySelector('meta[name="teacher-user-id"]').getAttribute('content');
     console.log('Using simulated teacher ID:', teacherUserId);
 
-    // 固定的事件類型
-    const EVENT_TYPE = "數學課";
+    // 從 meta 標籤中獲取 title
+    const EVENT_TYPE = document.querySelector('meta[name="event-title"]').getAttribute('content');
+
+     // 從 meta 標籤中獲取 teacher_request_id
+     const teacherRequestId = document.querySelector('meta[name="teacher-request-id"]').getAttribute('content');
+     console.log('Using teacher request ID:', teacherRequestId);
+
 
     // 獲取今天的日期字符串（格式：YYYY-MM-DD）
     function getTodayString() {
@@ -39,8 +44,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初始化事件類型顯示
     async function initializeEventTypeDisplay() {
         const eventTypeElement = document.getElementById('eventType');
-        const type = await fetchEventType();
-        eventTypeElement.textContent = ` ${type}`;
+        // const type = await fetchEventType();
+        // eventTypeElement.textContent = ` ${type}`;
+        eventTypeElement.textContent = ` ${EVENT_TYPE}`;
     }
 
     // 獲取縣市和地區數據
@@ -297,7 +303,8 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({ 
                 events: events,
-                teacher_id: teacherUserId  // 使用模擬的教師用戶ID
+                teacher_id: teacherUserId, 
+                teacher_request_id: teacherRequestId
             })
         })
         .then(response => response.json())
