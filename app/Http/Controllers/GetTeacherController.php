@@ -58,12 +58,14 @@ class GetTeacherController extends Controller
             $minBudget = (int) $request->minBudget;
             $maxBudget = (int) $request->maxBudget;
 
-            // 确保预算区间合理
+            // 確保預算區間合理
             if ($minBudget < $maxBudget) {
                 $query->whereBetween('hourly_rate', [$minBudget, $maxBudget]);
             }
+        } else if ($request->has('maxBudget')) {
+            $maxBudget = (int) $request->maxBudget;
+            $query->where('hourly_rate', '<=', $maxBudget);
         }
-
 
         // 处理并添加时间
         if ($request->has('time')) {

@@ -54,17 +54,23 @@ class GetStudentController extends Controller
         }
 
         
+        // 处理预算
+        $minBudget = $request->get('minBudget');
+        $maxBudget = $request->get('maxBudget');
 
-        /// 处理预算
-        if ($request->has('minBudget') || $request->has('maxBudget')) {
-            $minBudget = $request->get('minBudget');
-            $maxBudget = $request->get('maxBudget');
-            
+        if ($minBudget !== null && $maxBudget !== null) {
+            // 两者都有的情况
             $query->whereRaw("
                 (hourly_rate_min >= ? AND hourly_rate_max <= ?)
                 OR
                 (hourly_rate_min <= ? AND hourly_rate_max >= ?)
             ", [$minBudget, $maxBudget, $minBudget, $maxBudget]);
+        } elseif ($minBudget !== null) {
+            // 只有 minBudget 的情况
+            $query->where('hourly_rate_min', '>=', $minBudget);
+        } elseif ($maxBudget !== null) {
+            // 只有 maxBudget 的情况
+            $query->where('hourly_rate_max', '<=', $maxBudget);
         }
 
 
