@@ -345,8 +345,8 @@
                             html += '<h4>聯絡的學生:</h4><ul>';
                             item.contact_students.forEach(function(contact) {
                                 html += `<li>${contact.user.name} - ${contact.user.email} - ${contact.user.phone}</li>
-                                <button class="">選擇</button>
-                                <button class="" data-teacher-id="">取消</button>
+                                 <button class="btn-select" data-user-id="${contact.user.id}" data-teacher-request-id="${item.id}">選擇</button>
+                                    <button class="btn-cancel" data-user-id="${contact.user.id}" data-teacher-request-id="${item.id}">取消</button>
                             `;
                             });
                             html += '</ul><br>';
@@ -354,6 +354,36 @@
                     });
                     html += '</ul>';
                     $('#areaStatus').html(html);
+
+                        // 綁定選擇按鈕的事件處理
+                    $('.btn-select').on('click', function() {
+                        let userId = $(this).data('user-id');
+                        let teacherRequestId = $(this).data('teacher-request-id');
+                        window.open(`/LearnLink/public/calendar?user_id=${userId}&teacher_request_id=${teacherRequestId}`, '_blank');
+                    });
+                
+                    // 綁定取消按鈕的事件處理
+                    $('.btn-cancel').on('click', function() {
+                        let userId = $(this).data('user-id');
+                        let teacherRequestId = $(this).data('teacher-request-id');
+                        $.ajax({
+                            url: '{{ route('contact_student.remove') }}',
+                            type: 'POST',
+                            data: {
+                                user_id: userId,
+                                teacher_request_id: teacherRequestId,
+                                _token: '{{ csrf_token() }}' // CSRF Token
+                            },
+                            success: function(response) {
+                                alert('學生已被取消');
+                                location.reload(); // 重新載入頁面以更新顯示
+                            },
+                            error: function(xhr) {
+                                console.error('An error occurred:', xhr);
+                                alert('操作失敗，請稍後重試。');
+                            }
+                        });
+                    });
                     
                 },
                 error: function(xhr) {

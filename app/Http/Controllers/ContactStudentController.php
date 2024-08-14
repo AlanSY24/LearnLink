@@ -88,4 +88,17 @@ class ContactStudentController extends Controller
 
         return response()->json(['teacherRequests' => $teacherRequests]);
     }
+
+    public function remove(Request $request)
+    {
+        $userId = $request->input('user_id');
+        $teacherRequestId = $request->input('teacher_request_id');
+
+        // 刪除 ContactStudent 資料
+        ContactStudent::where('user_id', $userId)
+            ->where('teacher_requests_id', $teacherRequestId)
+            ->delete();
+
+        return response()->json(['success' => true]);
+    }
 }

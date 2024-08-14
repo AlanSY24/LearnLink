@@ -8,21 +8,30 @@ use App\Models\TeacherCalendar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\TeacherRequest;
+use App\Models\User;
+
 
 class CalendarController extends Controller
 {
-    public function index(Request $request)
+    public function show(Request $request)
     {
         // 模擬從其他頁面接收到的教師ID
-        $simulatedTeacherId = '12345'; // 這裡使用一個固定的值來模擬
+        // $simulatedTeacherId = '12345'; // 這裡使用一個固定的值來模擬
 
         // 在實際情況下，您會從請求中獲取教師ID
         // $teacherUserId = $request->input('teacher_id');
 
         // 使用模擬的教師ID
-        $teacherUserId = $simulatedTeacherId;
+        // $teacherUserId = $simulatedTeacherId;
 
-        return view('calendar', compact('teacherUserId'));
+        $userId = $request->query('user_id');
+        $teacherRequestId = $request->query('teacher_request_id');
+
+        $teacherUserId = User::findOrFail($userId)->id;
+        $teacherRequest = TeacherRequest::select('id', 'title', 'status')->findOrFail($teacherRequestId);
+
+        return view('calendar', compact('teacherUserId', 'teacherRequest'));
     }
 
 
