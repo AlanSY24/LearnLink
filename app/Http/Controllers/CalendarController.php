@@ -14,24 +14,18 @@ use App\Models\User;
 
 class CalendarController extends Controller
 {
-    public function show(Request $request)
+    public function index(Request $request)
     {
         // 模擬從其他頁面接收到的教師ID
-        // $simulatedTeacherId = '12345'; // 這裡使用一個固定的值來模擬
+        $simulatedStudentId = '12345'; // 這裡使用一個固定的值來模擬
 
         // 在實際情況下，您會從請求中獲取教師ID
         // $teacherUserId = $request->input('teacher_id');
 
         // 使用模擬的教師ID
-        // $teacherUserId = $simulatedTeacherId;
+        $teacherUserId = $simulatedStudentId;
 
-        $userId = $request->query('user_id');
-        $teacherRequestId = $request->query('teacher_request_id');
-
-        $teacherUserId = User::findOrFail($userId)->id;
-        $teacherRequest = TeacherRequest::select('id', 'title', 'status')->findOrFail($teacherRequestId);
-
-        return view('calendar', compact('teacherUserId', 'teacherRequest'));
+        return view('calendar', compact('teacherUserId'));
     }
 
 
@@ -176,5 +170,25 @@ class CalendarController extends Controller
         $events = $calendarEvents->concat($teacherCalendarEvents);
 
         return view('show-events', compact('events'));
+    }
+
+    public function show(Request $request)
+    {
+        // 模擬從其他頁面接收到的教師ID
+        // $simulatedTeacherId = '12345'; // 這裡使用一個固定的值來模擬
+
+        // 在實際情況下，您會從請求中獲取教師ID
+        // $teacherUserId = $request->input('teacher_id');
+
+        // 使用模擬的教師ID
+        // $teacherUserId = $simulatedTeacherId;
+
+        $userId = $request->query('user_id');
+        $teacherRequestId = $request->query('teacher_request_id');
+
+        $teacherUserId = User::findOrFail($userId)->id;
+        $teacherRequest = TeacherRequest::select('id', 'title', 'status')->findOrFail($teacherRequestId);
+
+        return view('calendar', compact('teacherUserId', 'teacherRequest'));
     }
 }

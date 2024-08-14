@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\ContactTeacher;
+use App\Models\BeTeacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -67,5 +68,34 @@ class ContactTeacherController extends Controller
         $contacts = ContactTeacher::where('user_id', $userId)->get();
 
         return response()->json($contacts);
+    }
+
+    // 顯示特定使用者的所有 TeacherRequests 及其相關的 ContactStudents
+    public function showUserBeTeacherWithContacts()
+    {
+
+        // 獲取已登入使用者的 ID
+        $userId = Auth::id();
+
+        // 查找指定使用者的 TeacherRequests 並加載相關的 ContactStudents
+        $beteacher = BeTeacher::where('user_id', $userId)
+            ->with('contactTeacher.user', 'subject', 'city')
+            ->get();
+            
+
+        return response()->json(['beteacher' => $beteacher]);
+    }
+
+    public function remove(Request $request)
+    {
+        $userId = $request->input('user_id');
+        $teacherRequestId = $request->input('teacher_request_id');
+
+        // 刪除 ContactStudent 資料
+        ContactTeacher::where('user_id', $userId)
+            ->where('be_teacher_id', $teacherRequestId)
+            ->delete();
+
+        return response()->json(['success' => true]);
     }
 }

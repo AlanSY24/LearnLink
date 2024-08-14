@@ -359,7 +359,7 @@
                     $('.btn-select').on('click', function() {
                         let userId = $(this).data('user-id');
                         let teacherRequestId = $(this).data('teacher-request-id');
-                        window.open(`/LearnLink/public/calendar?user_id=${userId}&teacher_request_id=${teacherRequestId}`, '_blank');
+                        window.open(`/LearnLink/public/calendarShow?user_id=${userId}&teacher_request_id=${teacherRequestId}`, '_blank');
                     });
                 
                     // 綁定取消按鈕的事件處理

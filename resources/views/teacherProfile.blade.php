@@ -258,7 +258,107 @@
 
         // 其他按鈕功能的 AJAX 請求可根據需要進行設置
         $('#btnContact').on('click', function() {
-            $('#areaStatus').html('<p>顯示被學生/家長連絡的內容</p>');
+            $.ajax({
+                url: '{{ route('user.be_teacher') }}',
+                type: 'GET',
+                success: function(response) {
+                    console.log(response);
+                    
+                    let html = '<h3></h3><ul>';
+                    response.beteacher.forEach(function(item) {
+                        console.log(item);
+                        if (!item) {
+                            return; // 如果 teacherRequests 為 null，則跳過
+                        }
+
+
+                        html += `
+                    <section class="student_container">
+                        <div class="student_header">
+                            <h1>${item.title}</h1>
+                        </div>
+
+                        <div class="student_info-bar">
+                            <div>縣市:${item.city.city}</div>
+                            <div>地區:${item.districts}</div>
+                        </div>
+
+                        <div class="student_info-bar">
+                            <div>科目:<br>${item.subject.name}</div>
+                            <div>時段:<br>${item.available_time}</div>
+                            <div>時薪:<br>${item.hourly_rate_min}-${item.hourly_rate_max}</div>
+                        </div>
+                        <div class="student_profile">
+                            <div class="avatar">大頭貼</div>
+                            <div class="description">
+                                <h3 style="color: #004080 ;">自我介紹(學經歷)：</h3>
+                                <p style="text-indent: 6em;">${item.details}</p>
+                            </div>
+                        </div>
+                        <div class="student_buttons">
+                            <div class="rating">
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                            </div>
+                            <div class="student_btn">
+                            </div>
+                        </div>
+                    </section>
+                    `;
+                             // 如果有contact_students資料
+                        if (item.contact_teacher && item.contact_teacher.length > 0) {
+                            html += '<h4>聯絡的學生:</h4><ul>';
+                            item.contact_teacher.forEach(function(contact) {
+                                html += `<li>${contact.user.name} - ${contact.user.email} - ${contact.user.phone}</li>
+                                 <button class="btn-select" data-user-id="${contact.user.id}" data-teacher-request-id="${item.id}">選擇</button>
+                                    <button class="btn-cancel" data-user-id="${contact.user.id}" data-teacher-request-id="${item.id}">取消</button>
+                            `;
+                            });
+                            html += '</ul><br>';
+                        }
+                    });
+                    html += '</ul>';
+                    $('#areaStatus').html(html);
+
+                        // 綁定選擇按鈕的事件處理
+                    $('.btn-select').on('click', function() {
+                        let userId = $(this).data('user-id');
+                        let beTeacherId = $(this).data('teacher-request-id');
+                        window.open(`/LearnLink/public/otherCalendarShow?user_id=${userId}&beTeacherId=${beTeacherId}`, '_blank');
+                    });
+                
+                    // 綁定取消按鈕的事件處理
+                    $('.btn-cancel').on('click', function() {
+                        let userId = $(this).data('user-id');
+                        let teacherRequestId = $(this).data('teacher-request-id');
+                        $.ajax({
+                            url: '{{ route('contact_teacher.remove') }}',
+                            type: 'POST',
+                            data: {
+                                user_id: userId,
+                                teacher_request_id: teacherRequestId,
+                                _token: '{{ csrf_token() }}' // CSRF Token
+                            },
+                            success: function(response) {
+                                alert('學生已被取消');
+                                location.reload(); // 重新載入頁面以更新顯示
+                            },
+                            error: function(xhr) {
+                                console.error('An error occurred:', xhr);
+                                alert('操作失敗，請稍後重試。');
+                            }
+                        });
+                    });
+                    
+                },
+                error: function(xhr) {
+                    console.error('An error occurred:', xhr);
+                    $('#areaStatus').html('<p>載入收藏列表時發生錯誤aabb。</p>');
+                }
+            });
         });
 
         $('#btnProgress').on('click', function() {
