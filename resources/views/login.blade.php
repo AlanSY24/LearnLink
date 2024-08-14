@@ -50,7 +50,7 @@
             </div>
             <div class="links">
                 <a href="#" data-show-form="registerForm">註冊</a>
-                <a href="#" data-show-form="forgotForm">忘記密碼？</a>
+                <a href="{{ route('resetPassword') }}" id="forgotPasswordLink">忘記密碼？</a>
             </div>
         </form>
     </div>
@@ -120,7 +120,7 @@
             </div>
             <div class="links mt-3">
                 <a href="#" data-show-form="login-form">登入</a>
-                <a href="#" data-show-form="forgotForm">忘記密碼？</a>
+                <a href="{{ route('resetPassword') }}" id="forgotPasswordLink">忘記密碼？</a>
             </div>
         </form>
     </div>

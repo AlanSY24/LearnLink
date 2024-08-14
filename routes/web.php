@@ -69,9 +69,10 @@ Route::view('/basic','basicinfo_alpha')->name('basic.page');
 Route::post('/infoEdit', [BasicController::class,'infoEdit'])->name('basicinfoForm');
 
 // 寄送email
-Route::view('/st','a_forgot')->name('st');
+Route::view('/st','resetPassword')->name('resetPassword');
 Route::post('/seadEmail', [EmailController::class,'sendEmail'])->name('seadEmail');
 Route::post('/verify-code', [VerifyCodeController::class, 'verify'])->name('verifyCode');
+
 
 
 
