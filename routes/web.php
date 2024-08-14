@@ -68,7 +68,7 @@ Route::view('/basic','basicinfo_alpha')->name('basic.page');
 Route::post('/infoEdit', [BasicController::class,'infoEdit'])->name('basicinfoForm');
 
 // 寄送email
-Route::view('/st','send-email')->name('st');
+Route::view('/st','a_forgot')->name('st');
 Route::post('/seadEmail', [EmailController::class,'sendEmail'])->name('seadEmail');
 
 
