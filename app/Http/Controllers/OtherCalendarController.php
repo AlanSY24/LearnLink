@@ -8,6 +8,9 @@ use App\Models\TeacherCalendar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\BeTeacher;
+
 
 class OtherCalendarController extends Controller
 {
@@ -167,5 +170,25 @@ class OtherCalendarController extends Controller
         $events = $calendarEvents->concat($teacherCalendarEvents);
 
         return view('show-events', compact('events'));
+    }
+
+    public function show(Request $request)
+    {
+        // 模擬從其他頁面接收到的教師ID
+        // $simulatedTeacherId = '12345'; // 這裡使用一個固定的值來模擬
+
+        // 在實際情況下，您會從請求中獲取教師ID
+        // $teacherUserId = $request->input('teacher_id');
+
+        // 使用模擬的教師ID
+        // $teacherUserId = $simulatedTeacherId;
+
+        $userId = $request->query('user_id');
+        $beTeacherId = $request->query('beTeacherId');
+
+        $studentUserId = User::findOrFail($userId)->id;
+        $beTeacher = BeTeacher::select('id', 'title', 'status')->findOrFail($beTeacherId);
+
+        return view('OtherCalendar', compact('studentUserId', 'beTeacher'));
     }
 }

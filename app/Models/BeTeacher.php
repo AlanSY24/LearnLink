@@ -71,4 +71,9 @@ class BeTeacher extends Model
     {
         return $this->hasMany(FavoriteStudent::class, 'be_teachers_id');
     }
+
+    public function contactTeacher()
+    {
+        return $this->hasMany(ContactTeacher::class, 'be_teacher_id');
+    }
 }

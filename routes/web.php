@@ -102,13 +102,15 @@ Route::get('/beteacher', [BeTeacherController::class, 'create'])->name('beteache
 Route::delete('/delete-event/{id}', [CalendarController::class, 'deleteEvent']);
 Route::post('/submit-events', [CalendarController::class, 'submitEvents']);
 // Route::get('/calendar', [CalendarController::class, 'index']);
-Route::get('/calendar', [CalendarController::class, 'show'])->name('calendar.show');
+Route::get('/calendar', [CalendarController::class, 'index']);
+Route::get('/calendarShow', [CalendarController::class, 'show']);
 Route::post('/store-event', [CalendarController::class, 'storeEvent']);
 Route::get('/show-events', [CalendarController::class, 'showEvents'])->name('show.events');
 
 
 Route::post('/studentSubmit-events', [OtherCalendarController::class, 'submitEvents']);
 Route::get('/otherCalendar', [OtherCalendarController::class, 'index']);
+Route::get('/otherCalendarShow', [OtherCalendarController::class, 'show']);
 
 
 //-------------------------------------
@@ -153,8 +155,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/contact-teacher', [ContactTeacherController::class, 'contactTeacher'])->name('contact_teacher.contactTeacher');
     Route::post('/contact-student', [ContactStudentController::class, 'contactStudent'])->name('contact_student.contactStudent');
     Route::get('/contact/check', [ContactTeacherController::class, 'checkContactStatus'])->name('contact_teacher.check');
-    Route::get('teacher-requests/contact', [ContactStudentController::class, 'showUserTeacherRequestsWithContacts'])->name('user.teacher_requests');
+    Route::get('/teacher-requests/contact', [ContactStudentController::class, 'showUserTeacherRequestsWithContacts'])->name('user.teacher_requests');
+    Route::get('/be_teacher/contact', [ContactTeacherController::class, 'showUserBeTeacherWithContacts'])->name('user.be_teacher');
     Route::post('/contact-student/remove', [ContactStudentController::class, 'remove'])->name('contact_student.remove');
+    Route::post('/contact-teacher/remove', [ContactTeacherController::class, 'remove'])->name('contact_teacher.remove');
 });
 
 
