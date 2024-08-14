@@ -19,6 +19,7 @@
 
     <!-- 導入CSS(會員中心老師.css) -->
     <link rel="stylesheet" href="./css/member.css">
+    <link rel="stylesheet" href="./css/header_footer.css">
     <!-- <link rel="stylesheet" href="./css/studentCss.css"> -->
 
 
@@ -28,25 +29,14 @@
     <!-- HTML==================================================================================================== -->
 
     <!-- 頁首 -->
-    <header>
-
-    </header>
+    <script src="{{asset('js/nav.js')}}"></script>
+    <x-nav />
     <!-- 頁首 -->
 
     <div class="container clearfix">
         <aside class="sidebar">
             <h2>會員中心-學生</h2>
-            <ul>
-                <li><a href="#">基本資料</a></li>
-
-                <li><a href="#">老師</a>
-                    <a href="#" style="font-size: x-small;">評分</a> 
-                </li>
-                <li>
-                    <a href="#">學生</a>
-                    <a href="#" style="font-size: x-small;">家長</a>
-                </li>
-            </ul>
+            <x-aside />
         </aside>
         <main>
             <section class="container">
