@@ -134,7 +134,8 @@
             <button id="submitVerification">驗證</button>
         </div>
     </div>
-
+    
+    <script src="{{ asset('js/loadingMask.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('registrationForm');
@@ -168,6 +169,7 @@
                 if (!checkPassword()) {
                     return;
                 }
+                showLoadingMask();
 
                 const formData = new FormData(form);
                 try {
@@ -178,6 +180,8 @@
                             'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
                         }
                     });
+                hideLoadingMask();
+
                     if (!response.ok) {
                         throw new Error('後端伺服器錯誤');
                     }
@@ -186,11 +190,11 @@
                         alert(data.message);
                         verificationDialog.style.display = 'block';
                     } else {
-                        alert('後端錯誤: ' + (data.error || '發生錯誤，請重試。'));
+                        alert('後端錯誤'));
                     }
                 } catch (error) {
-                    console.error('Error:', error);
-                    alert('前端錯誤: ' + error.message);
+                    hideLoadingMask();
+                    alert('前端錯誤);
                 }
             });
 
