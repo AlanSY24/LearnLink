@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
         if ((minBudget && minBudget < 100) || (maxBudget && maxBudget > 100000) || (minBudget && maxBudget && minBudget >= maxBudget)) {
-            alert('请检查预算输入是否正确');
+            alert('請檢查預算輸入是否正確');
             return;
         }
 

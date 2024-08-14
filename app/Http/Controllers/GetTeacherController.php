@@ -52,10 +52,18 @@ class GetTeacherController extends Controller
             }
         }
 
+        
         // 篩選預算
         if ($request->has('minBudget') && $request->has('maxBudget')) {
-            $query->whereBetween('hourly_rate', [$request->minBudget, $request->maxBudget]);
+            $minBudget = (int) $request->minBudget;
+            $maxBudget = (int) $request->maxBudget;
+
+            // 确保预算区间合理
+            if ($minBudget < $maxBudget) {
+                $query->whereBetween('hourly_rate', [$minBudget, $maxBudget]);
+            }
         }
+
 
         // 处理并添加时间
         if ($request->has('time')) {

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\City;
 use App\Models\GetStudent;
 use App\Models\Subject;
@@ -54,10 +55,18 @@ class GetStudentController extends Controller
 
         
 
-        // 筛选预算
-        if ($request->has('minBudget') && $request->has('maxBudget')) {
-            $query->whereBetween('hourly_rate', [$request->minBudget, $request->maxBudget]);
+        /// 处理预算
+        if ($request->has('minBudget') || $request->has('maxBudget')) {
+            $minBudget = $request->get('minBudget');
+            $maxBudget = $request->get('maxBudget');
+            
+            $query->whereRaw("
+                (hourly_rate_min >= ? AND hourly_rate_max <= ?)
+                OR
+                (hourly_rate_min <= ? AND hourly_rate_max >= ?)
+            ", [$minBudget, $maxBudget, $minBudget, $maxBudget]);
         }
+
 
         // 处理并添加时间
         if ($request->has('time')) {
