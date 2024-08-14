@@ -105,7 +105,7 @@ class CalendarController extends Controller
         try {
             $events = $request->input('events');
             $teacherId = $request->input('teacher_id'); // 從請求中獲取外部 user_id
-            
+            $teacherRequestId = $request->input('teacher_request_id');
             $loggedInUserId = Auth::id(); // 獲取當前登入用戶的 ID
 
             if (!$loggedInUserId) {
@@ -115,8 +115,13 @@ class CalendarController extends Controller
             // if (!$externalUserId) {
             //     return response()->json(['error' => '未提供教師用戶 ID'], 400);
             // }
+            if (!$teacherRequestId) {
+                return response()->json(['error' => '未提供教師請求 ID'], 400);
+            }
 
             DB::beginTransaction();
+
+            $teacherRequest = TeacherRequest::findOrFail($teacherRequestId);
             
             foreach ($events as $eventData) {
                 $validatedData = $this->validateEvent($eventData);
@@ -129,11 +134,19 @@ class CalendarController extends Controller
                 $teacherCalendarData = array_merge($validatedData, ['user_id' => $teacherId]);
                 TeacherCalendar::create($teacherCalendarData);
             }
+            // 更新 TeacherRequest 狀態
+            
+            $teacherRequest->status = 'in_progress';
+            $teacherRequest->save();
             
             DB::commit();
 
             return response()->json(['success' => true, 'message' => '所有事件已成功保存到兩個資料表']);
-        } catch (\Exception $e) {
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            DB::rollBack();
+            \Log::error('Error in submitEvents: TeacherRequest not found - ' . $e->getMessage());
+            return response()->json(['error' => '找不到指定的教師請求'], 404);
+        }catch (\Exception $e) {
             DB::rollBack();
             \Log::error('Error in submitEvents: ' . $e->getMessage());
             return response()->json(['error' => '服務器錯誤，請稍後再試'], 500);
