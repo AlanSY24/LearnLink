@@ -62,11 +62,12 @@ class GetTeacherController extends Controller
             $times = explode(',', $request->time);
             $conditions = [];
             foreach ($times as $time) {
-                // 确保时间值被正确包裹在引号中
-                $conditions[] = 'FIND_IN_SET(\''. $time .'\', available_time) > 0';
+                $conditions[] = 'FIND_IN_SET(\'' . $time . '\', available_time) > 0';
             }
             $query->whereRaw(implode(' OR ', $conditions));
         }
+        
+
 
         // 取得篩選後的教師資料
         $teachers = $query->with('subject', 'city', 'user')->get();

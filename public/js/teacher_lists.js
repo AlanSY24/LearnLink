@@ -83,8 +83,9 @@ document.addEventListener('DOMContentLoaded', function() {
             .map(checkbox => checkbox.value);
         const minBudget = document.querySelector('.min-input').value;
         const maxBudget = document.querySelector('.max-input').value;
-        const selectedTimes = Array.from(document.querySelectorAll('.s_search_time input[type="checkbox"]:checked'))
+        const selectedTimes = Array.from(document.querySelectorAll('.t_search_time input[type="checkbox"]:checked'))
             .map(checkbox => checkbox.value);
+
 
         if ((minBudget && minBudget < 100) || (maxBudget && maxBudget > 100000) || (minBudget && maxBudget && minBudget >= maxBudget)) {
             alert('请检查预算输入是否正确');
@@ -111,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
             queryParams.append('maxBudget', maxBudget);
         }
         if (selectedTimes.length > 0) {
-            queryParams.append('time', selectedTimes.join(','));
+            queryParams.append('time', selectedTimes.join(',')); // 将所有选中的时间用逗号分隔
         }
         // 導向帶有查詢參數的 URL
         window.location.href = `http://localhost/LearnLink/public/teacher_lists?${queryParams.toString()}`;

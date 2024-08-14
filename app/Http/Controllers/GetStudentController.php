@@ -35,10 +35,6 @@ class GetStudentController extends Controller
             $query->where('city_id', $request->city);
         }
 
-        
-        
-        
-
         // 筛选区
         if ($request->has('districts') && $request->districts != '') {
             $districts = explode(',', $request->districts); // 处理多个区
@@ -68,7 +64,7 @@ class GetStudentController extends Controller
             $times = explode(',', $request->time);
             $conditions = [];
             foreach ($times as $time) {
-                $conditions[] = 'FIND_IN_SET(\''. $time .'\', available_time) > 0';
+                $conditions[] = 'FIND_IN_SET(\'' . $time . '\', available_time) > 0';
             }
             $query->whereRaw(implode(' OR ', $conditions));
         }

@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class GetTeacher extends Model
 {
+
+    use HasFactory;
+
     protected $table = 'be_teachers';
     protected $primaryKey = 'id';
     public $timestamps = true;
