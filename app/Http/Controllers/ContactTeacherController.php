@@ -77,13 +77,29 @@ class ContactTeacherController extends Controller
         // 獲取已登入使用者的 ID
         $userId = Auth::id();
 
-        // 查找指定使用者的 TeacherRequests 並加載相關的 ContactStudents
+        // 查找指定使用者的 BeTeacher 並加載相關的 ContactStudents
         $beteacher = BeTeacher::where('user_id', $userId)
+            ->where('status', 'published')
+            ->with('contactTeacher.user', 'subject', 'city')
+            ->get();
+             // 查找指定使用者的 BeTeacher 並加載相關的 ContactStudents
+        $beteacherIn_progress = BeTeacher::where('user_id', $userId)
+            ->where('status', 'in_progress')
+            ->with('contactTeacher.user', 'subject', 'city')
+            ->get();
+        // 查找指定使用者的 BeTeacher 並加載相關的 ContactStudents
+        $beteacherCompleted = BeTeacher::where('user_id', $userId)
+            ->where('status', 'completed')
+            ->with('contactTeacher.user', 'subject', 'city')
+            ->get();
+        // 查找指定使用者的 BeTeacher 並加載相關的 ContactStudents
+        $beteacherCancelled = BeTeacher::where('user_id', $userId)
+            ->where('status', 'cancelled')
             ->with('contactTeacher.user', 'subject', 'city')
             ->get();
             
 
-        return response()->json(['beteacher' => $beteacher]);
+        return response()->json(['beteacher' => $beteacher, 'beteacherIn_progress' => $beteacherIn_progress, 'beteacherCancelled' => $beteacherCancelled, 'beteacherCompleted' => $beteacherCompleted]);
     }
 
     public function remove(Request $request)

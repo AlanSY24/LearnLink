@@ -368,7 +368,86 @@
         });
 
         $('#btnProgress').on('click', function() {
-            $('#areaStatus').html('<p>顯示已接案(預定中)的內容</p>');
+            $.ajax({
+                url: '{{ route('user.be_teacher') }}',
+                type: 'GET',
+                success: function(response) {
+                    console.log(response);
+                    
+                    let html = '<h3></h3><ul>';
+                    response.beteacherIn_progress.forEach(function(item) {
+                        console.log(item);
+                        if (!item) {
+                            return; // 如果 teacherRequests 為 null，則跳過
+                        }
+
+
+                        html += `
+                    <section class="student_container">
+                        <div class="student_header">
+                            <h1>${item.title}</h1>
+                        </div>
+
+                        <div class="student_info-bar">
+                            <div>縣市:${item.city.city}</div>
+                            <div>地區:${item.districts}</div>
+                        </div>
+
+                        <div class="student_info-bar">
+                            <div>科目:<br>${item.subject.name}</div>
+                            <div>時段:<br>${item.available_time}</div>
+                            <div>時薪:<br>${item.hourly_rate_min}-${item.hourly_rate_max}</div>
+                        </div>
+                        <div class="student_profile">
+                            <div class="avatar">大頭貼</div>
+                            <div class="description">
+                                <h3 style="color: #004080 ;">自我介紹(學經歷)：</h3>
+                                <p style="text-indent: 6em;">${item.details}</p>
+                            </div>
+                        </div>
+                        <div class="student_buttons">
+                            <div class="rating">
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                            </div>
+                            <div class="student_btn">
+                            </div>
+                        </div>
+                    </section>
+                    `;
+                             // 如果有contact_students資料
+                        if (item.contact_teacher && item.contact_teacher.length > 0) {
+                            html += '<h4>進行中的老師:</h4><ul>';
+                            item.contact_teacher.forEach(function(contact) {
+                                html += `<li>${contact.user.name} - ${contact.user.email} - ${contact.user.phone}</li>
+                                 <button>選擇</button>
+                                    <button>取消</button>
+                            `;
+                            });
+                            html += '</ul><br>';
+                        }
+                    });
+                    html += '</ul>';
+                    $('#areaStatus').html(html);
+
+                        // 綁定選擇按鈕的事件處理
+                    $('').on('click', function() {
+                    });
+                
+                    // 綁定取消按鈕的事件處理
+                    $('').on('click', function() {
+
+                    });
+                    
+                },
+                error: function(xhr) {
+                    console.error('An error occurred:', xhr);
+                    $('#areaStatus').html('<p>載入收藏列表時發生錯誤aabb。</p>');
+                }
+            });
         });
 
         $('#btnSchedule').on('click', function() {
@@ -376,7 +455,141 @@
         });
 
         $('#btnRecord').on('click', function() {
-            $('#areaStatus').html('<p>顯示紀錄表的內容</p>');
+            $.ajax({
+                url: '{{ route('user.be_teacher') }}',
+                type: 'GET',
+                success: function(response) {
+                    console.log(response);
+                    
+                    let html = '<h3></h3><ul>';
+                    response.beteacherCompleted.forEach(function(item) {
+                        console.log(item);
+                        if (!item) {
+                            return; // 如果 teacherRequests 為 null，則跳過
+                        }
+
+
+                        html += `
+                    <section class="student_container">
+                        <div class="student_header">
+                            <h1>${item.title}</h1>
+                        </div>
+
+                        <div class="student_info-bar">
+                            <div>縣市:${item.city.city}</div>
+                            <div>地區:${item.districts}</div>
+                        </div>
+
+                        <div class="student_info-bar">
+                            <div>科目:<br>${item.subject.name}</div>
+                            <div>時段:<br>${item.available_time}</div>
+                            <div>時薪:<br>${item.hourly_rate_min}-${item.hourly_rate_max}</div>
+                        </div>
+                        <div class="student_profile">
+                            <div class="avatar">大頭貼</div>
+                            <div class="description">
+                                <h3 style="color: #004080 ;">自我介紹(學經歷)：</h3>
+                                <p style="text-indent: 6em;">${item.details}</p>
+                            </div>
+                        </div>
+                        <div class="student_buttons">
+                            <div class="rating">
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                            </div>
+                            <div class="student_btn">
+                            </div>
+                        </div>
+                    </section>
+                    `;
+                             // 如果有contact_students資料
+                        if (item.contact_teacher && item.contact_teacher.length > 0) {
+                            html += '<h4>進行中的老師:</h4><ul>';
+                            item.contact_teacher.forEach(function(contact) {
+                                html += `<li>${contact.user.name} - ${contact.user.email} - ${contact.user.phone}</li>
+                                 <button>評分</button>
+
+                            `;
+                            });
+                            html += '</ul><br>';
+                        }
+                    });
+                    response.beteacherCancelled.forEach(function(item) {
+                        console.log(item);
+                        if (!item) {
+                            return; // 如果 teacherRequests 為 null，則跳過
+                        }
+
+
+                        html += `
+                    <section class="student_container">
+                        <div class="student_header">
+                            <h1>${item.title}</h1>
+                        </div>
+
+                        <div class="student_info-bar">
+                            <div>縣市:${item.city.city}</div>
+                            <div>地區:${item.districts}</div>
+                        </div>
+
+                        <div class="student_info-bar">
+                            <div>科目:<br>${item.subject.name}</div>
+                            <div>時段:<br>${item.available_time}</div>
+                            <div>時薪:<br>${item.hourly_rate_min}-${item.hourly_rate_max}</div>
+                        </div>
+                        <div class="student_profile">
+                            <div class="avatar">大頭貼</div>
+                            <div class="description">
+                                <h3 style="color: #004080 ;">自我介紹(學經歷)：</h3>
+                                <p style="text-indent: 6em;">${item.details}</p>
+                            </div>
+                        </div>
+                        <div class="student_buttons">
+                            <div class="rating">
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                            </div>
+                            <div class="student_btn">
+                            </div>
+                        </div>
+                    </section>
+                    `;
+                             // 如果有contact_students資料
+                        if (item.contact_teacher && item.contact_teacher.length > 0) {
+                            html += '<h4>進行中的老師:</h4><ul>';
+                            item.contact_teacher.forEach(function(contact) {
+                                html += `<li>${contact.user.name} - ${contact.user.email} - ${contact.user.phone}</li>
+                                 <button>評分</button>
+                                
+                                `;
+                            });
+                            html += '</ul><br>';
+                        }
+                    });
+                    html += '</ul>';
+                    $('#areaStatus').html(html);
+
+                        // 綁定選擇按鈕的事件處理
+                    $('').on('click', function() {
+                    });
+                
+                    // 綁定取消按鈕的事件處理
+                    $('').on('click', function() {
+
+                    });
+                    
+                },
+                error: function(xhr) {
+                    console.error('An error occurred:', xhr);
+                    $('#areaStatus').html('<p>載入收藏列表時發生錯誤aabb。</p>');
+                }
+            });
         });
     });
     </script>
