@@ -16,17 +16,16 @@ class VerifyCodeController extends Controller
         $code = $request->code;
         $newPassword = $request->newPassword;
 
-        $cachedData = Cache::get('user_registration_' . $email);
+        $cachedData = Cache::get('something' . $email);
 
         if ($cachedData && $cachedData['verifyCode'] == $code) {
-            // 验证码正确，更新密码
             $user = User::where('email', $email)->first();
             if ($user) {
                 $user->password = Hash::make($newPassword);
                 $user->save();
                 
-                // 清除缓存中的验证码
-                Cache::forget('user_registration_' . $email);
+                // 清除站存
+                Cache::forget('something' . $email);
                 
                 return response()->json(['success' => true, 'message' => '驗證碼正確，密碼已成功重設']);
             } else {

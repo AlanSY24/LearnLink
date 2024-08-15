@@ -15,23 +15,23 @@
     <script src="{{ asset('js/nav.js') }}"></script>
     <x-nav />
     <div class="container" id="registerForm">
-        <form id="registrationForm" action="/register" method="POST" class="form-container">
+        <form id="registForm" action="/register" method="POST" class="form-container">
             <a href="#" class="back-icon">
                 <i class="fas fa-caret-left"></i> back
             </a>
             <h1>註冊</h1>
             <div class="textbox">
                 <i class="fas fa-user"></i>
-                <input type="text" placeholder="帳號" name="registerAccount" required pattern="^[a-zA-Z0-9_.]{4,30}$"
+                <input type="text" placeholder="帳號" name="account" required pattern="^[a-zA-Z0-9_.]{4,30}$"
                     maxlength="30" title="帳號必須是4-30個字符，只能包含英文字母、數字、底線和點">
             </div>
             <div class="textbox">
                 <i class="fa-solid fa-signature"></i>
-                <input type="text" placeholder="姓名" name="registerName" required maxlength="30" title="姓名不能超過30個字符">
+                <input type="text" placeholder="姓名" name="name" required maxlength="30" title="姓名不能超過30個字符" value="賴功德">
             </div>
             <div class="textbox">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="密碼" name="registerPassword" required
+                <input type="password" placeholder="密碼" name="password" required
                     pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,30}$" maxlength="30" id="rps"
                     title="密碼必須是8-30個字符，包含至少一個大寫字母、一個小寫字母和一個數字">
             </div>
@@ -41,16 +41,16 @@
             </div>
             <div class="textbox">
                 <i class="fas fa-envelope"></i>
-                <input type="email" id="emailInReg" placeholder="電子信箱" name="registerEmail" required>
+                <input type="email" id="emailInReg" placeholder="電子信箱" name="email" required
+                    value="sean2000.cy@gmail.com">
             </div>
             <div class="textbox">
                 <i class="fa-solid fa-restroom"></i>
-                <select name="registerGender" required>
+                <select name="gender" required>
                     <option value="">請選擇您的性別</option>
                     <option value="1">男性</option>
                     <option value="2">女性</option>
                 </select>
-
             </div>
             <button type="submit" class="btn">註冊</button>
             <div class="links">
@@ -61,6 +61,63 @@
     </div>
 
     <x-footer_alpha />
+    <script src="{{ asset('js/loadingMask.js') }}"></script><!-- 引入ladingMask -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const passwordInput = document.getElementById('rps');
+            const confirmPasswordInput = document.getElementById('rpsc');
+            const form = document.getElementById('registForm');
+
+            function validatePassword() {
+                if (passwordInput.value !== confirmPasswordInput.value) {
+                    confirmPasswordInput.setCustomValidity('密碼不一致');
+                } else {
+                    confirmPasswordInput.setCustomValidity('');
+                }
+            }
+
+            passwordInput.addEventListener('input', validatePassword);
+            confirmPasswordInput.addEventListener('input', validatePassword);
+
+            form.addEventListener('submit', async function (event) {
+                event.preventDefault();
+                validatePassword();
+
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+
+                showLoadingMask();
+
+                try {
+                    const formData = new FormData(event.target);
+                    const requestData = Object.fromEntries(formData.entries());
+
+                    const response = await fetch('{{ route('seadEmail') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify(requestData)
+                    });
+
+                    const data = await response.json();
+                    if (data.success) {
+                        hideLoadingMask();
+                        alert(data.message);
+                    } else {
+                        hideLoadingMask();
+                        alert(data.message);
+                    }
+                } catch (error) {
+                    hideLoadingMask();
+                    console.error('在前端就catch到Error了。後端資訊:', error);
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
