@@ -111,6 +111,7 @@ Route::get('/calendar', [CalendarController::class, 'index']);
 Route::get('/calendarShow', [CalendarController::class, 'show']);
 Route::post('/store-event', [CalendarController::class, 'storeEvent']);
 Route::get('/show-events', [CalendarController::class, 'showEvents'])->name('show.events');
+Route::get('/show-teacherEvents', [OtherCalendarController::class, 'showEvents'])->name('show.events');
 
 
 Route::post('/studentSubmit-events', [OtherCalendarController::class, 'submitEvents']);

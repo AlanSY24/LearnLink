@@ -34,14 +34,14 @@ function renderCalendar() {
             } else {
                 const currentDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                 const isPastDate = currentDate < today;
-                const hasEvent = $calendarEvents.some(event => event.date === currentDate);
+                const hasEvent = $teacherCalendarEvents.some(event => event.date === currentDate);
                 const className = isPastDate ? 'past-date' : (hasEvent ? 'event-date' : '');
 
                 calendarHTML += `<td class="${className}">
                     <div class="day-number">${day}</div>`;
 
                 if (!isPastDate && hasEvent) {
-                    $calendarEvents.forEach(event => {
+                    $teacherCalendarEvents.forEach(event => {
                         if (event.date === currentDate) {
                             calendarHTML += `<div class="event-text">${event.text}</div>`;
                         }
@@ -62,7 +62,7 @@ function renderCalendar() {
 }
 
 function renderEventsList() {
-    const eventsListHTML = $calendarEvents
+    const eventsListHTML = $teacherCalendarEvents
         .filter(event => event.date >= today)
         .map(event => `
             <tr>

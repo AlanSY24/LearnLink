@@ -47,8 +47,8 @@
 
     <script>
         // 將 PHP 數據傳遞給 JavaScript
-        const $calendarEvents = @json($calendarEvents);
+        const $teacherCalendarEvents = @json($teacherCalendarEvents);
     </script>
-    <script src="{{ asset('luyen/event.js') }}"></script>
+    <script src="{{ asset('luyen/teacherEvent.js') }}"></script>
 </body>
 </html>

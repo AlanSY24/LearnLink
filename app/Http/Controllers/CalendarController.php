@@ -178,11 +178,11 @@ class CalendarController extends Controller
         $calendarEvents = Calendar::where('user_id', $loggedInUserId)->get();
 
         // 獲取與當前用戶相關的 TeacherCalendar 事件
-        $teacherCalendarEvents = TeacherCalendar::where('user_id', $loggedInUserId)->get();
+        // $teacherCalendarEvents = TeacherCalendar::where('user_id', $loggedInUserId)->get();
 
-        $events = $calendarEvents->concat($teacherCalendarEvents);
+        // $events = $calendarEvents->concat($teacherCalendarEvents);
 
-        return view('show-events', compact('events'));
+        return view('show-events', compact('calendarEvents'));
     }
 
     public function show(Request $request)
