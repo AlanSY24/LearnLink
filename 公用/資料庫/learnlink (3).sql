@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-08-14 08:38:08
+-- 產生時間： 2024-08-15 04:40:53
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -118,7 +118,10 @@ INSERT INTO `calendars` (`id`, `user_id`, `date`, `time`, `text`, `city`, `distr
 (11, 6, '2024-08-15', '05:15:00', '數學課', '新竹市', '東區', '公益路國泰大樓', 99, '2024-08-11 22:05:30', '2024-08-11 22:05:30'),
 (12, 6, '2024-08-14', '05:20:00', '數學課', '新竹縣', '湖口鄉', '公益路國泰大樓', 99, '2024-08-11 22:07:24', '2024-08-11 22:07:24'),
 (13, NULL, '2024-08-15', '02:15:00', '數學課', '新竹縣', '芎林鄉', '公益路國泰大樓', 9, '2024-08-11 23:40:32', '2024-08-11 23:40:32'),
-(19, 12345, '2024-08-20', '04:25:00', '數學課', '桃園市', '楊梅區', '公益路國泰大樓', 999, '2024-08-11 23:54:18', '2024-08-11 23:54:18');
+(19, 12345, '2024-08-20', '04:25:00', '數學課', '桃園市', '楊梅區', '公益路國泰大樓', 999, '2024-08-11 23:54:18', '2024-08-11 23:54:18'),
+(20, 6, '2024-08-22', '17:15:00', '4555', '屏東縣', '潮州鎮', 'sasa', 21, '2024-08-14 00:05:03', '2024-08-14 00:05:03'),
+(21, 6, '2024-08-24', '19:05:00', '4555', '宜蘭縣', '大同鄉', 'sa', 21, '2024-08-14 17:09:17', '2024-08-14 17:09:17'),
+(22, 6, '2024-08-23', '17:10:00', 'qwwqwqqw', '宜蘭縣', '蘇澳鎮', 'ad', 2, '2024-08-14 17:12:55', '2024-08-14 17:12:55');
 
 -- --------------------------------------------------------
 
@@ -194,8 +197,10 @@ CREATE TABLE `contact_student` (
 --
 
 INSERT INTO `contact_student` (`id`, `teacher_requests_id`, `user_id`, `created_at`, `updated_at`) VALUES
-(3, 23, 6, '2024-08-13 22:27:34', '2024-08-13 22:27:34'),
-(4, 24, 6, '2024-08-13 22:27:36', '2024-08-13 22:27:36');
+(4, 24, 6, '2024-08-13 22:27:36', '2024-08-13 22:27:36'),
+(6, 23, 6, '2024-08-14 17:12:40', '2024-08-14 17:12:40'),
+(7, 26, 6, '2024-08-14 18:09:29', '2024-08-14 18:09:29'),
+(8, 25, 6, '2024-08-14 18:09:31', '2024-08-14 18:09:31');
 
 -- --------------------------------------------------------
 
@@ -220,8 +225,9 @@ INSERT INTO `contact_teacher` (`id`, `be_teacher_id`, `user_id`, `created_at`, `
 (4, 3, 6, '2024-08-12 19:03:46', '2024-08-12 19:03:46'),
 (5, 4, 6, '2024-08-12 23:31:49', '2024-08-12 23:31:49'),
 (6, 5, 6, '2024-08-12 23:31:54', '2024-08-12 23:31:54'),
-(7, 8, 6, '2024-08-13 00:28:37', '2024-08-13 00:28:37'),
-(8, 6, 6, '2024-08-13 22:27:26', '2024-08-13 22:27:26');
+(11, 7, 6, '2024-08-13 23:03:36', '2024-08-13 23:03:36'),
+(12, 8, 6, '2024-08-13 23:03:38', '2024-08-13 23:03:38'),
+(13, 6, 6, '2024-08-14 17:08:54', '2024-08-14 17:08:54');
 
 -- --------------------------------------------------------
 
@@ -767,7 +773,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('k4LlNBnoTYPD2yWTZknzEPL4MBhJxEguxCFKZ7Ar', 6, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoidzBIRUlCQmJDWDZJS0J3MTF3Y1lIMXhMRUZTTlMyRnFSNVo3UDdhRiI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo0ODoiaHR0cDovL2xvY2FsaG9zdC9MZWFybkxpbmsvcHVibGljL3RlYWNoZXJwcm9maWxlIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDA6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy9jaXRpZXMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2O30=', 1723616982);
+('ncOTbvLXs2wxBucPwKG4Q3PsdSFaIT2BuUZ4S7IX', 6, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiMHBuR014MTF1YWNpOUt3QWxjOTJOMGxIdlRRMk9LelVJbjFvalBDMCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDA6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy9jaXRpZXMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjM6InVybCI7YToxOntzOjg6ImludGVuZGVkIjtzOjQ4OiJodHRwOi8vbG9jYWxob3N0L0xlYXJuTGluay9wdWJsaWMvc3R1ZGVudHByb2ZpbGUiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2O30=', 1723688586);
 
 -- --------------------------------------------------------
 
@@ -855,7 +861,10 @@ INSERT INTO `teacher_calendars` (`id`, `user_id`, `date`, `time`, `text`, `city`
 (3, NULL, '2024-08-15', '05:15:00', '數學課', '新竹市', '東區', '公益路國泰大樓', 99.00, '2024-08-11 22:05:30', '2024-08-11 22:05:30'),
 (4, 12345, '2024-08-14', '05:20:00', '數學課', '新竹縣', '湖口鄉', '公益路國泰大樓', 99.00, '2024-08-11 22:07:24', '2024-08-11 22:07:24'),
 (5, 6, '2024-08-15', '02:15:00', '數學課', '新竹縣', '芎林鄉', '公益路國泰大樓', 9.00, '2024-08-11 23:40:32', '2024-08-11 23:40:32'),
-(11, 6, '2024-08-20', '04:25:00', '數學課', '桃園市', '楊梅區', '公益路國泰大樓', 999.00, '2024-08-11 23:54:18', '2024-08-11 23:54:18');
+(11, 6, '2024-08-20', '04:25:00', '數學課', '桃園市', '楊梅區', '公益路國泰大樓', 999.00, '2024-08-11 23:54:18', '2024-08-11 23:54:18'),
+(12, 6, '2024-08-22', '17:15:00', '4555', '屏東縣', '潮州鎮', 'sasa', 21.00, '2024-08-14 00:05:03', '2024-08-14 00:05:03'),
+(13, 6, '2024-08-24', '19:05:00', '4555', '宜蘭縣', '大同鄉', 'sa', 21.00, '2024-08-14 17:09:17', '2024-08-14 17:09:17'),
+(14, 6, '2024-08-23', '17:10:00', 'qwwqwqqw', '宜蘭縣', '蘇澳鎮', 'ad', 2.00, '2024-08-14 17:12:55', '2024-08-14 17:12:55');
 
 -- --------------------------------------------------------
 
@@ -908,8 +917,8 @@ CREATE TABLE `teacher_requests` (
 --
 
 INSERT INTO `teacher_requests` (`user_id`, `id`, `title`, `subject_id`, `available_time`, `expected_date`, `hourly_rate_min`, `hourly_rate_max`, `city_id`, `district_ids`, `details`, `created_at`, `updated_at`, `status`) VALUES
-(6, 23, 'qwwqwqqw', '3', '\"[\\\"\\\\u65e9\\\\u4e0a\\\",\\\"\\\\u4e0b\\\\u5348\\\"]\"', '2024-08-22', 1, 2, 15, '[\"254\",\"260\"]', 'qawqwq', '2024-08-07 18:39:39', '2024-08-07 18:39:39', 'published'),
-(6, 24, '4555', '4', '早上, 下午', '2024-08-15', 100, 200, 15, '[\"254\",\"260\"]', 'gsdggsg', NULL, NULL, 'published'),
+(6, 23, 'qwwqwqqw', '3', '\"[\\\"\\\\u65e9\\\\u4e0a\\\",\\\"\\\\u4e0b\\\\u5348\\\"]\"', '2024-08-22', 1, 2, 15, '[\"254\",\"260\"]', 'qawqwq', '2024-08-07 18:39:39', '2024-08-14 17:12:55', 'in_progress'),
+(6, 24, '4555', '4', '早上, 下午', '2024-08-15', 100, 200, 15, '[\"254\",\"260\"]', 'gsdggsg', NULL, '2024-08-14 00:05:03', 'in_progress'),
 (6, 25, 'qweq', '14', '早上, 下午, 晚上', '2024-08-21', 12, 1212, 15, '[\"254\"]', '1eqweqw', NULL, NULL, 'published'),
 (6, 26, 'qweqwe', '14', '早上, 下午', '2024-08-21', 12, 121, 14, '[\"217\"]', 'qweqw', NULL, NULL, 'published');
 
@@ -1110,7 +1119,7 @@ ALTER TABLE `be_teachers`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `calendars`
 --
 ALTER TABLE `calendars`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `children_card`
@@ -1122,13 +1131,13 @@ ALTER TABLE `children_card`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `contact_student`
 --
 ALTER TABLE `contact_student`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `contact_teacher`
 --
 ALTER TABLE `contact_teacher`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `failed_jobs`
@@ -1170,7 +1179,7 @@ ALTER TABLE `student_profiles`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `teacher_calendars`
 --
 ALTER TABLE `teacher_calendars`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `teacher_profiles`
