@@ -24,27 +24,25 @@
             <div class="textbox">
                 <i class="fas fa-user"></i>
                 <input type="text" placeholder="帳號" name="account" required pattern="^[a-zA-Z0-9_.]{4,30}$"
-                    maxlength="30" title="帳號必須是4-30個字符，只能包含英文字母、數字、底線和點" value="AAA1">
+                    maxlength="30" title="帳號必須是4-30個字符，只能包含英文字母、數字、底線和點">
             </div>
             <div class="textbox">
                 <i class="fa-solid fa-signature"></i>
-                <input type="text" placeholder="姓名" name="name" required maxlength="30" title="姓名不能超過30個字符" value="賴功德">
+                <input type="text" placeholder="姓名" name="name" required maxlength="30" title="姓名不能超過30個字符">
             </div>
             <div class="textbox">
                 <i class="fas fa-lock"></i>
                 <input type="password" placeholder="密碼" name="password" required
                     pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,30}$" maxlength="30" id="rps"
-                    title="密碼必須是8-30個字符，包含至少一個大寫字母、一個小寫字母和一個數字" value="Qq123123">
+                    title="密碼必須是8-30個字符，包含至少一個大寫字母、一個小寫字母和一個數字">
             </div>
             <div class="textbox">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="確認密碼" name="password_confirmation" id="rpsc" required
-                    value="Qq123123">
+                <input type="password" placeholder="確認密碼" name="password_confirmation" id="rpsc" required>
             </div>
             <div class="textbox">
                 <i class="fas fa-envelope"></i>
-                <input type="email" id="emailInReg" placeholder="電子信箱" name="email" required
-                    value="sean2000.cy@gmail.com">
+                <input type="email" id="emailInReg" placeholder="電子信箱" name="email" required>
             </div>
             <div class="textbox">
                 <i class="fa-solid fa-restroom"></i>
