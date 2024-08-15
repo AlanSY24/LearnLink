@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\ContactTeacher;
 use App\Models\BeTeacher;
+use App\Models\TeacherRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -135,5 +136,27 @@ class ContactTeacherController extends Controller
         }
 
         return response()->json(['message' => 'Only the selected teacher was kept']);
+    }
+    public function updateStatus(Request $request)
+    {
+        \Log::info('Request Data: ', $request->all());
+
+
+        // 驗證請求
+        $request->validate([
+            'id' => 'required|exists:be_teachers,id',
+            'status' => 'required|in:completed,cancelled',
+        ]);
+
+        // 查找並更新 TeacherRequest
+        $teacherRequest = BeTeacher::findOrFail($request->id);
+        $teacherRequest->status = $request->status;
+        $teacherRequest->save();
+
+        // 返回更新後的數據作為響應
+        return response()->json([
+            'title' => $teacherRequest->title,
+            'status' => $teacherRequest->status,
+        ]);
     }
 }

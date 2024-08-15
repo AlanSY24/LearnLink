@@ -171,6 +171,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/contact-teacher/remove', [ContactTeacherController::class, 'remove'])->name('contact_teacher.remove');
     Route::post('/keep-selected-student', [ContactStudentController::class, 'keepSelected'])->name('student.keepSelected');
     Route::post('/keep-selected-teacher', [ContactTeacherController::class, 'keepSelected'])->name('teacher.keepSelected');
+    Route::post('/teacher-requests/update-status', [ContactStudentController::class, 'updateStatus'])->name('teacher_requests.updateStatus');
+    Route::post('/be_teacher/update-status', [ContactTeacherController::class, 'updateStatus'])->name('be_teacher.updateStatus');
 
 
 });

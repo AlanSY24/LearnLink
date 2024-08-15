@@ -42,7 +42,7 @@ class FavoriteStudentController extends Controller
                 ->pluck('district_name')
                 ->toArray();
             $details = $beTeacher->details;
-
+            
             
             return [
                 'be_teacher' => [
@@ -65,6 +65,7 @@ class FavoriteStudentController extends Controller
                 'is_favorite' => true,
             ];
         });
+        \Log::info('Request Data: ', $favorites->all());
         return response()->json($favorites);
     }
 

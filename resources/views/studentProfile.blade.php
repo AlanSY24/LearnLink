@@ -451,9 +451,11 @@
                         if (item.contact_students && item.contact_students.length > 0) {
                             html += '<h4>進行中的老師:</h4><ul>';
                             item.contact_students.forEach(function(contact) {
+                                console.log(contact);
+                                
                                 html += `<li>${contact.user.name} - ${contact.user.email} - ${contact.user.phone}</li>
-                                 <button>選擇</button>
-                                    <button>取消</button>
+                                <button class="update-status" data-id="${contact.teacher_requests_id}" data-status="completed">完成</button>
+                                <button class="update-status" data-id="${contact.teacher_requests_id}" data-status="cancelled">取消</button>
                             `;
                             });
                             html += '</ul><br>';
@@ -462,14 +464,30 @@
                     html += '</ul>';
                     $('#areaStatus').html(html);
 
-                        // 綁定選擇按鈕的事件處理
-                    $('').on('click', function() {
-                    });
-                
-                    // 綁定取消按鈕的事件處理
-                    $('').on('click', function() {
+                    $(document).on('click', '.update-status', function() {
+                        let requestId = $(this).data('id');
+                        let newStatus = $(this).data('status');
 
+                        $.ajax({
+                            url: '{{ route('teacher_requests.updateStatus') }}', // 在 routes/web.php 中定義這個路由
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}', // CSRF 保護
+                                id: requestId,
+                                status: newStatus
+                            },
+                            success: function(response) {
+                                alert('Status updated successfully');
+                                // 更新列表中的狀態顯示
+                                $(`li[data-id="${requestId}"]`).text(`${response.title} - ${response.status}`);
+                            },
+                            error: function(xhr) {
+                                console.error('An error occurred:', xhr);
+                                alert('Failed to update status');
+                            }
+                        });
                     });
+ 
                     
                 },
                 error: function(xhr) {
