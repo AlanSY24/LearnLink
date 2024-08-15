@@ -3,10 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FindTeacherController;
 use App\Http\Controllers\StudentPageController;
-use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\BasicController;
 use App\Http\Controllers\Auth\EmailController;
-use App\Http\Controllers\Auth\forgot;
 use App\Http\Controllers\Auth\VerifyCodeController;
 use App\Http\Controllers\Auth\RegistController;
 use App\Http\Controllers\LocationController;
@@ -37,8 +36,8 @@ use App\Http\Controllers\DistrictController;
 Route::view('/homePage','homepage')->name('homePage');
 
 // 登入頁面↓↓↓↓↓↓↓↓↓↓    http://127.0.0.1:8000/login
-Route::view('/login','login')->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::view('/login','Auth_login')->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
 // 登入功能↑↑↑↑↑↑↑↑↑
 
 // 登入測試   http://127.0.0.1:8000/auth_status
@@ -53,18 +52,18 @@ Route::post('/logout', function () {
 Route::view('/basic','basicinfo_alpha')->name('basic.page');
 Route::post('/infoEdit', [BasicController::class,'infoEdit'])->name('basicinfoForm');
 
-// 重設密碼
-Route::view('/st','Auth_reset')->name('resetPassword');
+
 
 // 寄送email，回復寄送是否成功
 Route::post('/seadEmail', [EmailController::class,'sendEmail'])->name('seadEmail');
 
 Route::post('/verify-code', [VerifyCodeController::class, 'verify'])->name('verifyCode');
 
-// 新 - 註冊
-Route::view('/regist','Auth_resist')->name('registPage');
+
+Route::view('/st','Auth_reset')->name('resetPassword'); // 重設密碼頁面
+Route::view('/regist','Auth_resist')->name('registPage');   //註冊頁面
 Route::post('/register', [EmailController::class, 'sendEmail'])->name('register');//用於註冊的sendEmail
-Route::post('/aosfnasn', [RegistController::class,'verify'])->name('registVerify');
+Route::post('/verify', [RegistController::class,'verify'])->name('registVerify');
 
 Route::get('/', function () {
     return view('welcome');

@@ -167,3 +167,53 @@ h1, h3 {
         margin-right: auto;
     }
 }
+
+/* login-page 專屬 */
+.login-page .form-container {
+    padding: 20px;
+    max-width: 400px;
+}
+
+.login-page .textbox {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.login-page .btn {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.login-page .links {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.login-page .links a {
+    color: var(--main-color);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s ease;
+}
+
+.login-page .links a:hover {
+    color: var(--accent-color);
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    width: 100%;
+}
+
+.alert-danger ul {
+    margin: 0;
+    padding-left: 20px;
+}
