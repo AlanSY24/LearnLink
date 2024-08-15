@@ -6,12 +6,17 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="base-url" content="{{ url('/') }}">
     <meta name="student-user-id" content="{{ $studentUserId }}">
+    
+    <meta name="event-title" content="{{ $beTeacher->title }}">
+    <meta name="beTeacherId" content="{{ $beTeacher->id }}">
+   
+    
     <title>Calendar</title>
     <link rel="stylesheet" href="{{ asset('luyen/calendar.css') }}">
     <link rel="icon" href="data:,">
 </head>
 <body>
-<h2>當前查看的教師ID: {{ $studentUserId }}{{ $beTeacher }} (模擬值)</h2>
+<h2>當前查看的教師ID: {{ $studentUserId }}{{ $beTeacher->id }} (模擬值)</h2>
 <div class="calendar">
         <div class="header">
             <button id="prevMonth">&lt;</button>

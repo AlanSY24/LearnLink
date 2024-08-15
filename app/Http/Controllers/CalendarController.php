@@ -14,19 +14,19 @@ use App\Models\User;
 
 class CalendarController extends Controller
 {
-    public function index(Request $request)
-    {
-        // 模擬從其他頁面接收到的教師ID
-        $simulatedStudentId = '12345'; // 這裡使用一個固定的值來模擬
+    // public function index(Request $request)
+    // {
+    //     // 模擬從其他頁面接收到的教師ID
+    //     $simulatedStudentId = '12345'; // 這裡使用一個固定的值來模擬
 
-        // 在實際情況下，您會從請求中獲取教師ID
-        // $teacherUserId = $request->input('teacher_id');
+    //     // 在實際情況下，您會從請求中獲取教師ID
+    //     // $teacherUserId = $request->input('teacher_id');
 
-        // 使用模擬的教師ID
-        $teacherUserId = $simulatedStudentId;
+    //     // 使用模擬的教師ID
+    //     $teacherUserId = $simulatedStudentId;
 
-        return view('calendar', compact('teacherUserId'));
-    }
+    //     return view('calendar', compact('teacherUserId'));
+    // }
 
 
     public function storeEvent(Request $request)

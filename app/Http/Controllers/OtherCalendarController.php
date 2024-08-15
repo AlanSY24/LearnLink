@@ -14,19 +14,19 @@ use App\Models\BeTeacher;
 
 class OtherCalendarController extends Controller
 {
-    public function index(Request $request)
-    {
-        // 模擬從其他頁面接收到的教師ID
-        $simulatedStudentId = '12345'; // 這裡使用一個固定的值來模擬
+    // public function index(Request $request)
+    // {
+    //     // 模擬從其他頁面接收到的教師ID
+    //     // $simulatedStudentId = '12345'; // 這裡使用一個固定的值來模擬
 
-        // 在實際情況下，您會從請求中獲取教師ID
-        // $teacherUserId = $request->input('teacher_id');
+    //     // 在實際情況下，您會從請求中獲取教師ID
+    //     // $teacherUserId = $request->input('teacher_id');
 
-        // 使用模擬的教師ID
-        $studentUserId = $simulatedStudentId;
+    //     // 使用模擬的教師ID
+    //     // $studentUserId = $simulatedStudentId;
 
-        return view('OtherCalendar', compact('studentUserId'));
-    }
+    //     return view('OtherCalendar', compact('studentUserId'));
+    // }
 
 
     public function storeEvent(Request $request)
@@ -105,12 +105,17 @@ class OtherCalendarController extends Controller
         try {
             $events = $request->input('events');
             $studentId = $request->input('student_id'); // 從請求中獲取外部 user_id
-            
+            $beTeacherId = $request->input('beTeacherId');
             $loggedInUserId = Auth::id(); // 獲取當前登入用戶的 ID
 
             if (!$loggedInUserId) {
                 return response()->json(['error' => '用戶未登入'], 401);
             }
+
+            $beTeacher = BeTeacher::find($beTeacherId);
+        if (!$beTeacher) {
+            return response()->json(['error' => '找不到指定的 BeTeacher'], 404);
+        }
 
             // if (!$externalUserId) {
             //     return response()->json(['error' => '未提供教師用戶 ID'], 400);
@@ -129,6 +134,8 @@ class OtherCalendarController extends Controller
                 $studentrCalendarData = array_merge($validatedData, ['user_id' => $studentId]);
                Calendar::create($studentrCalendarData);
             }
+            $beTeacher->status = 'in_progress' ;
+            $beTeacher->save();
             
             DB::commit();
 
@@ -162,7 +169,7 @@ class OtherCalendarController extends Controller
         }
 
         // 獲取當前登入用戶的 Calendar 事件
-        $calendarEvents = Calendar::where('user_id', $loggedInUserId)->get();
+        // $calendarEvents = Calendar::where('user_id', $loggedInUserId)->get();
 
         // 獲取與當前用戶相關的 TeacherCalendar 事件
         $teacherCalendarEvents = TeacherCalendar::where('user_id', $loggedInUserId)->get();

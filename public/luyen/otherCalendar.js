@@ -9,8 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Using simulated student ID:', studentUserId);
 
     // 固定的事件類型
-    const EVENT_TYPE = "數學課";
+    const EVENT_TYPE = document.querySelector('meta[name="event-title"]').getAttribute('content');
 
+    const beTeacherId = document.querySelector('meta[name="beTeacherId"]').getAttribute('content');
+     console.log('Using be teacher ID:', beTeacherId);
     // 獲取今天的日期字符串（格式：YYYY-MM-DD）
     function getTodayString() {
         const today = new Date();
@@ -297,7 +299,8 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({ 
                 events: events,
-                student_id: studentUserId  // 使用模擬的教師用戶ID
+                student_id: studentUserId,  // 使用模擬的教師用戶ID
+                beTeacherId :beTeacherId
             })
         })
         .then(response => response.json())
