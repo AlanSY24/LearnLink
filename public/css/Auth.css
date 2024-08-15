@@ -1,0 +1,138 @@
+body {
+    margin: 0;
+    padding: 60px 0 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyNzY3NzR8MHwxfGFsbHwxfHx8fHx8fHwxNjE3OTQ2NzY2&ixlib=rb-1.2.1&q=80&w=1080') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.form-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 750px;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+h1 {
+    width: 100%;
+    text-align: center;
+    color: var(--main-color);
+    margin-bottom: 30px;
+}
+
+.textbox {
+    position: relative;
+    width: 47%;
+    margin-bottom: 20px;
+}
+
+.textbox i {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    color: var(--main-color);
+    font-size: 18px;
+    transition: color 0.3s ease;
+    z-index: 1;
+}
+
+.textbox input,
+.textbox select {
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+    border: 1px solid var(--main-color);
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.textbox input:focus,
+.textbox select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.textbox input:focus + i,
+.textbox select:focus + i {
+    color: var(--accent-color);
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background: var(--main-color);
+    color: var(--text-color);
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn:hover {
+    background: var(--accent-color);
+    color: var(--main-color);
+}
+
+.links {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.links a {
+    color: var(--main-color);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.links a:hover {
+    text-decoration: underline;
+    color: var(--accent-color);
+}
+
+.btn {
+    width: auto;
+    min-width: 200px; /* 或其他適合的寬度 */
+    margin: 20px 20px 20px auto; /* 使按鈕居中 */
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        padding: 20px;
+    }
+
+    .textbox {
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+        min-width: 300px;
+    }
+
+    .btn {
+        width: 70%;
+        min-width: 300px;
+        margin: auto;
+    }
+}
