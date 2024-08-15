@@ -15,7 +15,6 @@ class VerifyCodeController extends Controller
         $email = $request->email;
         $code = $request->code;
         $newPassword = $request->newPassword;
-        
 
         $cachedData = Cache::get('something' . $email);
 
@@ -25,7 +24,7 @@ class VerifyCodeController extends Controller
                 $user->password = Hash::make($newPassword);
                 $user->save();
                 
-                // 清除站存
+                // 清除 cache 中的驗證碼
                 Cache::forget('something' . $email);
                 
                 return response()->json(['success' => true, 'message' => '驗證碼正確，密碼已成功重設']);

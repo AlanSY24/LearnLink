@@ -33,12 +33,6 @@ use App\Http\Controllers\GetStudentController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\DistrictController;
 
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-
 // 首頁↓↓↓↓↓↓↓↓↓↓↓  http://127.0.0.1:8000/homePage
 Route::view('/homePage','homepage')->name('homePage');
 
@@ -47,22 +41,12 @@ Route::view('/login','login')->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 // 登入功能↑↑↑↑↑↑↑↑↑
 
-// 註冊↓↓↓↓↓↓↓↓↓↓    
-Route::post('/pre-register', [AuthController::class, 'preRegister']);
-Route::post('/register', [AuthController::class, 'register']);
-
-// 寄   email   ↓↓↓↓↓↓↓↓↓↓↓↓
-Route::post('/send-email', [AuthController::class,'sendEmail']);
-
 // 登入測試   http://127.0.0.1:8000/auth_status
 Route::view('/auth_status', 'auth_status')->name('auth.status');
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/homePage');
 })->name('logout');
-
-Route::post('/forgot-password', [forgot::class,'forgot']);
-Route::post('/forgot-password-reset', [forgot::class, 'forgot_2'])->name('forgot_2');
 
 
 // 會員中心基本資料
@@ -79,17 +63,12 @@ Route::post('/verify-code', [VerifyCodeController::class, 'verify'])->name('veri
 
 // 新 - 註冊
 Route::view('/regist','Auth_resist')->name('registPage');
+Route::post('/register', [EmailController::class, 'sendEmail'])->name('register');//用於註冊的sendEmail
 Route::post('/aosfnasn', [RegistController::class,'verify'])->name('registVerify');
 
-
-
-
-
-
-
-
-
-
+Route::get('/', function () {
+    return view('welcome');
+});
 //盧彥辰的路由
 //發案找老師的路由
 // Route::view('/findteacher','findteacher');

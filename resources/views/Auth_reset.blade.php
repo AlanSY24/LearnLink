@@ -175,7 +175,7 @@
         const verifyForm = document.getElementById('verifyForm');
         let userEmail = '';
 
-        // 寄送email並皆收回傳訊息 ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+        // 寄送email並顯示驗證碼視窗
         emailForm.addEventListener('submit', async function (e) {
             e.preventDefault();
             showLoadingMask();
@@ -207,7 +207,7 @@
             }
         });
 
-        //  收到驗證碼後輸入驗證碼及新密碼  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+        // 收到驗證碼後輸入驗證碼及新密碼
         verifyForm.addEventListener('submit', async function (e) {
             e.preventDefault();
             showLoadingMask();
@@ -253,7 +253,6 @@
                 alert('驗證失敗或密碼重設失敗: ' + error.message);
             }
         });
-
 
         document.getElementById('closeDialog').addEventListener('click', function () {
             verifyWindow.close();
