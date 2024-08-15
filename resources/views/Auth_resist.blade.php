@@ -101,7 +101,7 @@
                     if (data.success) {
                         hideLoadingMask();
                         alert('註冊成功！');
-                        window.location.href = '{{ route('login') }}'; // 重定向到登入頁面
+                        window.location.href = '{{ route('homePage') }}'; // 重定向到登入頁面
                     } else {
                         hideLoadingMask();
                         alert(data.message);

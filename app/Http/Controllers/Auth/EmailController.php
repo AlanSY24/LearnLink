@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
 use App\Models\User;
 
-
 class EmailController extends Controller
 {
     public function sendEmail(Request $request)
@@ -44,7 +43,7 @@ class EmailController extends Controller
                 ], 500);
             }
         } else if ($account && $password && $password_confirmation && $gender && $email && $name) {
-            // 這是註冊
+            // 有很齊全的資料，那就是註冊
             $accountExists = User::where('account', $account)->exists();
             $emailExists = User::where('email', $email)->exists();
 
@@ -82,7 +81,6 @@ class EmailController extends Controller
                     'gender' => $gender,
                     // 不要存儲密碼到 session 中
                 ]);
-
 
                 return response()->json(['success' => true, 'message' => '註冊 email寄送成功']);
             } catch (\Exception $e) {
