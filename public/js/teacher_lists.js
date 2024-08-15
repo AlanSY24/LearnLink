@@ -117,5 +117,19 @@ document.addEventListener('DOMContentLoaded', function() {
         // 導向帶有查詢參數的 URL
         window.location.href = `http://localhost/LearnLink/public/teacher_lists?${queryParams.toString()}`;
     });
+
+    
+    // 选择所有的“联系”按钮
+    document.querySelectorAll('[id="contact"]').forEach(function(button) {
+        button.addEventListener('click', function() {
+            // 从按钮的 data 属性中获取老师的名字和邮件
+            const name = this.getAttribute('data-name');
+            const email = this.getAttribute('data-email');
+            
+            // 显示提示框
+            alert(`老師名字：${name}\n老師郵件：${email}`);
+        });
+    });
+
 });
 
