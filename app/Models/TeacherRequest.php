@@ -97,4 +97,14 @@ class TeacherRequest extends Model
     {
         return $this->hasMany(ContactStudent::class, 'teacher_requests_id');
     }
+
+
+    // 從 favorites 表通過 teacher_request_id 找到對應的 teacher_request，然後通過 user_id 找到對應的用戶，並顯示其姓名性別
+
+    public function user()
+    {
+    return $this->belongsTo(User::class);
+    }
+
+
 }

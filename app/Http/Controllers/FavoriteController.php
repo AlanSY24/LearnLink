@@ -35,6 +35,13 @@ class FavoriteController extends Controller
                 ->toArray();
             $details = $teacherRequest->details;
 
+            // 將性別數字轉換為文字
+            $gender = '未知';
+            if ($teacherRequest->user->gender === 1) {
+                $gender = '先生';
+            } elseif ($teacherRequest->user->gender === 2) {
+                $gender = '女士';
+            }
             
             return [
                 'be_teacher' => [
@@ -49,7 +56,9 @@ class FavoriteController extends Controller
                     'details' => $details, 
                     'expected_date' => $teacherRequest->expected_date,
                     'status' => $teacherRequest->status,
-
+                    'name' => $teacherRequest->user->name ?? 'N/A',
+                    // 'gender' => $teacherRequest->user->gender ?? 'N/A',
+                    'gender' => $gender,
 
 
 
