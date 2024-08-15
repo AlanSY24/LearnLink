@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const EVENT_TYPE = document.querySelector('meta[name="event-title"]').getAttribute('content');
 
     const beTeacherId = document.querySelector('meta[name="beTeacherId"]').getAttribute('content');
-     console.log('Using be teacher ID:', beTeacherId);
+    console.log('Using be teacher ID:', beTeacherId);
+    
     // 獲取今天的日期字符串（格式：YYYY-MM-DD）
     function getTodayString() {
         const today = new Date();
@@ -286,6 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function submitEventsToDatabase() {
+        
         if (events.length === 0) {
             alert('沒有事件可以提交');
             return;
@@ -300,7 +302,9 @@ document.addEventListener('DOMContentLoaded', function() {
             body: JSON.stringify({ 
                 events: events,
                 student_id: studentUserId,  // 使用模擬的教師用戶ID
-                beTeacherId :beTeacherId
+                beTeacherId :beTeacherId,
+                
+                
             })
         })
         .then(response => response.json())
@@ -366,7 +370,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.getElementById('submitEvents').addEventListener('click', submitEventsToDatabase);
-
+    
     // 初始化
     (async function() {
         await initializeEventTypeDisplay();

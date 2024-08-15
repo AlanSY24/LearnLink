@@ -65,6 +65,6 @@
         <button id="submitEvents">提交到資料庫</button>
     </div>
 
-    <script src="{{ asset('luyen/OtherCalendar.js') }}"></script>
+    <script src="{{ asset('luyen/otherCalendar.js') }}"></script>
 </body>
 </html>

@@ -107,7 +107,7 @@ class OtherCalendarController extends Controller
             $studentId = $request->input('student_id'); // 從請求中獲取外部 user_id
             $beTeacherId = $request->input('beTeacherId');
             $loggedInUserId = Auth::id(); // 獲取當前登入用戶的 ID
-
+            \Log::info(' beTeacherId: ' . $beTeacherId);
             if (!$loggedInUserId) {
                 return response()->json(['error' => '用戶未登入'], 401);
             }
