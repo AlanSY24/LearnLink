@@ -19,6 +19,8 @@
 
     <!-- 導入CSS(會員中心老師.css) -->
     <link rel="stylesheet" href="./css/member.css">
+    <link rel="stylesheet" href="./css/header_footer.css">
+
     <!-- <link rel="stylesheet" href="./css/studentCss.css"> -->
 
 </head>
@@ -27,25 +29,14 @@
     <!-- HTML==================================================================================================== -->
 
     <!-- 頁首 -->
-    <header>
-
-    </header>
+    <script src="{{asset('js/nav.js')}}"></script>
+    <x-nav />
     <!-- 頁首 -->
 
     <div class="container clearfix">
         <aside class="sidebar">
             <h2>會員中心-老師</h2>
-            <ul>
-                <li><a href="#">基本資料</a></li>
-
-                <li><a href="#">老師</a>
-                    <a href="#" style="font-size: x-small;">評分</a> 
-                </li>
-                <li>
-                    <a href="#">學生</a>
-                    <a href="#" style="font-size: x-small;">家長</a>
-                </li>
-            </ul>
+            <x-aside />
         </aside>
         <main>
             <section class="container">
@@ -163,34 +154,31 @@
                     <section class="student_container">
                         <div class="student_header">
                             <h1>${item.be_teacher.title}</h1>
+                            <p>${item.be_teacher.name}${item.be_teacher.gender}&nbsp;&nbsp;</p>
                             <i id="heart" class="${heartClass}" data-id="${item.be_teacher.id}" style="color: red ;cursor: pointer;"></i>
                         </div>
+
                         <div class="student_info-bar">
-                            <div>${item.be_teacher.subject}</div>
-                            <div>${item.be_teacher.city}</div>
-                            <div>${item.be_teacher.available_time}</div>
-                            <div>${item.be_teacher.hourly_rate_min}-${item.be_teacher.hourly_rate_max}</div>
-                            <div>${item.be_teacher.districts}</div>
+                            <div>縣市:${item.be_teacher.city}</div>
+                            <div>地區:${item.be_teacher.districts}</div>
+                        </div>
+                        <div class="student_info-bar">
+                            <div>科目:<br>${item.be_teacher.subject}</div>
+                            <div>時段:<br>${item.be_teacher.available_time}</div>
+                            <div>時薪:<br>${item.be_teacher.hourly_rate_min} - ${item.be_teacher.hourly_rate_max}</div>
                         </div>
                         <div class="student_profile">
-                            <div class="avatar">大頭貼</div>
                             <div class="description">
-                                <p>自我介紹(學經歷)</p>
+                                <h3 style="color: #004080 ;">自我介紹(學經歷)：</h3>
+                                <p style="text-indent: 6em;">${item.be_teacher.details}</p>
                             </div>
                         </div>
                         <div class="student_buttons">
-                            <div class="rating">
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                            </div>
                             <div class="student_btn">
-                                <button class="btnDetailsResume">詳細履歷</button>
-                                <button class="btnContactTeacher" data-teacher-id="${item.be_teacher.id}">聯絡老師</button>
+                                <button class="btnContactTeacher" data-teacher-id="${item.be_teacher.id}">連絡學生/家長</button>
                             </div>
                         </div>
+                        <hr>
                     </section>
                     `;
                     });
