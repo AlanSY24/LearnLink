@@ -30,7 +30,7 @@ body {
     justify-content: space-between;
 }
 
-h1 {
+h1, h3 {
     width: 100%;
     text-align: center;
     color: var(--main-color);
@@ -54,8 +54,7 @@ h1 {
     z-index: 1;
 }
 
-.textbox input,
-.textbox select {
+.textbox input, .textbox select, #verificationCode {
     width: 100%;
     padding: 12px 12px 12px 40px;
     border: 1px solid var(--main-color);
@@ -65,19 +64,20 @@ h1 {
     box-sizing: border-box;
 }
 
-.textbox input:focus,
-.textbox select:focus {
+.textbox input:focus, .textbox select:focus, #verificationCode:focus {
     outline: none;
     border-color: var(--accent-color);
 }
 
-.textbox input:focus + i,
-.textbox select:focus + i {
+.textbox input:focus + i, .textbox select:focus + i {
     color: var(--accent-color);
 }
 
-.btn {
-    width: 100%;
+.btn, #verifyButton {
+    width: auto;
+    min-width: 200px;
+    margin: 20px 20px 20px auto;
+    display: block;
     padding: 12px;
     border: none;
     border-radius: 6px;
@@ -85,10 +85,10 @@ h1 {
     color: var(--text-color);
     font-size: 18px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
-.btn:hover {
+.btn:hover, .btn:focus, #verifyButton:hover, #verifyButton:focus {
     background: var(--accent-color);
     color: var(--main-color);
 }
@@ -100,39 +100,70 @@ h1 {
     margin-top: 15px;
 }
 
-.links a {
+.links a, .back-icon {
     color: var(--main-color);
     text-decoration: none;
     font-size: 14px;
+    transition: color 0.2s ease;
 }
 
-.links a:hover {
-    text-decoration: underline;
+.links a:hover, .back-icon:hover {
     color: var(--accent-color);
 }
 
-.btn {
-    width: auto;
-    min-width: 200px; /* 或其他適合的寬度 */
-    margin: 20px 20px 20px auto; /* 使按鈕居中 */
-    display: block;
+#registDialog {
+    display: none;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 25px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    border: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+#registDialog[open] {
+    display: flex;
+}
+
+#registDialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#registDialog > h3 {
+    width: 100%;
+    text-align: center;
+    color: var(--main-color);
+    margin-bottom: 20px;
+}
+
+#registDialog > .textbox {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#registDialog > .textbox input {
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+}
+
+#registDialog > #verifyButton {
+    width: 100%;
+    margin: 0 0 20px 0;
+    padding: 12px;
 }
 
 @media (max-width: 768px) {
-    .form-container {
+    .form-container, #registDialog {
         padding: 20px;
     }
 
-    .textbox {
+    #registDialog > .textbox,
+    #registDialog > #verifyButton {
         width: 70%;
         margin-left: auto;
         margin-right: auto;
-        min-width: 300px;
-    }
-
-    .btn {
-        width: 70%;
-        min-width: 300px;
-        margin: auto;
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\BasicController;
 use App\Http\Controllers\Auth\EmailController;
 use App\Http\Controllers\Auth\forgot;
 use App\Http\Controllers\Auth\VerifyCodeController;
+use App\Http\Controllers\Auth\RegistController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ChildrenCardController;
@@ -77,7 +78,10 @@ Route::post('/seadEmail', [EmailController::class,'sendEmail'])->name('seadEmail
 Route::post('/verify-code', [VerifyCodeController::class, 'verify'])->name('verifyCode');
 
 // 新 - 註冊
-Route::view('/re','Auth_resist')->name('resistPage');
+Route::view('/regist','Auth_resist')->name('registPage');
+Route::post('/aosfnasn', [RegistController::class,'verify'])->name('registVerify');
+
+
 
 
 

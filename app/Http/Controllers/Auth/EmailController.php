@@ -75,6 +75,14 @@ class EmailController extends Controller
                 // 將驗證碼和用戶資料存入 Cache，持續 10 分鐘
                 Cache::put('something' . $email, ['verifyCode' => $verifyCode], 600);
 
+                $request->session()->put('registration_data', [
+                    'email' => $email,
+                    'account' => $account,
+                    'name' => $name,
+                    'gender' => $gender,
+                    // 不要存儲密碼到 session 中
+                ]);
+
 
                 return response()->json(['success' => true, 'message' => '註冊 email寄送成功']);
             } catch (\Exception $e) {
