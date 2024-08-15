@@ -82,11 +82,27 @@ class ContactStudentController extends Controller
 
         // 查找指定使用者的 TeacherRequests 並加載相關的 ContactStudents
         $teacherRequests = TeacherRequest::where('user_id', $userId)
+            ->where('status', 'published')
+            ->with('contactStudents.user', 'subject', 'city')
+            ->get();
+        // 查找指定使用者的 TeacherRequests 並加載相關的 ContactStudents
+        $teacherRequestsIn_progress = TeacherRequest::where('user_id', $userId)
+            ->where('status', 'in_progress')
+            ->with('contactStudents.user', 'subject', 'city')
+            ->get();
+        // 查找指定使用者的 TeacherRequests 並加載相關的 ContactStudents
+        $teacherRequestsCompleted = TeacherRequest::where('user_id', $userId)
+            ->where('status', 'completed')
+            ->with('contactStudents.user', 'subject', 'city')
+            ->get();
+        // 查找指定使用者的 TeacherRequests 並加載相關的 ContactStudents
+        $teacherRequestsCancelled = TeacherRequest::where('user_id', $userId)
+            ->where('status', 'cancelled')
             ->with('contactStudents.user', 'subject', 'city')
             ->get();
             
 
-        return response()->json(['teacherRequests' => $teacherRequests]);
+        return response()->json(['teacherRequests' => $teacherRequests, 'teacherRequestsIn_progress' => $teacherRequestsIn_progress, 'teacherRequestsCancelled' => $teacherRequestsCancelled, 'teacherRequestsCompleted' => $teacherRequestsCompleted]);
     }
 
     public function remove(Request $request)
@@ -101,4 +117,27 @@ class ContactStudentController extends Controller
 
         return response()->json(['success' => true]);
     }
+    public function keepSelected(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'teacher_request_id' => 'required|exists:teacher_requests,id',
+        ]);
+
+        $teacherRequestId = $request->teacher_request_id;
+        $userId = $request->user_id;
+
+        // 获取所有与该 TeacherRequest 相关的学生联系记录
+        $contactStudents = ContactStudent::where('teacher_requests_id', $teacherRequestId)->get();
+
+        foreach ($contactStudents as $contactStudent) {
+            // 如果学生ID不等于选中的学生ID，则删除该记录
+            if ($contactStudent->user_id != $userId) {
+                $contactStudent->delete();
+            }
+        }
+
+        return response()->json(['message' => 'Only the selected student was kept']);
+    }
+
 }

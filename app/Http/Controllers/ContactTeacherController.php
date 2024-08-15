@@ -98,4 +98,26 @@ class ContactTeacherController extends Controller
 
         return response()->json(['success' => true]);
     }
+    public function keepSelected(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'beTeacher_Id' => 'required|exists:be_teachers,id',
+        ]);
+
+        $beTeacherId = $request->beTeacher_Id;
+        $userId = $request->user_id;
+
+        // 获取所有与该 TeacherRequest 相关的学生联系记录
+        $contactTeachers = ContactTeacher::where('be_teacher_id', $beTeacherId)->get();
+
+        foreach ($contactTeachers as $contactTeacher) {
+            // 如果学生ID不等于选中的学生ID，则删除该记录
+            if ($contactTeacher->user_id != $userId) {
+                $contactTeacher->delete();
+            }
+        }
+
+        return response()->json(['message' => 'Only the selected teacher was kept']);
+    }
 }

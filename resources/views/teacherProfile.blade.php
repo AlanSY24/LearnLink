@@ -327,7 +327,24 @@
                     $('.btn-select').on('click', function() {
                         let userId = $(this).data('user-id');
                         let beTeacherId = $(this).data('teacher-request-id');
-                        window.open(`/LearnLink/public/otherCalendarShow?user_id=${userId}&beTeacherId=${beTeacherId}`, '_blank');
+                        $.ajax({
+                            url: '{{ route('teacher.keepSelected') }}', // 在 routes/web.php 中定义这个路由
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}', // CSRF 保护
+                                user_id: userId,
+                                beTeacher_Id: beTeacherId
+                            },
+                            success: function(response) {
+                                // 删除其他学生成功后，跳转到行事历页面
+                                console.log(response);
+                                window.open(`/LearnLink/public/otherCalendarShow?user_id=${userId}&beTeacherId=${beTeacherId}`);
+                            },
+                            error: function(xhr) {
+                                console.error('An error occurred:', xhr);
+                                alert('Failed to keep selected student');
+                            }
+                        });
                     });
                 
                     // 綁定取消按鈕的事件處理
