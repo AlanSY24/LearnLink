@@ -71,9 +71,9 @@ Route::post('/infoEdit', [BasicController::class,'infoEdit'])->name('basicinfoFo
 // 重設密碼
 Route::view('/st','Auth_reset')->name('resetPassword');
 
-
-// 寄送email且驗證
+// 寄送email，回復寄送是否成功
 Route::post('/seadEmail', [EmailController::class,'sendEmail'])->name('seadEmail');
+
 Route::post('/verify-code', [VerifyCodeController::class, 'verify'])->name('verifyCode');
 
 // 新 - 註冊
