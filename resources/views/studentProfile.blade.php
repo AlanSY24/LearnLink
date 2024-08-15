@@ -48,7 +48,7 @@
             <section class="case-management">
                 <h2>接案管理</h2>
                 <button id="btnFavorite">收藏</button>
-                <button id="btnContact">被學生/家長連絡</button>
+                <button id="btnContact">被老師連絡</button>
                 <button id="btnProgress">已接案(預定中)</button>
                 <button id="btnSchedule">課表</button>
                 <button id="btnRecord">紀錄表</button>
@@ -158,18 +158,19 @@
                     <section class="student_container">
                         <div class="student_header">
                             <h1>${item.be_teacher.title}</h1>
+                            <p>${item.be_teacher.name}&nbsp;老師&nbsp;&nbsp;</p>
                             <i id="heart" class="${heartClass}" data-id="${item.be_teacher.id}" style="color: red ;cursor: pointer;"></i>
                         </div>
 
                         <div class="student_info-bar">
-                            <div>縣市:${item.be_teacher.city}</div>
-                            <div>地區:${item.be_teacher.districts}</div>
+                            <div>縣市&nbsp;&nbsp;:&nbsp;&nbsp;${item.be_teacher.city}</div>
+                            <div>地區&nbsp;&nbsp;:&nbsp;&nbsp;${item.be_teacher.districts}</div>
                         </div>
 
                         <div class="student_info-bar">
-                            <div>科目:<br>${item.be_teacher.subject}</div>
-                            <div>時段:<br>${item.be_teacher.available_time}</div>
-                            <div>時薪:<br>${item.be_teacher.hourly_rate}</div>
+                            <div>科目&nbsp;&nbsp;:&nbsp;&nbsp;<br>${item.be_teacher.subject}</div>
+                            <div>時段&nbsp;&nbsp;:&nbsp;&nbsp;<br>${item.be_teacher.available_time}</div>
+                            <div>時薪&nbsp;&nbsp;:&nbsp;&nbsp;<br>${item.be_teacher.hourly_rate}</div>
                         </div>
                         <div class="student_profile">
                             <div class="avatar">大頭貼</div>
@@ -310,33 +311,26 @@
                             <div>時段:<br>${item.available_time}</div>
                             <div>時薪:<br>${item.hourly_rate_min}-${item.hourly_rate_max}</div>
                         </div>
-                        <div class="student_profile">
-                            <div class="avatar">大頭貼</div>
-                            <div class="description">
-                                <h3 style="color: #004080 ;">自我介紹(學經歷)：</h3>
-                                <p style="text-indent: 6em;">${item.details}</p>
-                            </div>
-                        </div>
-                        <div class="student_buttons">
-                            <div class="rating">
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                            </div>
-                            <div class="student_btn">
-                            </div>
-                        </div>
+                        
+                        
                     </section>
                     `;
                              // 如果有contact_students資料
                         if (item.contact_students && item.contact_students.length > 0) {
-                            html += '<h4>聯絡的學生:</h4><ul>';
+                            html += '<h4>聯絡的老師:</h4><ul>';
                             item.contact_students.forEach(function(contact) {
-                                html += `<li>${contact.user.name} - ${contact.user.email} - ${contact.user.phone}</li>
-                                 <button class="btn-select" data-user-id="${contact.user.id}" data-teacher-request-id="${item.id}">選擇</button>
-                                    <button class="btn-cancel" data-user-id="${contact.user.id}" data-teacher-request-id="${item.id}">取消</button>
+                                html += `
+                                
+                                <div class="contactstudent_container" style="display: flex;justify-content: space-between;align-items: center;">
+                                    <div class="contactstudent_info" style="flex-grow: 1;">
+                                        <li>${contact.user.name} - 電子信箱 ${contact.user.email} - 手機號碼 ${contact.user.phone}</li>
+                                    </div>
+                                    <div class="contactstudent_buttons" style="display: flex;gap: 10px;">
+                                        <button class="btn-select" data-user-id="${contact.user.id}" data-teacher-request-id="${item.id}">選擇</button>
+                                        <button class="btn-cancel" data-user-id="${contact.user.id}" data-teacher-request-id="${item.id}">取消</button>
+                                    </div>
+                                </div>
+                                <hr>
                             `;
                             });
                             html += '</ul><br>';
