@@ -15,6 +15,7 @@ class VerifyCodeController extends Controller
         $email = $request->email;
         $code = $request->code;
         $newPassword = $request->newPassword;
+        
 
         $cachedData = Cache::get('something' . $email);
 
