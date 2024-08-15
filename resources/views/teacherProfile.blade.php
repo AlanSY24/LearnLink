@@ -326,7 +326,8 @@
                             success: function(response) {
                                 // 删除其他学生成功后，跳转到行事历页面
                                 console.log(response);
-                                window.open(`/LearnLink/public/otherCalendarShow?user_id=${userId}&beTeacherId=${beTeacherId}`);
+                                const url = '{{ route("otherCalendar.show") }}' + '?user_id=' + userId + '&beTeacherId=' + beTeacherId;
+                                window.open(url);
                             },
                             error: function(xhr) {
                                 console.error('An error occurred:', xhr);
