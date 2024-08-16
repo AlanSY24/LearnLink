@@ -133,10 +133,13 @@ class CalendarController extends Controller
                 // 創建 TeacherCalendar 條目，使用外部傳入的 user_id
                 $teacherCalendarData = array_merge($validatedData, ['user_id' => $teacherId]);
                 TeacherCalendar::create($teacherCalendarData);
+
+                
             }
             // 更新 TeacherRequest 狀態
             
             $teacherRequest->status = 'in_progress';
+            $teacherRequest->CaseReceiver = $teacherId;
             $teacherRequest->save();
             
             DB::commit();

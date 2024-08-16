@@ -135,6 +135,7 @@ class OtherCalendarController extends Controller
                Calendar::create($studentrCalendarData);
             }
             $beTeacher->status = 'in_progress' ;
+            $beTeacher->CaseReceiver = $studentId;
             $beTeacher->save();
             
             DB::commit();
