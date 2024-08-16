@@ -19,7 +19,9 @@
 
     <!-- 導入CSS(會員中心老師.css) -->
     <link rel="stylesheet" href="./css/member.css">
-    <link rel="stylesheet" href="./css/header_footer.css">
+    <link rel="stylesheet" href="{{ asset('css/header_footer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/basicinfo.css') }}">
+
     <!-- <link rel="stylesheet" href="./css/studentCss.css"> -->
 
 
@@ -34,10 +36,11 @@
     <!-- 頁首 -->
 
     <div class="container clearfix">
-        <aside class="sidebar">
-            <h2>會員中心-學生</h2>
-            <x-aside />
-        </aside>
+
+        <!-- 側邊欄位 -->
+        <x-center_sidebar />
+        <!-- 側邊欄位 -->
+
         <main>
             <section class="container">
             @include('partials.studentprofile')
