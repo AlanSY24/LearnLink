@@ -140,7 +140,7 @@ class OtherCalendarController extends Controller
             
             DB::commit();
 
-            return response()->json(['success' => true, 'message' => '所有事件已成功保存到兩個資料表']);
+            return response()->json(['success' => true, 'message' => '所有事件已成功保存到兩個資料表','shouldClose' => true]);
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error('Error in submitEvents: ' . $e->getMessage());

@@ -307,20 +307,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 
             })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.success) {
-                alert('所有事件已成功提交到資料庫');
+                alert(data.message || '所有事件已成功提交到資料庫');
                 events = []; // 清空本地事件列表
-                renderEventList(); // 重新渲染空的事件列表
-                renderCalendar(); // 重新渲染日曆
+                if (data.shouldClose) {
+                    window.close();
+                } else {
+                    // 如果不需要关闭窗口，可以在这里更新UI
+                    // renderEventList(); // 重新渲染空的事件列表
+                    // renderCalendar(); // 重新渲染日曆
+                }
             } else {
-                alert('提交事件時發生錯誤: ' + (data.error || '未知錯誤'));
+                throw new Error(data.error || '提交失敗');
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('提交事件時發生錯誤');
+            alert('提交事件時發生錯誤: ' + error.message);
         });
     }
 
