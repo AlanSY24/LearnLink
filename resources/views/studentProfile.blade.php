@@ -173,7 +173,10 @@
                             <div>時薪&nbsp;&nbsp;:&nbsp;&nbsp;<br>${item.be_teacher.hourly_rate}</div>
                         </div>
                         <div class="student_profile">
-                            <div class="avatar">大頭貼</div>
+                            <div class="avatar">
+                                大頭貼
+                                <img src="${item.be_teacher.photo || '/default-avatar.png'}" alt="教師頭像">
+                            </div>
                             <div class="description">
                                 <h3 style="color: #004080 ;">自我介紹(學經歷)：</h3>
                                 <p style="text-indent: 6em;">${item.be_teacher.details}</p>

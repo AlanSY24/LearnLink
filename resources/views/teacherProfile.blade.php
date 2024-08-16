@@ -275,7 +275,7 @@
                         <div class="student_info-bar">
                             <div>科目:<br>${item.subject.name}</div>
                             <div>時段:<br>${item.available_time}</div>
-                            <div>時薪:<br>${item.hourly_rate_min}-${item.hourly_rate_max}</div>
+                            <div>時薪:<br>${item.hourly_rate}</div>
                         </div>
                         
                         

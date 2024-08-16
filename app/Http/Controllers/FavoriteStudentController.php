@@ -59,6 +59,7 @@ class FavoriteStudentController extends Controller
                     'name' => $beTeacher->user->name ?? 'N/A',
                     // 'gender' => $teacherRequest->user->gender ?? 'N/A',
                     // 'gender' => $gender,
+                    // 'photo' => $teacherProfile ? asset('storage/' . $teacherProfile->photo) : null,
 
 
                 ],

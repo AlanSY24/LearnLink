@@ -78,4 +78,14 @@ class User extends Authenticatable
         {
             return $this->belongsToMany(BeTeacher::class, 'favorites_student', 'user_id', 'be_teachers_id');
         }
+
+
+            // 抓photo
+
+        // public function teacherProfile()
+        // {
+        //     return $this->hasOne(TeacherProfile::class);
+        // }
+
+
 }
