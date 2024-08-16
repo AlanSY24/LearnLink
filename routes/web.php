@@ -84,8 +84,10 @@ Route::middleware('auth')->group(function () {
     Route::view('/findteacher','findteacher');
     Route::post('/findteacher', [TeacherController::class, 'storeRequest'])->name('findteacher');
 });
+Route::middleware('auth')->group(function () {
 Route::post('/beteacher', [BeTeacherController::class, 'store'])->name('beteacher.store');
 Route::get('/beteacher', [BeTeacherController::class, 'create'])->name('beteacher.create');
+});
 Route::delete('/delete-event/{id}', [CalendarController::class, 'deleteEvent']);
 Route::post('/submit-events', [CalendarController::class, 'submitEvents']);
 // Route::get('/calendar', [CalendarController::class, 'index']);

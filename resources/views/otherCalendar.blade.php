@@ -16,7 +16,7 @@
     <link rel="icon" href="data:,">
 </head>
 <body>
-<h2>當前查看的教師ID: {{ $studentUserId }}{{ $beTeacher->id }} (模擬值)</h2>
+
 <div class="calendar">
         <div class="header">
             <button id="prevMonth">&lt;</button>
