@@ -101,60 +101,56 @@ class CalendarController extends Controller
     }
 
     public function submitEvents(Request $request)
-    {
-        try {
-            $events = $request->input('events');
-            $teacherId = $request->input('teacher_id'); // 從請求中獲取外部 user_id
-            $teacherRequestId = $request->input('teacher_request_id');
-            $loggedInUserId = Auth::id(); // 獲取當前登入用戶的 ID
+{
+    try {
+        $events = $request->input('events');
+        $teacherId = $request->input('teacher_id');
+        $teacherRequestId = $request->input('teacher_request_id');
+        $loggedInUserId = Auth::id();
 
-            if (!$loggedInUserId) {
-                return response()->json(['error' => '用戶未登入'], 401);
-            }
-
-            // if (!$externalUserId) {
-            //     return response()->json(['error' => '未提供教師用戶 ID'], 400);
-            // }
-            if (!$teacherRequestId) {
-                return response()->json(['error' => '未提供教師請求 ID'], 400);
-            }
-
-            DB::beginTransaction();
-
-            $teacherRequest = TeacherRequest::findOrFail($teacherRequestId);
-            
-            foreach ($events as $eventData) {
-                $validatedData = $this->validateEvent($eventData);
-                
-                // 創建 Calendar 條目，使用登入用戶的 ID
-                $calendarData = array_merge($validatedData, ['user_id' => $loggedInUserId]);
-                Calendar::create($calendarData);
-                
-                // 創建 TeacherCalendar 條目，使用外部傳入的 user_id
-                $teacherCalendarData = array_merge($validatedData, ['user_id' => $teacherId]);
-                TeacherCalendar::create($teacherCalendarData);
-
-                
-            }
-            // 更新 TeacherRequest 狀態
-            
-            $teacherRequest->status = 'in_progress';
-            $teacherRequest->CaseReceiver = $teacherId;
-            $teacherRequest->save();
-            
-            DB::commit();
-
-            return response()->json(['success' => true, 'message' => '所有事件已成功保存到兩個資料表']);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            DB::rollBack();
-            \Log::error('Error in submitEvents: TeacherRequest not found - ' . $e->getMessage());
-            return response()->json(['error' => '找不到指定的教師請求'], 404);
-        }catch (\Exception $e) {
-            DB::rollBack();
-            \Log::error('Error in submitEvents: ' . $e->getMessage());
-            return response()->json(['error' => '服務器錯誤，請稍後再試'], 500);
+        if (!$loggedInUserId) {
+            return response()->json(['error' => '用戶未登入', 'shouldClose' => false], 401);
         }
+
+        if (!$teacherRequestId) {
+            return response()->json(['error' => '未提供教師請求 ID', 'shouldClose' => false], 400);
+        }
+
+        DB::beginTransaction();
+
+        $teacherRequest = TeacherRequest::findOrFail($teacherRequestId);
+
+        foreach ($events as $eventData) {
+            $validatedData = $this->validateEvent($eventData);
+
+            $calendarData = array_merge($validatedData, ['user_id' => $loggedInUserId]);
+            Calendar::create($calendarData);
+
+            $teacherCalendarData = array_merge($validatedData, ['user_id' => $teacherId]);
+            TeacherCalendar::create($teacherCalendarData);
+        }
+
+        $teacherRequest->status = 'in_progress';
+        $teacherRequest->CaseReceiver = $teacherId;
+        $teacherRequest->save();
+
+        DB::commit();
+
+        return response()->json([
+            'success' => true, 
+            'message' => '所有事件已成功保存到兩個資料表',
+            'shouldClose' => true  // 添加此標誌
+        ]);
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        DB::rollBack();
+        \Log::error('Error in submitEvents: TeacherRequest not found - ' . $e->getMessage());
+        return response()->json(['error' => '找不到指定的教師請求', 'shouldClose' => false], 404);
+    } catch (\Exception $e) {
+        DB::rollBack();
+        \Log::error('Error in submitEvents: ' . $e->getMessage());
+        return response()->json(['error' => '服務器錯誤，請稍後再試', 'shouldClose' => false], 500);
     }
+}
 
     private function validateEvent($eventData)
     {
