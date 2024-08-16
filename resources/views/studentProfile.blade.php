@@ -493,7 +493,7 @@
                                 
                             `;
                             html += '</ul><br>';
-                        }
+                        });}
                     });
                     html += '</ul>';
                     $('#areaStatus').html(html);
