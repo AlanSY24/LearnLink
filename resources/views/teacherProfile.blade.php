@@ -146,10 +146,10 @@
                         if (!item.be_teacher) {
                             return; // 如果 be_teacher 為 null，則跳過
                         }
-
+                        if (item.be_teacher.status == 'published') {
                         // 判斷收藏狀態並設置愛心圖標
                         let heartClass = item.is_favorite ? 'fas fa-heart' : 'far fa-heart';
-
+                        
                         html += `
                     <section class="student_container">
                         <div class="student_header">
@@ -181,7 +181,7 @@
                         </div>
                         <hr>
                     </section>
-                    `;
+                    `;}
                     });
                     html += '</ul>';
                     $('#areaStatus').html(html);
