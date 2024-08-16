@@ -153,24 +153,24 @@
                         html += `
                     <section class="student_container">
                         <div class="student_header">
-                            <h1>${item.be_teacher.title}</h1>
+                            <h1 style="color: #004080 ;">${item.be_teacher.title}</h1>
                             <p>${item.be_teacher.name}${item.be_teacher.gender}&nbsp;&nbsp;</p>
                             <i id="heart" class="${heartClass}" data-id="${item.be_teacher.id}" style="color: red ;cursor: pointer;"></i>
                         </div>
 
                         <div class="student_info-bar">
-                            <div>縣市&nbsp;&nbsp;:&nbsp;&nbsp;${item.be_teacher.city}</div>
-                            <div>地區&nbsp;&nbsp;:&nbsp;&nbsp;${item.be_teacher.districts}</div>
+                            <div>縣市&nbsp;:&nbsp;${item.be_teacher.city}</div>
+                            <div>地區&nbsp;:&nbsp;${item.be_teacher.districts}</div>
                         </div>
                         <div class="student_info-bar">
-                            <div>科目&nbsp;&nbsp;:&nbsp;&nbsp;<br>${item.be_teacher.subject}</div>
-                            <div>日期&nbsp;&nbsp;:&nbsp;&nbsp;<br>${item.be_teacher.expected_date}</div>
-                            <div>時段&nbsp;&nbsp;:&nbsp;&nbsp;<br>${item.be_teacher.available_time}</div>
-                            <div>時薪&nbsp;&nbsp;:&nbsp;&nbsp;<br>${item.be_teacher.hourly_rate_min} - ${item.be_teacher.hourly_rate_max}</div>
+                            <div>科目&nbsp;:&nbsp;${item.be_teacher.subject}</div>
+                            <div>日期&nbsp;:&nbsp;${item.be_teacher.expected_date}</div>
+                            <div>時段&nbsp;:&nbsp;${item.be_teacher.available_time}</div>
+                            <div>時薪&nbsp;:&nbsp;${item.be_teacher.hourly_rate_min} - ${item.be_teacher.hourly_rate_max}</div>
                         </div>
                         <div class="student_profile">
                             <div class="description">
-                                <h3 style="color: #004080 ;">自我介紹(學經歷)：</h3>
+                                <h5>自我介紹：</h5>
                                 <p style="text-indent: 6em;">${item.be_teacher.details}</p>
                             </div>
                         </div>
@@ -264,29 +264,19 @@
                         html += `
                     <section class="student_container">
                         <div class="student_header">
-                            <h1>${item.title}</h1>
+                            <h1 style="color: #004080 ;">${item.title}</h1>
                         </div>
 
                         <div class="student_info-bar">
-                            <div>縣市:${item.city.city}</div>
-                            <div>地區:${item.districts}</div>
-                        </div>
-
-                        <div class="student_info-bar">
-                            <div>科目:<br>${item.subject.name}</div>
-                            <div>時段:<br>${item.available_time}</div>
-                            <div>時薪:<br>${item.hourly_rate}</div>
-                        </div>
-                        
-                        
-                            <div class="student_btn">
-                            </div>
+                            <div>縣市&nbsp;:&nbsp;${item.city.city}</div>
+                            <div>科目&nbsp;:&nbsp;${item.subject.name}</div>
+                            <div>時薪&nbsp;:&nbsp;${item.hourly_rate}</div>
                         </div>
                     </section>
                     `;
                              // 如果有contact_students資料
                         if (item.contact_teacher && item.contact_teacher.length > 0) {
-                            html += '<h4>聯絡的學生:</h4><ul>';
+                            html += '<h5>聯絡的學生:</h5><ul>';
                             
                             item.contact_teacher.forEach(function(contact) {
                                 html += `
@@ -383,46 +373,40 @@
                         html += `
                     <section class="student_container">
                         <div class="student_header">
-                            <h1>${item.title}</h1>
+                            <h1 style="color: #004080 ;">${item.title}</h1>
                         </div>
 
-                        <div class="student_info-bar">
-                            <div>縣市:${item.city.city}</div>
-                            <div>地區:${item.districts}</div>
-                        </div>
+                       
 
                         <div class="student_info-bar">
-                            <div>科目:<br>${item.subject.name}</div>
-                            <div>時段:<br>${item.available_time}</div>
-                            <div>時薪:<br>${item.hourly_rate_min}-${item.hourly_rate_max}</div>
-                        </div>
-                        <div class="student_profile">
-                            <div class="avatar">大頭貼</div>
-                            <div class="description">
-                                <h3 style="color: #004080 ;">自我介紹(學經歷)：</h3>
-                                <p style="text-indent: 6em;">${item.details}</p>
-                            </div>
-                        </div>
-                        <div class="student_buttons">
-                            <div class="rating">
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                            </div>
-                            <div class="student_btn">
-                            </div>
+                            <div>縣市&nbsp;:&nbsp;${item.city.city}</div>
+                            <div>科目&nbsp;:&nbsp;${item.subject.name}</div>
+                            <div>時薪&nbsp;:&nbsp;${item.hourly_rate}</div>
                         </div>
                     </section>
                     `;
                              // 如果有contact_students資料
                         if (item.contact_teacher && item.contact_teacher.length > 0) {
-                            html += '<h4>進行中的老師:</h4><ul>';
+                            html += '<h5>進行中的學生:</h5><ul>';
                             item.contact_teacher.forEach(function(contact) {
-                                html += `<li>${contact.user.name} - ${contact.user.email} - ${contact.user.phone}</li>
-                                <button class="update-status" data-id="${contact.be_teacher_id}" data-status="completed">完成</button>
-                                <button class="update-status" data-id="${contact.be_teacher_id}" data-status="cancelled">取消</button>
+
+                                html += `
+                                
+                                    
+                                    
+
+                                <div class="contactstudent_container" style="display: flex;justify-content: space-between;align-items: center;">
+                                    <div class="contactstudent_info" style="flex-grow: 1;">
+                                        <li>${contact.user.name} - 電子信箱 ${contact.user.email} - 手機號碼 ${contact.user.phone}</li>
+                                    </div>
+                                    <div class="contactstudent_buttons" style="display: flex;gap: 10px;">
+                                        <button class="update-status" data-id="${contact.be_teacher_id}" data-status="completed">完成</button>
+                                        <button class="update-status" data-id="${contact.be_teacher_id}" data-status="cancelled">取消</button>
+                                    </div>
+                                </div>
+                                <hr>
+                                
+
                             `;
                             });
                             html += '</ul><br>';
@@ -486,45 +470,25 @@
                         html += `
                     <section class="student_container">
                         <div class="student_header">
-                            <h1>${item.title}</h1>
+                            <h1 style="color: #004080 ;">${item.title}</h1>
                         </div>
 
                         <div class="student_info-bar">
-                            <div>縣市:${item.city.city}</div>
-                            <div>地區:${item.districts}</div>
+                            <div>縣市&nbsp;:&nbsp;${item.city.city}</div>
+                            <div>科目&nbsp;:&nbsp;${item.subject.name}</div>
+                            <div>時薪&nbsp;:&nbsp;${item.hourly_rate}</div>
                         </div>
-
-                        <div class="student_info-bar">
-                            <div>科目:<br>${item.subject.name}</div>
-                            <div>時段:<br>${item.available_time}</div>
-                            <div>時薪:<br>${item.hourly_rate_min}-${item.hourly_rate_max}</div>
-                        </div>
-                        <div class="student_profile">
-                            <div class="avatar">大頭貼</div>
-                            <div class="description">
-                                <h3 style="color: #004080 ;">自我介紹(學經歷)：</h3>
-                                <p style="text-indent: 6em;">${item.details}</p>
-                            </div>
-                        </div>
-                        <div class="student_buttons">
-                            <div class="rating">
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                            </div>
-                            <div class="student_btn">
-                            </div>
-                        </div>
+                        
+                        
                     </section>
                     `;
                              // 如果有contact_students資料
                         if (item.contact_teacher && item.contact_teacher.length > 0) {
-                            html += '<h4>進行中的老師:</h4><ul>';
+                            html += '<h5>已完成:</h5><ul>';
                             item.contact_teacher.forEach(function(contact) {
-                                html += `<li>${contact.user.name} - ${contact.user.email} - ${contact.user.phone}</li>
-                                 <button>評分</button>
+                                html += `
+                                <li>${contact.user.name} - 電子信箱 ${contact.user.email} - 手機號碼 ${contact.user.phone}</li>
+                                <hr>
 
                             `;
                             });
@@ -541,45 +505,27 @@
                         html += `
                     <section class="student_container">
                         <div class="student_header">
-                            <h1>${item.title}</h1>
+                            <h1 style="color: #004080 ;">${item.title}</h1>
                         </div>
 
-                        <div class="student_info-bar">
-                            <div>縣市:${item.city.city}</div>
-                            <div>地區:${item.districts}</div>
-                        </div>
 
                         <div class="student_info-bar">
-                            <div>科目:<br>${item.subject.name}</div>
-                            <div>時段:<br>${item.available_time}</div>
-                            <div>時薪:<br>${item.hourly_rate_min}-${item.hourly_rate_max}</div>
+                            <div>縣市&nbsp;:&nbsp;${item.city.city}</div>
+                            <div>科目&nbsp;:&nbsp;${item.subject.name}</div>
+                            <div>時薪&nbsp;:&nbsp;${item.hourly_rate}</div>
                         </div>
-                        <div class="student_profile">
-                            <div class="avatar">大頭貼</div>
-                            <div class="description">
-                                <h3 style="color: #004080 ;">自我介紹(學經歷)：</h3>
-                                <p style="text-indent: 6em;">${item.details}</p>
-                            </div>
-                        </div>
-                        <div class="student_buttons">
-                            <div class="rating">
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                            </div>
-                            <div class="student_btn">
-                            </div>
-                        </div>
+                       
+                        
                     </section>
                     `;
                              // 如果有contact_students資料
                         if (item.contact_teacher && item.contact_teacher.length > 0) {
-                            html += '<h4>進行中的老師:</h4><ul>';
+                            html += '<h5>已取消:</h5><ul>';
                             item.contact_teacher.forEach(function(contact) {
-                                html += `<li>${contact.user.name} - ${contact.user.email} - ${contact.user.phone}</li>
-                                 <button>評分</button>
+                                html += `
+                                
+                                <li>${contact.user.name} - 電子信箱 ${contact.user.email} - 手機號碼 ${contact.user.phone}</li>
+                                <hr>
                                 
                                 `;
                             });
