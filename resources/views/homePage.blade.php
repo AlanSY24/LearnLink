@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    <script src="{{ asset('js/nav.js') }}"></script>
     <x-nav />
     <div class="container" id="identitySelection">
         <div class="form-container">
@@ -24,24 +25,10 @@
                 <span>我是<br>老師</span>
             </button>
         </div>
-    </main>
-
-    <x-footer_alpha />
-
-    <script src="{{ asset('js/nav.js') }}"></script>
-    <x-nav />
-    <div class="container" id="identitySelection">
-        <div class="form-container">
-            <button class="identity-button" onclick="location.href=''">
-                <i class="fas fa-user-graduate"></i>
-                <span>我是<br>學生</span>
-            </button>
-            <button class="identity-button" onclick="location.href=''">
-                <i class="fas fa-chalkboard-teacher"></i>
-                <span>我是<br>老師</span>
-            </button>
-        </div>
+        </main>
     </div>
+
     <x-footer_alpha />
 </body>
+
 </html>
