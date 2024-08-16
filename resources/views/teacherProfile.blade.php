@@ -21,6 +21,22 @@
     <link rel="stylesheet" href="./css/member.css">
     <link rel="stylesheet" href="{{ asset('css/header_footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/basicinfo.css') }}">
+    <style>
+        dialog {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 80%;
+        }
+        dialog::backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -50,13 +66,17 @@
                 <button id="btnFavorite">收藏</button>
                 <button id="btnContact">被學生/家長連絡</button>
                 <button id="btnProgress">已接案(預定中)</button>
-                <button id="btnSchedule">課表</button>
+                <button id="openDialog">課表</button>
                 <button id="btnRecord">紀錄表</button>
 
 
                 <!-- 顯示數據的區域 -->     
                 <div id="areaStatus"></div>
                 <!-- 顯示數據的區域 -->
+                <dialog id="myDialog">
+                    <iframe src="http://localhost/LearnLink/public/show-teacherEvents"></iframe>
+                    <button id="closeDialog">關閉</button>
+                </dialog>
             </section>
 
 
@@ -133,6 +153,18 @@
 
     <script>
        $(document).ready(function() {
+        const dialog = document.getElementById('myDialog');
+        const openButton = document.getElementById('openDialog');
+        const closeButton = document.getElementById('closeDialog');
+
+        openButton.addEventListener('click', () => {
+            
+            dialog.showModal();
+        });
+
+        closeButton.addEventListener('click', () => {
+            dialog.close();
+        });
         $('#btnFavorite').on('click', function() {
             $.ajax({
                 url: '{{ route('favorites_teacher.teacherFavorite') }}',

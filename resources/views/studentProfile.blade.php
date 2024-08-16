@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="base-url" content="{{ url('/') }}">
     <title>會員中心-學生</title>
     <!-- 引入 jQuery  -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -23,20 +24,12 @@
     <link rel="stylesheet" href="{{ asset('css/basicinfo.css') }}">
 
     <!-- <link rel="stylesheet" href="./css/studentCss.css"> -->
-
-
-</head>
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dialog with Embedded Webpage</title>
     <style>
         dialog {
             padding: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            width: 80%;
         }
         dialog::backdrop {
             background-color: rgba(0, 0, 0, 0.5);
@@ -47,31 +40,8 @@
             border: none;
         }
     </style>
+
 </head>
-<body>
-    <button id="openDialog">打开对话框</button>
-
-    <dialog id="myDialog">
-        <h2>嵌入的网页</h2>
-        <iframe src="https://example.com"></iframe>
-        <button id="closeDialog">关闭</button>
-    </dialog>
-
-    <script>
-        const dialog = document.getElementById('myDialog');
-        const openButton = document.getElementById('openDialog');
-        const closeButton = document.getElementById('closeDialog');
-
-        openButton.addEventListener('click', () => {
-            dialog.showModal();
-        });
-
-        closeButton.addEventListener('click', () => {
-            dialog.close();
-        });
-    </script>
-</body>
-</html>
 
 <body>
     <!-- HTML==================================================================================================== -->
@@ -99,13 +69,18 @@
                 <button id="btnFavorite">收藏</button>
                 <button id="btnContact">被老師連絡</button>
                 <button id="btnProgress">已接案(預定中)</button>
-                <button id="btnSchedule">課表</button>
+                <button id="openDialog">課表</button>
                 <button id="btnRecord">紀錄表</button>
 
 
                 <!-- 顯示數據的區域 -->
                 <div id="areaStatus"></div>
                 <!-- 顯示數據的區域 -->
+                 
+                <dialog id="myDialog">
+                    <iframe src="http://localhost/LearnLink/public/show-events"></iframe>
+                    <button id="closeDialog">關閉</button>
+                </dialog>
             </section>
 
 
@@ -187,6 +162,19 @@
     <!-- <script src="./js/studentprofile.js"></script> -->
     <script>
     $(document).ready(function() {
+        const dialog = document.getElementById('myDialog');
+        const openButton = document.getElementById('openDialog');
+        const closeButton = document.getElementById('closeDialog');
+        const baseUrl = document.querySelector('meta[name="base-url"]').getAttribute('content');
+
+        openButton.addEventListener('click', () => {
+            
+            dialog.showModal();
+        });
+
+        closeButton.addEventListener('click', () => {
+            dialog.close();
+        });
         $('#btnFavorite').on('click', function() {
             $.ajax({
                 url: '{{ route('favorites_student.studentFavorite') }}',
