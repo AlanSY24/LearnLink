@@ -7,17 +7,17 @@
     </ul>
 </aside>
 <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                let sidebarhaha;
-                @if(Route::currentRouteName() == 'basic.page')
-                    sidebarhaha = '基本資料';
-                @elseif(Route::currentRouteName() == 'teacherprofile.index')
-                    sidebarhaha = '老師';
-                @elseif(Route::currentRouteName() == 'studentprofile')
-                    sidebarhaha = '學生';
-                @else
-                    sidebarhaha = '??';
-                @endif
-                document.getElementById('basicinfoHeader').textContent = "會員中心 - " + sidebarhaha;
-            });
+    document.addEventListener('DOMContentLoaded', function () {
+        let sidebarhaha;
+        @if(Route::currentRouteName() == 'basic.page')
+            sidebarhaha = '基本資料';
+        @elseif(Route::currentRouteName() == 'teacherprofile.index')
+            sidebarhaha = '老師';
+        @elseif(Route::currentRouteName() == 'studentprofile')
+            sidebarhaha = '學生';
+        @else
+            sidebarhaha = '??';
+        @endif
+        document.getElementById('basicinfoHeader').textContent = "會員中心 - " + sidebarhaha;
+    });
 </script>
