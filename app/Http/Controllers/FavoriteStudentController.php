@@ -54,6 +54,7 @@ class FavoriteStudentController extends Controller
                     'districts' => $districts,
                     'id' => $beTeacher->id,
                     'details' => $details, 
+                    'status' => $beTeacher->status,
 
                    
                     'name' => $beTeacher->user->name ?? 'N/A',
