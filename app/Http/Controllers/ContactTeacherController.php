@@ -77,7 +77,26 @@ class ContactTeacherController extends Controller
 
         // 獲取已登入使用者的 ID
         $userId = Auth::id();
-
+        // 查找指定使用者的 TeacherRequests 並加載相關的 ContactStudents
+        $teacherRequests = TeacherRequest::where('CaseReceiver', $userId)
+            ->where('status', 'published')
+            ->with('contactStudents.user', 'subject', 'city')
+            ->get();
+        // 查找指定使用者的 TeacherRequests 並加載相關的 ContactStudents
+        $teacherRequestsIn_progress = TeacherRequest::where('CaseReceiver', $userId)
+            ->where('status', 'in_progress')
+            ->with('contactStudents.user', 'subject', 'city')
+            ->get();
+        // 查找指定使用者的 TeacherRequests 並加載相關的 ContactStudents
+        $teacherRequestsCompleted = TeacherRequest::where('CaseReceiver', $userId)
+            ->where('status', 'completed')
+            ->with('contactStudents.user', 'subject', 'city')
+            ->get();
+        // 查找指定使用者的 TeacherRequests 並加載相關的 ContactStudents
+        $teacherRequestsCancelled = TeacherRequest::where('CaseReceiver', $userId)
+            ->where('status', 'cancelled')
+            ->with('contactStudents.user', 'subject', 'city')
+            ->get();
         // 查找指定使用者的 BeTeacher 並加載相關的 ContactStudents
         $beteacher = BeTeacher::where('user_id', $userId)
             ->where('status', 'published')
@@ -100,7 +119,7 @@ class ContactTeacherController extends Controller
             ->get();
             
 
-        return response()->json(['beteacher' => $beteacher, 'beteacherIn_progress' => $beteacherIn_progress, 'beteacherCancelled' => $beteacherCancelled, 'beteacherCompleted' => $beteacherCompleted]);
+        return response()->json(['beteacher' => $beteacher, 'beteacherIn_progress' => $beteacherIn_progress, 'beteacherCancelled' => $beteacherCancelled, 'beteacherCompleted' => $beteacherCompleted, 'teacherRequests' => $teacherRequests, 'teacherRequestsIn_progress' => $teacherRequestsIn_progress, 'teacherRequestsCancelled' => $teacherRequestsCancelled, 'teacherRequestsCompleted' => $teacherRequestsCompleted, 'beteacher' => $beteacher, 'beteacherIn_progress' => $beteacherIn_progress, 'beteacherCancelled' => $beteacherCancelled, 'beteacherCompleted' => $beteacherCompleted]);
     }
 
     public function remove(Request $request)

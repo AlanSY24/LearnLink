@@ -412,6 +412,55 @@
                             html += '</ul><br>';
                         }
                     });
+                    response.teacherRequestsIn_progress.forEach(function(item) {
+                        console.log(item);
+                        if (!item) {
+                            return; // 如果 teacherRequests 為 null，則跳過
+                        }
+
+
+                        html += `
+                    <section class="student_container">
+                        <div class="student_header">
+                            <h1 style="color: #004080 ;">${item.title}</h1>
+                        </div>
+
+                       
+
+                        <div class="student_info-bar">
+                            <div>縣市&nbsp;:&nbsp;${item.city.city}</div>
+                            <div>科目&nbsp;:&nbsp;${item.subject.name}</div>
+                            <div>時薪&nbsp;:&nbsp;${item.hourly_rate}</div>
+                        </div>
+                    </section>
+                    `;
+                             // 如果有contact_students資料
+                        if (item.contact_teacher && item.contact_teacher.length > 0) {
+                            html += '<h5>進行中的學生:</h5><ul>';
+                            item.contact_teacher.forEach(function(contact) {
+
+                                html += `
+                                
+                                    
+                                    
+
+                                <div class="contactstudent_container" style="display: flex;justify-content: space-between;align-items: center;">
+                                    <div class="contactstudent_info" style="flex-grow: 1;">
+                                        <li>${contact.user.name} - 電子信箱 ${contact.user.email} - 手機號碼 ${contact.user.phone}</li>
+                                    </div>
+                                    <div class="contactstudent_buttons" style="display: flex;gap: 10px;">
+                                        <button class="update-status" data-id="${contact.be_teacher_id}" data-status="completed">完成</button>
+                                        <button class="update-status" data-id="${contact.be_teacher_id}" data-status="cancelled">取消</button>
+                                    </div>
+                                </div>
+                                <hr>
+                                
+
+                            `;
+                            });
+                            html += '</ul><br>';
+                        }
+                    });
                     html += '</ul>';
                     $('#areaStatus').html(html);
 
@@ -495,7 +544,79 @@
                             html += '</ul><br>';
                         }
                     });
+                    response.teacherRequestsCompleted.forEach(function(item) {
+                        console.log(item);
+                        if (!item) {
+                            return; // 如果 teacherRequests 為 null，則跳過
+                        }
+
+
+                        html += `
+                    <section class="student_container">
+                        <div class="student_header">
+                            <h1 style="color: #004080 ;">${item.title}</h1>
+                        </div>
+
+                        <div class="student_info-bar">
+                            <div>縣市&nbsp;:&nbsp;${item.city.city}</div>
+                            <div>科目&nbsp;:&nbsp;${item.subject.name}</div>
+                            <div>時薪&nbsp;:&nbsp;${item.hourly_rate}</div>
+                        </div>
+                        
+                        
+                    </section>
+                    `;
+                             // 如果有contact_students資料
+                        if (item.contact_teacher && item.contact_teacher.length > 0) {
+                            html += '<h5>已完成:</h5><ul>';
+                            item.contact_teacher.forEach(function(contact) {
+                                html += `
+                                <li>${contact.user.name} - 電子信箱 ${contact.user.email} - 手機號碼 ${contact.user.phone}</li>
+                                <hr>
+
+                            `;
+                            });
+                            html += '</ul><br>';
+                        }
+                    });
                     response.beteacherCancelled.forEach(function(item) {
+                        console.log(item);
+                        if (!item) {
+                            return; // 如果 teacherRequests 為 null，則跳過
+                        }
+
+
+                        html += `
+                    <section class="student_container">
+                        <div class="student_header">
+                            <h1 style="color: #004080 ;">${item.title}</h1>
+                        </div>
+
+
+                        <div class="student_info-bar">
+                            <div>縣市&nbsp;:&nbsp;${item.city.city}</div>
+                            <div>科目&nbsp;:&nbsp;${item.subject.name}</div>
+                            <div>時薪&nbsp;:&nbsp;${item.hourly_rate}</div>
+                        </div>
+                       
+                        
+                    </section>
+                    `;
+                             // 如果有contact_students資料
+                        if (item.contact_teacher && item.contact_teacher.length > 0) {
+                            html += '<h5>已取消:</h5><ul>';
+                            item.contact_teacher.forEach(function(contact) {
+                                html += `
+                                
+                                <li>${contact.user.name} - 電子信箱 ${contact.user.email} - 手機號碼 ${contact.user.phone}</li>
+                                <hr>
+                                
+                                `;
+                            });
+                            html += '</ul><br>';
+                        }
+                    });
+                    response.teacherRequestsCancelled.forEach(function(item) {
                         console.log(item);
                         if (!item) {
                             return; // 如果 teacherRequests 為 null，則跳過
