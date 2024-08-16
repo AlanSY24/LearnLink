@@ -26,6 +26,52 @@
 
 
 </head>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dialog with Embedded Webpage</title>
+    <style>
+        dialog {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        dialog::backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <button id="openDialog">打开对话框</button>
+
+    <dialog id="myDialog">
+        <h2>嵌入的网页</h2>
+        <iframe src="https://example.com"></iframe>
+        <button id="closeDialog">关闭</button>
+    </dialog>
+
+    <script>
+        const dialog = document.getElementById('myDialog');
+        const openButton = document.getElementById('openDialog');
+        const closeButton = document.getElementById('closeDialog');
+
+        openButton.addEventListener('click', () => {
+            dialog.showModal();
+        });
+
+        closeButton.addEventListener('click', () => {
+            dialog.close();
+        });
+    </script>
+</body>
+</html>
 
 <body>
     <!-- HTML==================================================================================================== -->
