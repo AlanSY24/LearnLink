@@ -22,22 +22,11 @@
     <x-nav />
 
     <div class="container">
+
+        <!-- 側邊欄位 -->
         <x-center_sidebar />
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                let sidebarhaha;
-                @if(Route::currentRouteName() == 'basic.page')
-                    sidebarhaha = '基本資料';
-                @elseif(Route::currentRouteName() == 'teacherprofile.index')
-                    sidebarhaha = '老師';
-                @elseif(Route::currentRouteName() == 'studentprofile')
-                    sidebarhaha = '學生';
-                @else
-                    sidebarhaha = '??';
-                @endif
-                document.getElementById('basicinfoHeader').textContent = "會員中心 - " + sidebarhaha;
-            });
-        </script>
+        <!-- 側邊欄位 -->
+
         <main>
             <section class="profile-section">
                 <form id="basicinfoForm" class="container-form" action="{{ route('basicinfoForm') }}" method="POST">
