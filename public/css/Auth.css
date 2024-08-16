@@ -145,12 +145,12 @@ h1, h3 {
 }
 
 #registDialog > .textbox input {
-    width: 100%;
+    width: 80%;
     padding: 12px 12px 12px 40px;
 }
 
 #registDialog > #verifyButton {
-    width: 100%;
+    width: 80%;
     margin: 0 0 20px 0;
     padding: 12px;
 }
@@ -165,5 +165,133 @@ h1, h3 {
         width: 70%;
         margin-left: auto;
         margin-right: auto;
+    }
+}
+
+/* login-page 專屬 */
+.login-page .form-container {
+    padding: 20px;
+    max-width: 400px;
+}
+
+.login-page .textbox {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.login-page .btn {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.login-page .links {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.login-page .links a {
+    color: var(--main-color);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s ease;
+}
+
+.login-page .links a:hover {
+    color: var(--accent-color);
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    width: 100%;
+}
+
+.alert-danger ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+/* 身份選擇頁面樣式 */
+.identity-selection-page .form-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 40px;
+    max-width: 800px;
+    height: 50vh;
+}
+
+.identity-button {
+    width: 250px;
+    height: 250px;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--main-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.identity-button:hover, .identity-button:focus {
+    background-color: var(--accent-color);
+    transform: scale(1.05);
+}
+
+.identity-button i {
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+
+.identity-button span {
+    font-size: 22px;
+    text-align: center;
+    line-height: 1.4;
+}
+
+/* 小螢幕  */
+@media (max-width: 767px) {
+    .identity-selection-page .form-container {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .identity-button {
+        width: 80%;
+        height: auto;
+        margin: 15px 0;  /* 增加了垂直方向的外邊距 */
+        flex-direction: row;
+        justify-content: center;  /* 水平置中 */
+        align-items: center;  /* 垂直置中 */
+        padding: 20px 15px;  /* 增加了上下內邊距 */
+    }
+
+    .identity-button i {
+        font-size: 36px;
+        margin-bottom: 0;
+        margin-right: 15px;
+    }
+
+    .identity-button span {
+        font-size: 18px;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    .identity-button br {
+        display: none;
     }
 }

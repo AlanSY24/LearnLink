@@ -9,66 +9,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <link rel="stylesheet" href="{{ asset('css/header_footer.css') }}">
-    <style>
-        .identity-selection {
-            background-color: #f4f4f4;
-            padding: 2em;
-            margin: 2em auto;
-            max-width: 800px;
-            border-radius: 5px;
-        }
-
-        .identity-selection h2 {
-            color: #004080;
-            text-align: center;
-            margin-bottom: 1em;
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-        }
-
-        .identity-button {
-            background-color: #004080;
-            color: #fff;
-            border: none;
-            padding: 1em 2em;
-            margin: 1em;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1.2em;
-            transition: background-color 0.3s ease;
-        }
-
-        .identity-button:hover {
-            background-color: #003060;
-        }
-
-        @media (max-width: 600px) {
-            .button-container {
-                flex-direction: column;
-            }
-            
-            .identity-button {
-                width: 80%;
-                margin: 1em auto;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/Auth.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
     <x-nav />
-
-    <main>
-        <div class="identity-selection">
-            <h2>選擇您的身份</h2>
-            <div class="button-container">
-                <button class="identity-button" onclick="location.href=''">我是學生</button>
-                <button class="identity-button" onclick="location.href=''">我是老師</button>
-            </div>
+    <div class="container" id="identitySelection">
+        <div class="form-container">
+            <button class="identity-button" onclick="location.href='{{ route('teacher_list') }}'">
+                <i class="fas fa-user-graduate"></i>
+                <span>我是<br>學生</span>
+            </button>
+            <button class="identity-button" onclick="location.href='{{ route('student_case') }}'">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>我是<br>老師</span>
+            </button>
         </div>
     </main>
 

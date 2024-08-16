@@ -244,7 +244,7 @@
                 if (data.success) {
                     alert(data.message);
                     verifyWindow.close();
-                    // 這裡可以添加密碼重設成功後的其他操作
+                    window.location.href = '{{ route('login') }}'; // 回到登入頁面
                 } else {
                     alert('驗證失敗或密碼重設失敗: ' + data.message);
                 }
