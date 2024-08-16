@@ -535,7 +535,18 @@
         });
 
         $('#btnSchedule').on('click', function() {
-            $('#areaStatus').html('<p>顯示課表的內容</p>');
+            // 使用 AJAX 加载 show-events.blade.php 的内容
+            $.ajax({
+                url: '{{ route('show.events') }}',
+                type: 'GET',
+                success: function(response) {
+                    // 将响应内容插入到 #areaStatus 区域内
+                    $('#areaStatus').html(response);
+                },
+                error: function(xhr) {
+                    console.error('Failed to load events:', xhr);
+                }
+            });
         });
 
         $('#btnRecord').on('click', function() {
