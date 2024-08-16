@@ -51,11 +51,22 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="account">Email：</label>
+                        <span>{{ Auth::user()->email }}</span>
+                    </div>
+                    
+                    <div class="form-group">
                         <label for="name">名稱：</label>
                         <span>{{ Auth::user()->name ?? 'null' }}</span>
                         <i class="fa-solid fa-pen icon-edit" data-target="name"></i>
                         <input type="text" id="name" name="name" style="display: none;"
                             value="{{ Auth::user()->name ?? '' }}" maxlength="30" required title="姓名不能超過30個字符">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="account">密碼：</label>
+                        <span>********</span>
+                        <a href="{{ route('resetPassword') }}"><i class="fa-solid fa-pen icon-edit"></i></a>
                     </div>
 
                     <div class="form-group">
@@ -88,8 +99,8 @@
                         </span>
                         <i class="fa-solid fa-pen icon-edit" data-target="phone"></i>
                         <input type="tel" id="phone" name="phone" style="display: none;"
-                            value="{{ Auth::user()->phone ?? '' }}" pattern="\d*" inputmode="numeric" maxlength="10"
-                            title="請輸入10位數字的手機號碼">
+                            value="{{ Auth::user()->phone ?? '' }}" pattern="[0-9]{10}" inputmode="numeric"
+                            minlength="10" maxlength="10" title="請輸入10位數字的手機號碼" required>
                     </div>
 
                     <div class="form-group">
@@ -132,7 +143,9 @@
         document.addEventListener('DOMContentLoaded', function () {
             flatpickr("#birthday", {
                 locale: "zh",
-                dateFormat: "Y-m-d"
+                dateFormat: "Y-m-d",
+                maxDate: "today",
+                disableMobile: "true"
             });
         });
     </script>

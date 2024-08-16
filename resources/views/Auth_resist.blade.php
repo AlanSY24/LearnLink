@@ -41,16 +41,16 @@
                 <input type="password" placeholder="確認密碼" name="password_confirmation" id="rpsc" required>
             </div>
             <div class="textbox">
-                <i class="fas fa-envelope"></i>
-                <input type="email" id="emailInReg" placeholder="電子信箱" name="email" required>
-            </div>
-            <div class="textbox">
                 <i class="fa-solid fa-restroom"></i>
                 <select name="gender" required value="2">
                     <option value="">請選擇您的性別</option>
                     <option value="1">男性</option>
                     <option value="2">女性</option>
                 </select>
+            </div>
+            <div class="textbox">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="emailInReg" placeholder="電子信箱" name="email" required>
             </div>
             <button type="submit" class="btn">註冊</button>
             <div class="links">
@@ -68,7 +68,7 @@
             </div>
             <button type="submit" id="verifyButton">驗證</button>
         </form>
-    </dialog>
+    </dialog><script>registDialog.showModal()</script>
 
 
     <x-footer_alpha />
@@ -101,7 +101,7 @@
                     if (data.success) {
                         hideLoadingMask();
                         alert('註冊成功！');
-                        window.location.href = '{{ route('homePage') }}'; // 重定向到登入頁面
+                        window.location.href = '{{ route('login') }}'; // 回到登入頁面
                     } else {
                         hideLoadingMask();
                         alert(data.message);

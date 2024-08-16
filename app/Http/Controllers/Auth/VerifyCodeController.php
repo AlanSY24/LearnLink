@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 class VerifyCodeController extends Controller
@@ -26,7 +27,7 @@ class VerifyCodeController extends Controller
                 
                 // 清除 cache 中的驗證碼
                 Cache::forget('something' . $email);
-                
+                Auth::logout();
                 return response()->json(['success' => true, 'message' => '驗證碼正確，密碼已成功重設']);
             } else {
                 return response()->json(['success' => false, 'message' => '找不到對應的用戶']);
