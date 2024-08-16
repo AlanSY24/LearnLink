@@ -30,7 +30,8 @@ body {
     justify-content: space-between;
 }
 
-h1, h3 {
+h1,
+h3 {
     width: 100%;
     text-align: center;
     color: var(--main-color);
@@ -54,7 +55,9 @@ h1, h3 {
     z-index: 1;
 }
 
-.textbox input, .textbox select, #verificationCode {
+.textbox input,
+.textbox select,
+#verificationCode {
     width: 100%;
     padding: 12px 12px 12px 40px;
     border: 1px solid var(--main-color);
@@ -64,16 +67,20 @@ h1, h3 {
     box-sizing: border-box;
 }
 
-.textbox input:focus, .textbox select:focus, #verificationCode:focus {
+.textbox input:focus,
+.textbox select:focus,
+#verificationCode:focus {
     outline: none;
     border-color: var(--accent-color);
 }
 
-.textbox input:focus + i, .textbox select:focus + i {
+.textbox input:focus+i,
+.textbox select:focus+i {
     color: var(--accent-color);
 }
 
-.btn, #verifyButton {
+.btn,
+#verifyButton {
     width: auto;
     min-width: 200px;
     margin: 20px 20px 20px auto;
@@ -88,7 +95,10 @@ h1, h3 {
     transition: background 0.3s ease, color 0.3s ease;
 }
 
-.btn:hover, .btn:focus, #verifyButton:hover, #verifyButton:focus {
+.btn:hover,
+.btn:focus,
+#verifyButton:hover,
+#verifyButton:focus {
     background: var(--accent-color);
     color: var(--main-color);
 }
@@ -100,14 +110,16 @@ h1, h3 {
     margin-top: 15px;
 }
 
-.links a, .back-icon {
+.links a,
+.back-icon {
     color: var(--main-color);
     text-decoration: none;
     font-size: 14px;
     transition: color 0.2s ease;
 }
 
-.links a:hover, .back-icon:hover {
+.links a:hover,
+.back-icon:hover {
     color: var(--accent-color);
 }
 
@@ -132,36 +144,38 @@ h1, h3 {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-#registDialog > h3 {
+#registDialog>h3 {
     width: 100%;
     text-align: center;
     color: var(--main-color);
     margin-bottom: 20px;
 }
 
-#registDialog > .textbox {
+#registDialog>.textbox {
     width: 100%;
     margin-bottom: 20px;
 }
 
-#registDialog > .textbox input {
+#registDialog>.textbox input {
     width: 80%;
     padding: 12px 12px 12px 40px;
 }
 
-#registDialog > #verifyButton {
+#registDialog>#verifyButton {
     width: 80%;
     margin: 0 0 20px 0;
     padding: 12px;
 }
 
 @media (max-width: 768px) {
-    .form-container, #registDialog {
+
+    .form-container,
+    #registDialog {
         padding: 20px;
     }
 
-    #registDialog > .textbox,
-    #registDialog > #verifyButton {
+    #registDialog>.textbox,
+    #registDialog>#verifyButton {
         width: 70%;
         margin-left: auto;
         margin-right: auto;
@@ -218,7 +232,7 @@ h1, h3 {
     padding-left: 20px;
 }
 
-/* 身份選擇頁面樣式 */
+/* 首頁 */
 .identity-selection-page .form-container {
     display: flex;
     justify-content: space-around;
@@ -244,11 +258,27 @@ h1, h3 {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
 }
 
-.identity-button:hover, .identity-button:focus {
+.identity-button i,
+.identity-button span {
+    transition: color 0.3s ease;
+}
+
+.identity-button:hover,
+.identity-button:focus {
     background-color: var(--accent-color);
     transform: scale(1.05);
+    color: var(--main-color);
+}
+
+.identity-button:hover i,
+.identity-button:hover span,
+.identity-button:focus i,
+.identity-button:focus span {
+    color: var(--main-color); 
 }
 
 .identity-button i {
@@ -260,6 +290,7 @@ h1, h3 {
     font-size: 22px;
     text-align: center;
     line-height: 1.4;
+    font-weight: bold;
 }
 
 /* 小螢幕  */
@@ -272,11 +303,12 @@ h1, h3 {
     .identity-button {
         width: 80%;
         height: auto;
-        margin: 15px 0;  /* 增加了垂直方向的外邊距 */
+        margin: 15px auto;
         flex-direction: row;
-        justify-content: center;  /* 水平置中 */
-        align-items: center;  /* 垂直置中 */
-        padding: 20px 15px;  /* 增加了上下內邊距 */
+        /* justify-content: center;  */
+        /* align-items: center;   */
+        max-width: 400px;
+        padding: 20px 15px;
     }
 
     .identity-button i {
