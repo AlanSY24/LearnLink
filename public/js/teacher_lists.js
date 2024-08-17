@@ -5,9 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
         var isFavorite = heartIcon.classList.contains('fas');
         var teacherId = heartIcon.getAttribute('data-teacher-id');
 
-        console.log('Initial isFavorite:', isFavorite);
-        console.log('Teacher ID:', teacherId);
-
         heartIcon.addEventListener('click', function() {
             console.log('Click detected on teacher ID:', teacherId);
             
@@ -18,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 heartIcon.style.color = '#ed1212';
                 isFavorite = true;
 
-                console.log('Added to favorites');
                 toggleFavorite(teacherId, 'add');
             } else {
                 // Switch to empty heart, red color
@@ -27,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 heartIcon.style.color = 'red';
                 isFavorite = false;
 
-                console.log('Removed from favorites');
                 toggleFavorite(teacherId, 'remove');
             }
         });
@@ -41,9 +36,6 @@ function toggleFavorite(teacherId, action) {
     
     var method = action === 'add' ? 'POST' : 'DELETE';
 
-    console.log('URL:', url);
-    console.log('Method:', method);
-    console.log('User ID:', getUserId());
 
     $.ajax({
         url: url,

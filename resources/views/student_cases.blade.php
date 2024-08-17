@@ -6,6 +6,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>找學生案件</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="user-id" content="{{ Auth::id() }}"> <!-- 確保有 user-id 元素 -->
 
 
     <!-- 導入CSS-->
@@ -90,7 +92,7 @@
                 <div class="s_cases_block">
                     <div id="s_lists_title">
                         <h2>{{ $student->title }}</h2>
-                        <i class="heart-icon far fa-heart" style="color: red;"></i>
+                        <i class="heart-icon far fa-heart" data-teacher-id="{{ $student->id }}" style="color: red;"></i> <!-- 使用學生ID -->
                     </div>
                     <div id="s_lists_subject">教學的科目：{{ $student->subject ? $student->subject->name : '未提供' }}</div>
                     <div id="s_lists_name">姓名：{{ $student->user->name }}</div>

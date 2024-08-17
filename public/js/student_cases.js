@@ -1,38 +1,63 @@
 document.addEventListener('DOMContentLoaded', function() {
     var hearts = document.querySelectorAll('.heart-icon');
-    
+
     hearts.forEach(function(heartIcon) {
-        var isFavorite = false; // 初始收藏狀態為 false
+        var isFavorite = heartIcon.classList.contains('fas');
+        var teacherRequestId = heartIcon.getAttribute('data-teacher-id'); // 使用 teacher_request_id
 
         heartIcon.addEventListener('click', function() {
+            console.log('Click detected on teacher request ID:', teacherRequestId);
+            
             if (!isFavorite) {
-                // 切換為實心愛心，紅色填充
+                // 切換為填滿的愛心，紅色
                 heartIcon.classList.remove('far');
                 heartIcon.classList.add('fas');
                 heartIcon.style.color = '#ed1212';
                 isFavorite = true;
-                addToFavorites();
+
+                toggleFavorite(teacherRequestId, 'add');
             } else {
-                // 切換為空心愛心，紅色框框
+                // 切換為空心愛心，紅色
                 heartIcon.classList.remove('fas');
                 heartIcon.classList.add('far');
                 heartIcon.style.color = 'red';
                 isFavorite = false;
-                removeFromFavorites();
+
+                toggleFavorite(teacherRequestId, 'remove');
             }
         });
     });
 });
 
-function addToFavorites() {
-    console.log('已將愛心添加到收藏夾');
-    // 在這裡可以添加將愛心圖示加入到收藏夾的相應邏輯
+function toggleFavorite(teacherRequestId, action) {
+    var url = action === 'add'
+        ? '/LearnLink/public/student_cases/favorites/' + teacherRequestId
+        : '/LearnLink/public/student_cases/favorites/' + teacherRequestId;
+    
+    var method = action === 'add' ? 'POST' : 'DELETE';
+
+    $.ajax({
+        url: url,
+        method: method,
+        data: {
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            user_id: getUserId()  // 可選：傳送用戶ID（如果需要）
+        },
+        success: function(response) {
+            console.log('Success:', action === 'add' ? 'Added to favorites' : 'Removed from favorites');
+            console.log('Response:', response);
+        },
+        error: function(xhr) {
+            console.log('Error:', action === 'add' ? 'Failed to add favorite' : 'Failed to remove favorite');
+            console.log('XHR:', xhr);
+        }
+    });
 }
 
-function removeFromFavorites() {
-    console.log('已將愛心從收藏夾移除');
-    // 在這裡可以添加將愛心圖示從收藏夾移除的相應邏輯
+function getUserId() {
+    return document.querySelector('meta[name="user-id"]').getAttribute('content');
 }
+
 
 
 $(document).ready(function() {
