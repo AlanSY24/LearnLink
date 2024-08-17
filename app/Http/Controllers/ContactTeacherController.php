@@ -8,6 +8,9 @@ use App\Models\BeTeacher;
 use App\Models\TeacherRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use App\Models\TeacherProfile;
+
 
 class ContactTeacherController extends Controller
 {
@@ -208,5 +211,6 @@ class ContactTeacherController extends Controller
         // 返回 JSON 响应
         return response()->json(['success' => true, 'message' => '聯繫請求已記錄。'], 201);
     }
+    
 
 }

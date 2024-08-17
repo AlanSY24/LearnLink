@@ -126,7 +126,7 @@
                         關於老師的詳細描述：{{ $teacher->details }}
                     </div>
                     <div class="t_lists_buttons">
-                        <button class="button" >老師履歷</button>
+                    <button class="teacher-resume-button" data-teacher-id="{{ $teacher->user_id }}">老師履歷</button>
                         <button class="button" id="contact" data-name="{{ $teacher->user ? $teacher->user->name : '未提供' }}" data-teacher-id="{{ $teacher->id }}">聯絡老師</button>
                     </div>
                 </div>

@@ -172,7 +172,10 @@ use App\Http\Controllers\TeacherListsFavoriteController;
 
 // Routes for managing favorites
 Route::post('/teacher_lists/favorites/{teacherId}', [TeacherListsFavoriteController::class, 'store']);
-Route::delete('/teacher_lists/favorites/{teacherId}', [TeacherListsFavoriteController::class, 'destroy']);
+Route::delete('/teacher_lists/favorites/{teacherId}', [TeacherListsFavoriteController::class, 'destroy']);Route::get('/teacher_profiles/{teacherId}', [GetTeacherController::class, 'show'])->name('teacher_profiles.show');
+Route::get('/teacher_profiles/{teacherId}', [GetTeacherController::class, 'show'])->name('teacher_profiles.show');
+
+
 
 use App\Http\Controllers\StudentCasesFavoriteController;
 Route::post('student_cases/favorites/{teacherRequestId}', [StudentCasesFavoriteController::class, 'store']);

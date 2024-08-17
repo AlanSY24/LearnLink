@@ -6,6 +6,8 @@ use App\Models\City;
 use App\Models\GetTeacher;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use App\Models\TeacherProfile;
+
 
 class GetTeacherController extends Controller
 {
@@ -87,5 +89,18 @@ class GetTeacherController extends Controller
 
         // 使用 compact 將變量名改為 'teachers', 'subjects', 'cities'
         return view('teacher_lists', compact('teachers', 'subjects', 'cities'));
+    }
+    public function show($teacherId)
+    {
+        $teacherProfile = TeacherProfile::where('user_id', $teacherId)->firstOrFail();
+        
+        if ($teacherProfile->pdf) {
+            return response()->make($teacherProfile->pdf, 200, [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="resume.pdf"'
+            ]);
+        }
+
+        return redirect()->back()->with('error', '無法找到老師的履歷');
     }
 }
