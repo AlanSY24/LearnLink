@@ -113,7 +113,7 @@
                     <div id="s_lists_score">評分</div>
                     <div id="s_lists_describe">關於學生的詳細描述：{{ $student->details }}</div>
                     <div class="s_lists_buttons">
-                        <button class="button">聯絡我</button>
+                        <button class="button contact-button" data-name="{{ $student->user ? $student->user->name : '未提供' }}" data-student-id="{{ $student->id }}">聯絡我</button>
                     </div>
                 </div>
             @endforeach

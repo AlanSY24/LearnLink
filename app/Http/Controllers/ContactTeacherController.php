@@ -178,4 +178,35 @@ class ContactTeacherController extends Controller
             'status' => $teacherRequest->status,
         ]);
     }
+
+    
+    public function store(Request $request)
+    {
+        $userId = Auth::id(); // 获取已登录用户的 ID
+        $teacherId = $request->input('teacher_id'); // 从请求中获取教师 ID
+
+        // 验证请求数据
+        $validated = $request->validate([
+            'teacher_id' => 'required|exists:be_teachers,id', // 确保教师 ID 存在
+        ]);
+
+        // 检查是否已经存在联系记录
+        $existingContact = ContactTeacher::where('user_id', $userId)
+            ->where('be_teacher_id', $teacherId)
+            ->first();
+
+        if ($existingContact) {
+            return response()->json(['success' => false, 'message' => '您已經聯繫過這位老師了。'], 400);
+        }
+
+        // 创建新的联系记录
+        $contact = ContactTeacher::create([
+            'user_id' => $userId,
+            'be_teacher_id' => $teacherId,
+        ]);
+
+        // 返回 JSON 响应
+        return response()->json(['success' => true, 'message' => '聯繫請求已記錄。'], 201);
+    }
+
 }

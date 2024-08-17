@@ -142,4 +142,62 @@ document.addEventListener('DOMContentLoaded', function() {
 
         window.location.href = `http://localhost/LearnLink/public/student_cases?${queryParams.toString()}`;
     });
+
+   // 选择所有的“联系”按钮
+    document.querySelectorAll('.contact-button').forEach(function(button) {
+        button.addEventListener('click', function() {
+            // 获取按钮的 data 属性
+            var teacherRequestId = this.getAttribute('data-student-id');
+            var userId = document.querySelector('meta[name="user-id"]').getAttribute('content');
+            var studentName = this.getAttribute('data-name'); // 获取 data-name
+
+            // 日志输出调试信息
+            console.log('Teacher Request ID:', teacherRequestId);
+            console.log('User ID:', userId);
+            console.log('Student Name:', studentName);
+
+            // 检查 ID 是否有效
+            if (!teacherRequestId || !userId) {
+                console.error('Teacher Request ID 或 User ID 未定义。');
+                alert('無法獲取學生ID或用戶ID，請重新嘗試謝謝。');
+                return;
+            }
+
+            // 发起 AJAX 请求
+            $.ajax({
+                url: '/LearnLink/public/contact_student', // 确保 URL 匹配 Laravel 路由
+                method: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    teacher_requests_id: teacherRequestId, // 发送 teacher_requests_id
+                    user_id: userId,
+                },
+                success: function(response) {
+                    console.log('Response:', response); // 输出响应用于调试
+                    if (response.message === '聯繫成功') {
+                        alert(`已聯絡 ${studentName} 學生，請耐心等候回復，謝謝`);
+                    } else {
+                        alert(response.message); // 显示服务器返回的错误消息
+                    }
+                },
+                error: function(xhr) {
+                    // 获取并显示服务器返回的错误消息
+                    var errorMessage = '聯絡時發生錯誤，請稍後再試';
+                    try {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.message) {
+                            errorMessage = response.message;
+                        }
+                    } catch (e) {
+                        console.error('Error parsing JSON response:', e);
+                    }
+                    console.log('Error:', xhr);
+                    alert(errorMessage);
+                }
+            });
+        });
+    });
+
+
+
 });

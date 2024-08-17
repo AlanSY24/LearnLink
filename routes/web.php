@@ -178,5 +178,11 @@ use App\Http\Controllers\StudentCasesFavoriteController;
 Route::post('student_cases/favorites/{teacherRequestId}', [StudentCasesFavoriteController::class, 'store']);
 Route::delete('student_cases/favorites/{teacherRequestId}', [StudentCasesFavoriteController::class, 'destroy']);
 
+
+
+Route::post('/contact_teacher', [ContactTeacherController::class, 'store'])->name('contact.teacher');
+
+Route::post('/contact_student', [ContactStudentController::class, 'store'])->name('contact.student');
+
 // 抓大頭照
 // Route::get('/get-teacher-photo/{studentId}', [YourController::class, 'getTeacherPhoto'])->name('get.teacher.photo');

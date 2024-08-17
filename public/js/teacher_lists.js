@@ -146,16 +146,52 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
     // 选择所有的“联系”按钮
-    document.querySelectorAll('[id="contact"]').forEach(function(button) {
-        button.addEventListener('click', function() {
-            // 从按钮的 data 属性中获取老师的名字和邮件
-            const name = this.getAttribute('data-name');
-            const email = this.getAttribute('data-email');
-            
-            // 显示提示框
-            alert(`老師名字：${name}\n老師郵件：${email}`);
+document.querySelectorAll('[id="contact"]').forEach(function(button) {
+    button.addEventListener('click', function() {
+        // Get the teacher ID from the button's data attribute
+        var teacherId = this.getAttribute('data-teacher-id');
+        var userId = document.querySelector('meta[name="user-id"]').getAttribute('content');
+
+        // Check if teacherId is defined
+        if (!teacherId) {
+            console.error('Teacher ID is not defined.');
+            alert('无法获取教师ID，请重试。');
+            return;
+        }
+
+        $.ajax({
+            url: '/LearnLink/public/contact_teacher', // Update URL to match the URL structure
+            method: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                teacher_id: teacherId,
+                user_id: userId,
+            },
+            success: function(response) {
+                if (response.success) {
+                    alert(`已聯絡 ${button.getAttribute('data-name')} 老師，請耐心等候老師回復謝謝`);
+                } else {
+                    alert('聯絡老師時發生錯誤，請稍後再試');
+                }
+            },
+            error: function(xhr) {
+                // 获取并显示服务器返回的错误消息
+                var errorMessage = '聯絡時發生錯誤，請稍後再試';
+                try {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.message) {
+                        errorMessage = response.message;
+                    }
+                } catch (e) {
+                    console.error('Error parsing JSON response:', e);
+                }
+                console.log('Error:', xhr);
+                alert(errorMessage);
+            }
         });
     });
+});
+
 
 });
 

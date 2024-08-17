@@ -181,4 +181,34 @@ class ContactStudentController extends Controller
         ]);
     }
 
+    public function store(Request $request)
+    {
+        // 验证请求数据
+        $validated = $request->validate([
+            'teacher_requests_id' => 'required|exists:teacher_requests,id',
+        ]);
+
+        // 获取已登录用户的 ID
+        $userId = Auth::id();
+
+        // 检查是否已经存在联系记录
+        $existingContact = ContactStudent::where('teacher_requests_id', $validated['teacher_requests_id'])
+            ->where('user_id', $userId)
+            ->first();
+
+        if ($existingContact) {
+            return response()->json(['message' => '您已經聯繫過這位學生了。'], 400);
+        }
+
+        // 创建新的联系记录
+        $contact = ContactStudent::create([
+            'teacher_requests_id' => $validated['teacher_requests_id'],
+            'user_id' => $userId,
+        ]);
+
+        return response()->json(['message' => '聯繫成功', 'contact' => $contact], 201);
+    }
+
 }
+
+
