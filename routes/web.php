@@ -167,5 +167,13 @@ Route::view('/teacher_lists_', 'teacher_lists')->name('teacher_list');
 Route::get('/cities', [CityController::class, 'index']);
 Route::get('/districts/{cityId}', [DistrictController::class, 'getDistricts']);
 
+
+use App\Http\Controllers\TeacherListsFavoriteController;
+
+// Routes for managing favorites
+Route::post('/teacher_lists/favorites/{teacherId}', [TeacherListsFavoriteController::class, 'store']);
+Route::delete('/teacher_lists/favorites/{teacherId}', [TeacherListsFavoriteController::class, 'destroy']);
+
+
 // 抓大頭照
-Route::get('/get-teacher-photo/{studentId}', [YourController::class, 'getTeacherPhoto'])->name('get.teacher.photo');
+// Route::get('/get-teacher-photo/{studentId}', [YourController::class, 'getTeacherPhoto'])->name('get.teacher.photo');

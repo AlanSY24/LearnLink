@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- 導入CSS-->
     <link rel="stylesheet" href="./css/teacher_lists.css">
     <link rel="stylesheet" href="./css/header_footer.css">
 
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="user-id" content="{{ Auth::id() }}">
     <script src="{{ asset('js/teacher_lists.js') }}"></script>
     <title>找老師履歷</title>
-
 </head>
+
 <body>
     <script src="{{asset('js/nav.js')}}"></script>
     <x-nav />
@@ -93,7 +93,7 @@
                 <div class="t_lists_block">
                     <div id="t_lists_title">
                         <h2>{{ $teacher->title }}</h2>
-                        <i class="heart-icon far fa-heart" style="color: red;"></i>
+                        <i class="heart-icon far fa-heart" data-teacher-id="{{ $teacher->id }}" style="color: red;"></i>
                     </div>
                     <div id="t_lists_subject">
                         教學的科目：{{ $teacher->subject ? $teacher->subject->name : '未提供' }}
