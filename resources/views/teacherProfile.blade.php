@@ -55,26 +55,31 @@
 
 
         <main>
-            <section class="container">
+            <!-- 新增/編輯 履歷表 -->
+            <!-- <section class="container"> -->
             @include('partials.teacherprofile')
-            </section>
+            <!-- </section> -->
+            <!-- 新增/編輯 履歷表 -->
+            
 
 
 
             <section class="case-management">
-                <h2>接案管理</h2>
-                <button id="btnFavorite">收藏</button>
-                <button id="btnContact">被學生/家長連絡</button>
-                <button id="btnProgress">已接案(預定中)</button>
-                <button id="openDialog">課表</button>
-                <button id="btnRecord">紀錄表</button>
+                <h2>案件管理</h2>
+                <button id="btnFavorite">收藏學生</button>
+                <button id="btnContact">老師提案被學生連絡</button>
+                <button id="btnProgress">已接案的學生 - 進行中</button>
+                <button id="openDialog">老師課表</button>
+                <button id="btnRecord">老師紀錄表</button>
+                
+
 
 
                 <!-- 顯示數據的區域 -->     
                 <div id="areaStatus"></div>
                 <!-- 顯示數據的區域 -->
                 <dialog id="myDialog">
-                    <iframe src="http://localhost/LearnLink/public/show-teacherEvents"></iframe>
+                    <iframe src="http://localhost/LearnLink-main/LearnLink/public/show-teacherEvents"></iframe>
                     <button id="closeDialog">關閉</button>
                 </dialog>
             </section>
@@ -96,7 +101,7 @@
     <!-- 上傳隱藏表單==================================================================================================== -->
 
 
-   <!-- 被學生/家長連絡表(V)(X)-->
+   <!-- 老師提案被學生連絡表(V)(X)-->
     <div id="formConfirm" class="container-confirm hidden">
         <div class="container-form">
             <form id="confirmFormData">
@@ -196,7 +201,7 @@
                         </div>
                         <div class="student_info-bar">
                             <div>科目&nbsp;:&nbsp;${item.be_teacher.subject}</div>
-                            <div>日期&nbsp;:&nbsp;${item.be_teacher.expected_date}</div>
+                            <div>日期&nbsp;:&nbsp;${item.be_teacher.expected_date.substring(0, 10)}</div>
                             <div>時段&nbsp;:&nbsp;${item.be_teacher.available_time}</div>
                             <div>時薪&nbsp;:&nbsp;${item.be_teacher.hourly_rate_min} - ${item.be_teacher.hourly_rate_max}</div>
                         </div>
@@ -208,10 +213,12 @@
                         </div>
                         <div class="student_buttons">
                             <div class="student_btn">
-                                <button class="btnContactTeacher" data-teacher-id="${item.be_teacher.id}">連絡學生/家長</button>
+                                <button class="btnContactTeacher" data-teacher-id="${item.be_teacher.id}">連絡學生</button>
                             </div>
                         </div>
                         <hr>
+
+                        
                     </section>
                     `;}
                     });
@@ -455,6 +462,7 @@
                     <section class="student_container">
                         <div class="student_header">
                             <h1 style="color: #004080 ;">${item.title}</h1>
+
                         </div>
 
                        
@@ -462,7 +470,7 @@
                         <div class="student_info-bar">
                             <div>縣市&nbsp;:&nbsp;${item.city.city}</div>
                             <div>科目&nbsp;:&nbsp;${item.subject.name}</div>
-                            <div>時薪&nbsp;:&nbsp;${item.hourly_rate}</div>
+                            <div>時薪&nbsp;:&nbsp;待確認</div>
                         </div>
                     </section>
                     `;
@@ -602,7 +610,6 @@
                         <div class="student_info-bar">
                             <div>縣市&nbsp;:&nbsp;${item.city.city}</div>
                             <div>科目&nbsp;:&nbsp;${item.subject.name}</div>
-                            <div>時薪&nbsp;:&nbsp;${item.hourly_rate}</div>
                         </div>
                         
                         
@@ -715,6 +722,15 @@
             });
         });
     });
+
+
+
+    
+
+
+
+
+
     </script>
 
 

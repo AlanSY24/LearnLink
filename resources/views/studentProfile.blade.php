@@ -23,7 +23,6 @@
     <link rel="stylesheet" href="{{ asset('css/header_footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/basicinfo.css') }}">
 
-    <!-- <link rel="stylesheet" href="./css/studentCss.css"> -->
     <style>
         dialog {
             padding: 20px;
@@ -58,27 +57,29 @@
         <!-- 側邊欄位 -->
 
         <main>
-            <section class="container">
+            <!-- 新增/編輯 學歷與自我介紹 -->
+            <!-- <section class="container"> -->
             @include('partials.studentprofile')
-            </section>
+            <!-- </section> -->
+            <!-- 新增/編輯 學歷與自我介紹 -->
+            
 
 
 
             <section class="case-management">
-                <h2>接案管理</h2>
-                <button id="btnFavorite">收藏</button>
-                <button id="btnContact">被老師連絡</button>
-                <button id="btnProgress">已接案(預定中)</button>
-                <button id="openDialog">課表</button>
-                <button id="btnRecord">紀錄表</button>
-
+                <h2>案件管理</h2>
+                <button id="btnFavorite">收藏老師</button>
+                <button id="btnContact">學生提案被老師連絡</button>
+                <button id="btnProgress">已接案的老師 - 進行中</button>
+                <button id="btnRecord">學生紀錄表</button>
+                <button id="openDialog">學生課表</button>
 
                 <!-- 顯示數據的區域 -->
                 <div id="areaStatus"></div>
                 <!-- 顯示數據的區域 -->
                  
                 <dialog id="myDialog">
-                    <iframe src="http://localhost/LearnLink/public/show-events"></iframe>
+                    <iframe src="http://localhost/LearnLink-main/LearnLink/public/show-events"></iframe>
                     <button id="closeDialog">關閉</button>
                 </dialog>
             </section>
@@ -100,7 +101,7 @@
     <!-- 上傳隱藏表單==================================================================================================== -->
 
 
-    <!-- 被老師連絡表(V)(X)-->
+    <!-- 學生提案被老師連絡表(V)(X)-->
     <div id="formConfirm" class="container-confirm hidden">
         <div class="container-form">
             <form id="confirmFormData">
@@ -455,13 +456,14 @@
                         <div class="student_info-bar">
                             <div>縣市&nbsp;:&nbsp;${item.city.city}</div>
                             <div>科目&nbsp;:&nbsp;${item.subject.name}</div>
-                            <div>時薪&nbsp;:&nbsp;${item.hourly_rate_min}-${item.hourly_rate_max}</div>
                         </div>
                         
                         
                     </section>
                     `;
                              // 如果有contact_students資料
+                             // 進行中的老師(選擇)
+
                         if (item.contact_students && item.contact_students.length > 0) {
                             html += '<h5>進行中的老師:</h5><ul>';
                             item.contact_students.forEach(function(contact) {
@@ -503,13 +505,14 @@
                         <div class="student_info-bar">
                             <div>縣市&nbsp;:&nbsp;${item.city.city}</div>
                             <div>科目&nbsp;:&nbsp;${item.subject.name}</div>
-                            <div>時薪&nbsp;:&nbsp;${item.hourly_rate_min}-${item.hourly_rate_max}</div>
+                            <div>時薪&nbsp;:&nbsp;${item.hourly_rate}</div>
                         </div>
                         
                         
                     </section>
                     `;
                              // 如果有contact_students資料
+                             // 進行中的老師(取消)
                         if (item.contact_students && item.contact_students.length > 0) {
                             html += '<h5>進行中的老師:</h5><ul>';
                             item.contact_students.forEach(function(contact) {
@@ -601,12 +604,11 @@
                         html += `
                     <section class="student_container">
                         <div class="student_header">
-                            <h1>${item.title}</h1>
+                            <h1 style="color: #004080 ;">${item.title}</h1>
                         </div>
                         <div class="student_info-bar">
                             <div>縣市&nbsp;:&nbsp;${item.city.city}</div>
                             <div>科目&nbsp;:&nbsp;${item.subject.name}</div> 
-                            <div>時薪&nbsp;:&nbsp;${item.hourly_rate_min}-${item.hourly_rate_max}</div>
                         </div>
                     </section>
                     `;
@@ -642,7 +644,7 @@
                         html += `
                     <section class="student_container">
                         <div class="student_header">
-                            <h1>${item.title}</h1>
+                            <h1 style="color: #004080 ;">${item.title}</h1>
                         </div>
                         <div class="student_info-bar">
                             <div>縣市&nbsp;:&nbsp;${item.city.city}</div>
@@ -683,7 +685,7 @@
                         html += `
                     <section class="student_container">
                         <div class="student_header">
-                            <h1>${item.title}</h1>
+                            <h1 style="color: #004080 ;">${item.title}</h1>
                         </div>
 
                         <div class="student_info-bar">
@@ -723,7 +725,7 @@
                         html += `
                     <section class="student_container">
                         <div class="student_header">
-                            <h1>${item.title}</h1>
+                            <h1 style="color: #004080 ;">${item.title}</h1>
                         </div>
 
                         <div class="student_info-bar">

@@ -19,6 +19,8 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FavoriteStudentController;
 use App\Http\Controllers\ContactTeacherController;
 use App\Http\Controllers\ContactStudentController;
+use App\Http\Controllers\YourController;
+
 
 
 
@@ -188,4 +190,4 @@ Route::post('/contact_teacher', [ContactTeacherController::class, 'store'])->nam
 Route::post('/contact_student', [ContactStudentController::class, 'store'])->name('contact.student');
 
 // 抓大頭照
-// Route::get('/get-teacher-photo/{studentId}', [YourController::class, 'getTeacherPhoto'])->name('get.teacher.photo');
+Route::get('/get-teacher-photo/{studentId}', [YourController::class, 'getTeacherPhoto'])->name('get.teacher.photo');

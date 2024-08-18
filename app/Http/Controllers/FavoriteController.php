@@ -36,7 +36,7 @@ class FavoriteController extends Controller
             $details = $teacherRequest->details;
 
             // 將性別數字轉換為文字
-            $gender = '未知';
+            $gender = '';
             if ($teacherRequest->user->gender === 1) {
                 $gender = '先生';
             } elseif ($teacherRequest->user->gender === 2) {
