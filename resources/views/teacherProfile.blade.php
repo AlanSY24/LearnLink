@@ -79,7 +79,7 @@
                 <div id="areaStatus"></div>
                 <!-- 顯示數據的區域 -->
                 <dialog id="myDialog">
-                    <iframe src="http://localhost/LearnLink-main/LearnLink/public/show-teacherEvents"></iframe>
+                    <iframe src="{{ url('/show-teacherEvents') }}"></iframe>
                     <button id="closeDialog">關閉</button>
                 </dialog>
             </section>
