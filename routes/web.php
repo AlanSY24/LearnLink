@@ -35,7 +35,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\DistrictController;
 
 // 首頁↓↓↓↓↓↓↓↓↓↓↓  http://127.0.0.1:8000/homePage
-Route::view('/homePage','homepage')->name('homePage');
+Route::view('/homePage','homePage')->name('homePage');
 
 // 登入頁面↓↓↓↓↓↓↓↓↓↓    http://127.0.0.1:8000/login
 Route::view('/login','Auth_login')->name('login');
