@@ -84,7 +84,7 @@ Route::get('/subjects', [SubjectController::class, 'index']);
 
 
 Route::middleware('auth')->group(function () {
-    Route::view('/findteacher','findteacher');
+    Route::view('/findteacher','findteacher')->name('findteacherPage');
     Route::post('/findteacher', [TeacherController::class, 'storeRequest'])->name('findteacher');
 });
 Route::middleware('auth')->group(function () {
