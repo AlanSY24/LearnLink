@@ -38,6 +38,19 @@
             height: 400px;
             border: none;
         }
+        .star {
+            font-size: 24px;
+            color: gray;
+            cursor: pointer;
+        }
+
+        .star.highlighted {
+            color: gold;
+        }
+
+        .star.selected {
+            color: gold;
+        }
     </style>
 
 </head>
@@ -176,6 +189,9 @@
         closeButton.addEventListener('click', () => {
             dialog.close();
         });
+
+
+
         $('#btnFavorite').on('click', function() {
             $.ajax({
                 url: '{{ route('favorites_student.studentFavorite') }}',
@@ -623,6 +639,18 @@
                                         <li>${contact.user.name} - 電子信箱 ${contact.user.email} - 手機號碼 ${contact.user.phone}</li>
                                     </div>
                                     <div class="contactstudent_buttons" style="display: flex;gap: 10px;">
+                                    <div id="ratingArea">
+                                        <span class="star" data-value="1">★</span>
+                                        <span class="star" data-value="2">★</span>
+                                        <span class="star" data-value="3">★</span>
+                                        <span class="star" data-value="4">★</span>
+                                        <span class="star" data-value="5">★</span>
+                                    </div>
+                                    <button id="viewRating" data-teacher-id="${contact.user.id}">查看評分</button>
+                                    <div id="ratingInfo">
+                                    </div>
+
+                                    <input type="hidden" id="MyteacherId" value="${contact.user.id}">
                                         <button>評分</button>
                                     </div>
                                 </div>
@@ -758,6 +786,61 @@
                     html += '</ul>';
                     $('#areaStatus').html(html);
 
+                    document.querySelectorAll('.star').forEach(star => {
+                        star.addEventListener('click', function() {
+                            let rating = this.getAttribute('data-value');
+                            let teacherId = document.getElementById('MyteacherId').value;
+                            console.log(rating);
+                            console.log(teacherId);
+
+                            $.ajax({
+                                url:'{{ route('rate-teacher') }}',
+                                type: 'POST',
+                                data: {
+                                        teacher_id: teacherId,
+                                        rating: rating,
+                                        _token: '{{ csrf_token() }}' // Laravel 的 CSRF 保護
+                                    },
+                                    success: function(response) {
+                                        alert(response.message);
+                                    },
+                                    error: function(xhr) {
+                                        console.error('An error occurred:', xhr);
+                                        alert('操作失敗，請稍後重試。');
+                                    }
+                                
+                            })
+
+                        });
+                    });
+
+                    $(document).on('click', '#viewRating', function() {
+                        let teacherId = $(this).data('teacher-id');
+                        console.log(teacherId);
+                        
+                        $.ajax({
+                            url: '{{ route('showTeacherRating') }}', // 确保这个路由存在
+                            type: 'GET',
+                            data: {
+                                teacher_id: teacherId,
+                                _token: '{{ csrf_token() }}' 
+                            },
+                            success: function(response) {
+                                console.log(response);
+                                let averageRating = parseFloat(response.average_rating);
+                                
+                                $('#ratingInfo').html(`
+                                    <p>平均評分: ${!isNaN(averageRating) ? averageRating.toFixed(1) : '尚無評分'}</p>
+                                    <p>評分人數: ${response.ratings_count}</p>
+                                `);
+                            },
+                            error: function(xhr) {
+                                console.error('获取评分信息失败:', xhr);
+                                alert('获取评分信息失败，请稍后再试。', xhr);
+                            }
+                        });
+                    });
+
                         // 綁定選擇按鈕的事件處理
                     $('').on('click', function() {
                     });
@@ -775,6 +858,7 @@
             });
         });
     });
+    
 
     // <!-- 抓取大頭照==================================================================================================== -->
 

@@ -20,6 +20,7 @@ use App\Http\Controllers\FavoriteStudentController;
 use App\Http\Controllers\ContactTeacherController;
 use App\Http\Controllers\ContactStudentController;
 use App\Http\Controllers\YourController;
+use App\Http\Controllers\RatingController;
 
 
 
@@ -155,8 +156,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/keep-selected-teacher', [ContactTeacherController::class, 'keepSelected'])->name('teacher.keepSelected');
     Route::post('/teacher-requests/update-status', [ContactStudentController::class, 'updateStatus'])->name('teacher_requests.updateStatus');
     Route::post('/be_teacher/update-status', [ContactTeacherController::class, 'updateStatus'])->name('be_teacher.updateStatus');
-
-
+    Route::post('/rate-teacher', [RatingController::class, 'rateTeacher'])->name('rate-teacher');
+    Route::get('/teacher/rating', [RatingController::class, 'showTeacherRating'])->name('showTeacherRating');
 });
 
 

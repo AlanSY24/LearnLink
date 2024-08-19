@@ -24,4 +24,17 @@ class TeacherProfile extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class, 'teacher_id', 'user_id');
+    }
+    public function getAverageRatingAttribute()
+    {
+        return $this->ratings()->avg('rating');
+    }
+    public function getRatingsCountAttribute()
+    {
+        return $this->ratings()->count();
+    }
 }
