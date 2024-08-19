@@ -174,13 +174,28 @@ use App\Http\Controllers\TeacherListsFavoriteController;
 // Routes for managing favorites
 Route::post('/teacher_lists/favorites/{teacherId}', [TeacherListsFavoriteController::class, 'store']);
 Route::delete('/teacher_lists/favorites/{teacherId}', [TeacherListsFavoriteController::class, 'destroy']);Route::get('/teacher_profiles/{teacherId}', [GetTeacherController::class, 'show'])->name('teacher_profiles.show');
+Route::get('/teacher_lists/favorites/status/{teacherId}', [TeacherListsFavoriteController::class, 'status']);
+
+
 Route::get('/teacher_profiles/{teacherId}', [GetTeacherController::class, 'show'])->name('teacher_profiles.show');
 
 
 
 use App\Http\Controllers\StudentCasesFavoriteController;
-Route::post('student_cases/favorites/{teacherRequestId}', [StudentCasesFavoriteController::class, 'store']);
-Route::delete('student_cases/favorites/{teacherRequestId}', [StudentCasesFavoriteController::class, 'destroy']);
+
+Route::prefix('student_cases')->group(function () {
+    // 获取收藏状态
+    Route::get('favorites/status/{teacherRequestId}', [StudentCasesFavoriteController::class, 'status'])
+         ->name('favorites.status');
+
+    // 添加收藏
+    Route::post('favorites/{teacherRequestId}', [StudentCasesFavoriteController::class, 'store'])
+         ->name('favorites.store');
+
+    // 移除收藏
+    Route::delete('favorites/{teacherRequestId}', [StudentCasesFavoriteController::class, 'destroy'])
+         ->name('favorites.destroy');
+});
 
 // 顯示教師頭像
 Route::get('/teacher/{teacherId}/photo', [GetTeacherController::class, 'showPhoto'])->name('teacher.photo');
@@ -189,6 +204,7 @@ Route::get('/teacher/{teacherId}/photo', [GetTeacherController::class, 'showPhot
 Route::post('/contact_teacher', [ContactTeacherController::class, 'store'])->name('contact.teacher');
 
 Route::post('/contact_student', [ContactStudentController::class, 'store'])->name('contact.student');
-Route::get('teacher/rating/{teacherId}', [GetTeacherController::class, 'showTeacherRating']);
+Route::get('teacher/rating/{teacherId}', [GetTeacherController::class, 'showTeacherRating'])->name('teacher.rating');
+
 // 抓大頭照
 Route::get('/get-teacher-photo/{studentId}', [YourController::class, 'getTeacherPhoto'])->name('get.teacher.photo');

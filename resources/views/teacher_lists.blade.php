@@ -91,75 +91,89 @@
         
         <div class="t_lists">
             @foreach ($teachers as $teacher)
-                <div class="t_lists_block">
-                    <div id="t_lists_title">
-                        <h2>{{ $teacher->title }}</h2>
-                        <i class="heart-icon far fa-heart" data-teacher-id="{{ $teacher->id }}" style="color: red;"></i>
-                    </div>
-                    <div id="t_lists_subject">
-                        教學的科目：{{ $teacher->subject ? $teacher->subject->name : '未提供' }}
-                    </div>
-                    <div id="t_lists_name">
-                        姓名：{{ $teacher->user ? $teacher->user->name : '未提供' }}
-                    </div>
-                    <div id="t_lists_gender">性別：未提供</div>
+                @if($teacher->status == 'published')
+                    <div class="t_lists_block">
+                        <div id="t_lists_title">
+                            <h2>{{ $teacher->title }}</h2>
+                            <i class="heart-icon far fa-heart" data-teacher-id="{{ $teacher->id }}" style="color: red;"></i>
+                        </div>
+                        <div id="t_lists_subject">
+                            教學的科目：{{ $teacher->subject ? $teacher->subject->name : '未提供' }}
+                        </div>
+                        <div id="t_lists_name">
+                            姓名：{{ $teacher->user ? $teacher->user->name : '未提供' }}
+                        </div>
+                        <div id="t_lists_gender">性別：未提供</div>
 
-                    <div id="t_lists_place">
-                        上課預期地點：{{ $teacher->city ? $teacher->city->city : '無城市資料' }}
-                        <br>
-                        <div class="districts-container">
-                            @if($teacher->districts()->isNotEmpty())
-                                @foreach ($teacher->districts() as $district)
-                                    {{ $district->district_name }}
-                                    <br>
-                                @endforeach
+                        <div id="t_lists_place">
+                            上課預期地點：{{ $teacher->city ? $teacher->city->city : '無城市資料' }}
+                            <br>
+                            <div class="districts-container">
+                                @if($teacher->districts()->isNotEmpty())
+                                    @foreach ($teacher->districts() as $district)
+                                        {{ $district->district_name }}
+                                        <br>
+                                    @endforeach
+                                @else
+                                    無區域資料
+                                @endif
+                            </div>
+                        </div>
+
+                        <div id="t_lists_time">
+                            上課預期時間：{{ $teacher->available_time }}
+                        </div>
+                        <div id="t_lists_price">
+                            上課預期時薪：{{ $teacher->hourly_rate }}
+                        </div>
+                        <div id="t_lists_picture">
+                            @if($teacher->profile && $teacher->profile->photo)
+                                <img src="{{ route('teacher.photo', ['teacherId' => $teacher->user_id]) }}" alt="Profile Picture" style="width: 100px; height: auto;">
                             @else
-                                無區域資料
+                                <img src="{{ asset('storage/teacher_photos/default.png') }}" alt="Default Picture" style="width: 100px; height: auto;">
                             @endif
                         </div>
-                    </div>
+                        <div id="t_lists_score">
+                            評分：
+                            <span id="rating-{{ $teacher->id }}" data-teacher-id="{{ $teacher->id }}">計算中...</span>
+                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                            <script>
+                                $(document).ready(function() {
+                                    const teacherId = $('#rating-{{ $teacher->id }}').data('teacher-id');
+                                    const ratingUrl = '{{ url("teacher/rating/") }}/' + teacherId;
 
-                    <div id="t_lists_time">
-                        上課預期時間：{{ $teacher->available_time }}
-                    </div>
-                    <div id="t_lists_price">
-                        上課預期時薪：{{ $teacher->hourly_rate }}
-                    </div>
-                    <div id="t_lists_picture">
-                        @if($teacher->profile && $teacher->profile->photo)
-                            <img src="{{ route('teacher.photo', ['teacherId' => $teacher->user_id]) }}" alt="Profile Picture" style="width: 100px; height: auto;">
-                        @else
-                            <img src="{{ asset('storage/teacher_photos/default.png') }}" alt="Default Picture" style="width: 100px; height: auto;">
-                        @endif
-                    </div>
-                    <div id="t_lists_score">
-                        評分：
-                        <span id="rating-{{ $teacher->id }}">計算中...</span>
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                fetch('{{ url('teacher/rating/' . $teacher->id) }}')
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        document.getElementById('rating-{{ $teacher->id }}').textContent = 
-                                            data.average_rating + ' (' + data.rating_count + ' 人評分)';
-                                    })
-                                    .catch(error => {
-                                        console.error('Error fetching rating:', error);
-                                        document.getElementById('rating-{{ $teacher->id }}').textContent = '無法獲取評分';
+                                    console.log('Teacher ID:', teacherId);
+                                    console.log('Rating URL:', ratingUrl);
+
+                                    $.ajax({
+                                        url: ratingUrl,
+                                        method: 'GET',
+                                        success: function(data) {
+                                            $('#rating-{{ $teacher->id }}').text(
+                                                data.average_rating + ' (' + data.rating_count + ' 評分)'
+                                            );
+                                        },
+                                        error: function(xhr, status, error) {
+                                            console.error('Error fetching rating:', error);
+                                            $('#rating-{{ $teacher->id }}').text('無法獲取評分');
+                                        }
                                     });
-                            });
-                        </script>
+                                });
+                            </script>
+                        </div>
+
+                        <div id="t_lists_describe">
+                            關於老師的詳細描述：{{ $teacher->details }}
+                        </div>
+                        <div class="t_lists_buttons">
+                            <button class="teacher-resume-button" data-teacher-id="{{ $teacher->user_id }}">老師履歷</button>
+                            <button class="button" id="contact" data-name="{{ $teacher->user ? $teacher->user->name : '未提供' }}" data-teacher-id="{{ $teacher->id }}">聯絡老師</button>
+                        </div>
                     </div>
-                    <div id="t_lists_describe">
-                        關於老師的詳細描述：{{ $teacher->details }}
-                    </div>
-                    <div class="t_lists_buttons">
-                    <button class="teacher-resume-button" data-teacher-id="{{ $teacher->user_id }}">老師履歷</button>
-                        <button class="button" id="contact" data-name="{{ $teacher->user ? $teacher->user->name : '未提供' }}" data-teacher-id="{{ $teacher->id }}">聯絡老師</button>
-                    </div>
-                </div>
+                @endif
             @endforeach
         </div>
+
     </div>
     <x-footer_alpha/>
 </body>

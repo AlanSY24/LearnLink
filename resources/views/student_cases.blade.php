@@ -90,37 +90,50 @@
         
         <div class="s_cases">
             @foreach ($students as $student)
-                <div class="s_cases_block">
-                    <div id="s_lists_title">
-                        <h2>{{ $student->title }}</h2>
-                        <i class="heart-icon far fa-heart" data-teacher-id="{{ $student->id }}" style="color: red;"></i> <!-- 使用學生ID -->
-                    </div>
-                    <div id="s_lists_subject">教學的科目：{{ $student->subject ? $student->subject->name : '未提供' }}</div>
-                    <div id="s_lists_name">姓名：{{ $student->user->name }}</div>
-                    <div id="s_lists_gender">性別：未提供</div>
-                    <div id="t_lists_place">
-                        上課預期地點：{{ $student->city ? $student->city->city : '無城市資料' }}
-                        <br>
-                        <div class="districts-container">
-                            @if($student->districts()->isNotEmpty())
-                                @foreach ($student->districts() as $district)
-                                    {{ $district->district_name }}
-                                    <br>
-                                @endforeach
-                            @else
-                                無區域資料
-                            @endif
+                @if($student->status == 'published')
+                    <div class="s_cases_block">
+                        <div id="s_lists_title">
+                            <h2>{{ $student->title }}</h2>
+                            <i class="heart-icon far fa-heart" data-student-id="{{ $student->id }}" style="color: red;"></i> <!-- 使用學生ID -->
+                        </div>
+                        <div id="s_lists_subject">
+                            教學的科目：{{ $student->subject ? $student->subject->name : '未提供' }}
+                        </div>
+                        <div id="s_lists_name">
+                            姓名：{{ $student->user->name }}
+                        </div>
+                        <div id="s_lists_gender">性別：未提供</div>
+                        <div id="t_lists_place">
+                            上課預期地點：{{ $student->city ? $student->city->city : '無城市資料' }}
+                            <br>
+                            <div class="districts-container">
+                                @if($student->districts()->isNotEmpty())
+                                    @foreach ($student->districts() as $district)
+                                        {{ $district->district_name }}
+                                        <br>
+                                    @endforeach
+                                @else
+                                    無區域資料
+                                @endif
+                            </div>
+                        </div>
+                        <div id="s_lists_time">
+                            上課預期時間：{{ $student->available_time }}
+                        </div>
+                        <div id="s_lists_price">
+                            上課預期時薪：{{ $student->hourly_rate_min }} - {{ $student->hourly_rate_max }}
+                        </div>
+                        <div id="s_lists_describe">
+                            關於學生的詳細描述：{{ $student->details }}
+                        </div>
+                        <div class="s_lists_buttons">
+                            <button class="button contact-button" data-name="{{ $student->user ? $student->user->name : '未提供' }}" data-student-id="{{ $student->id }}">聯絡我</button>
                         </div>
                     </div>
-                    <div id="s_lists_time">上課預期時間：{{ $student->available_time }}</div>
-                    <div id="s_lists_price">上課預期時薪：{{ $student->hourly_rate_min }} - {{ $student->hourly_rate_max }}</div>
-                    <div id="s_lists_describe">關於學生的詳細描述：{{ $student->details }}</div>
-                    <div class="s_lists_buttons">
-                        <button class="button contact-button" data-name="{{ $student->user ? $student->user->name : '未提供' }}" data-student-id="{{ $student->id }}">聯絡我</button>
-                    </div>
-                </div>
+                @endif
             @endforeach
         </div>
+
     </div>
     <x-footer_alpha/>
 

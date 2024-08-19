@@ -2,48 +2,66 @@ document.addEventListener('DOMContentLoaded', function() {
     var hearts = document.querySelectorAll('.heart-icon');
 
     hearts.forEach(function(heartIcon) {
-        var isFavorite = heartIcon.classList.contains('fas');
         var teacherId = heartIcon.getAttribute('data-teacher-id');
 
+        // 加载收藏状态
+        checkFavoriteStatus(teacherId, function(isFavorited) {
+            if (isFavorited) {
+                heartIcon.classList.remove('far');
+                heartIcon.classList.add('fas');
+                heartIcon.style.color = '#ed1212'; // 红色
+            } else {
+                heartIcon.classList.remove('fas');
+                heartIcon.classList.add('far');
+                heartIcon.style.color = 'red'; // 红色
+            }
+        });
 
         heartIcon.addEventListener('click', function() {
+            var isFavorite = heartIcon.classList.contains('fas');
             console.log('Click detected on teacher ID:', teacherId);
             
             if (!isFavorite) {
                 // Switch to filled heart, red color
                 heartIcon.classList.remove('far');
                 heartIcon.classList.add('fas');
-                heartIcon.style.color = '#ed1212';
-                isFavorite = true;
-
+                heartIcon.style.color = '#ed1212'; // 红色
                 toggleFavorite(teacherId, 'add');
             } else {
                 // Switch to empty heart, red color
                 heartIcon.classList.remove('fas');
                 heartIcon.classList.add('far');
-                heartIcon.style.color = 'red';
-                isFavorite = false;
-
+                heartIcon.style.color = 'red'; // 红色
                 toggleFavorite(teacherId, 'remove');
             }
         });
     });
 });
 
-function toggleFavorite(teacherId, action) {
-    var url = action === 'add'
-        ? '/LearnLink/public/teacher_lists/favorites/' + teacherId
-        : '/LearnLink/public/teacher_lists/favorites/' + teacherId;
-    
-    var method = action === 'add' ? 'POST' : 'DELETE';
+function checkFavoriteStatus(teacherId, callback) {
+    $.ajax({
+        url: '/LearnLink/public/teacher_lists/favorites/status/' + teacherId,
+        method: 'GET',
+        success: function(response) {
+            callback(response.isFavorited);
+        },
+        error: function(xhr) {
+            console.log('Error:', 'Failed to fetch favorite status');
+            console.log('XHR:', xhr);
+        }
+    });
+}
 
+function toggleFavorite(teacherId, action) {
+    var url = '/LearnLink/public/teacher_lists/favorites/' + teacherId;
+    var method = action === 'add' ? 'POST' : 'DELETE';
 
     $.ajax({
         url: url,
         method: method,
         data: {
             _token: $('meta[name="csrf-token"]').attr('content'),
-            user_id: getUserId()  // Optional: Send user ID if needed
+            user_id: getUserId()  // 确保这个函数返回正确的用户ID
         },
         success: function(response) {
             console.log('Success:', action === 'add' ? 'Added to favorites' : 'Removed from favorites');
@@ -55,6 +73,9 @@ function toggleFavorite(teacherId, action) {
         }
     });
 }
+
+
+
 
 function getUserId() {
     return document.querySelector('meta[name="user-id"]').getAttribute('content');

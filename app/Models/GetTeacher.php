@@ -57,4 +57,9 @@ class GetTeacher extends Model
     {
         return $this->hasOne(TeacherProfile::class, 'user_id', 'user_id');
     }
+    
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class, 'teacher_id');
+    }
 }

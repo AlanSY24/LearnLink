@@ -8,6 +8,8 @@ use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Models\TeacherProfile;
 use App\Models\Rating;
+use Illuminate\Support\Facades\Log;
+
 
 class GetTeacherController extends Controller
 {
@@ -124,14 +126,16 @@ class GetTeacherController extends Controller
     // 顯示教師的評分
     public function showTeacherRating($teacherId)
     {
-        // 計算平均評分
-        $averageRating = Rating::where('teacher_id', $teacherId)
-            ->avg('rating');
-        $ratingCount = Rating::where('teacher_id', $teacherId)->count();
+        // 计算平均评分
+        $averageRating = Rating::where('teacher_id', $teacherId)->avg('rating');
+        
+        // 计算独立用户数量
+        $ratingCount = Rating::where('teacher_id', $teacherId)->distinct('user_id')->count('user_id');
 
         return response()->json([
-            'average_rating' => number_format($averageRating, 1),
+            'average_rating' => number_format($averageRating, 1), // 保留一位小数
             'rating_count' => $ratingCount,
         ]);
     }
+
 }

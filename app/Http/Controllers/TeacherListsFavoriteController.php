@@ -10,28 +10,38 @@ class TeacherListsFavoriteController extends Controller
 {
     public function store(Request $request, $teacherId)
     {
-        $userId = $request->input('user_id', Auth::id()); // Get the user ID from the request or fallback to Auth
+        $userId = $request->input('user_id', Auth::id()); // 获取当前登录用户的ID
 
-        // Create or retrieve a FavoriteStudent record
-        $favorite = FavoriteStudent::firstOrCreate([
+        // 创建或更新收藏记录
+        FavoriteStudent::updateOrCreate([
             'user_id' => $userId,
             'be_teachers_id' => $teacherId,
         ]);
 
-        // Return a JSON response indicating the favorite status
         return response()->json(['is_favorite' => true]);
     }
 
     public function destroy(Request $request, $teacherId)
     {
-        $userId = $request->input('user_id', Auth::id()); // Get the user ID from the request or fallback to Auth
+        $userId = $request->input('user_id', Auth::id()); // 获取当前登录用户的ID
 
-        // Delete the FavoriteStudent record if it exists
+        // 删除收藏记录（如果存在）
         FavoriteStudent::where('user_id', $userId)
                        ->where('be_teachers_id', $teacherId)
                        ->delete();
 
-        // Return a JSON response indicating the favorite status
         return response()->json(['is_favorite' => false]);
+    }
+
+    public function status($teacherId)
+    {
+        $userId = Auth::id(); // 获取当前登录用户的ID
+
+        // 检查当前用户是否收藏了该教师
+        $isFavorited = FavoriteStudent::where('user_id', $userId)
+            ->where('be_teachers_id', $teacherId)
+            ->exists();
+
+        return response()->json(['isFavorited' => $isFavorited]);
     }
 }
