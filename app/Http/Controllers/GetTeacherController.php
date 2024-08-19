@@ -82,8 +82,9 @@ class GetTeacherController extends Controller
         }
 
         // 取得篩選後的教師資料
-        $teachers = $query->with('subject', 'city', 'user')->get();
-
+        $teachers = $query->with('subject', 'city', 'user', 'profile')->get();
+        
+        
         // 如果沒有找到教師資料，返回404和訊息
         if ($teachers->isEmpty()) {
             return response()->json(['message' => '沒有相關資訊，請重新查詢謝謝'], 404);
@@ -95,7 +96,7 @@ class GetTeacherController extends Controller
 
     public function show($teacherId)
     {
-        $teacherProfile = TeacherProfile::where('user_id', $teacherId)->firstOrFail();
+        $teacherProfile = TeacherProfileProfile::where('user_id', $teacherId)->firstOrFail();
         
         if ($teacherProfile->pdf) {
             return response()->make($teacherProfile->pdf, 200, [
@@ -105,5 +106,18 @@ class GetTeacherController extends Controller
         }
 
         return redirect()->back()->with('error', '無法找到老師的履歷');
+    }
+
+    public function showPhoto($teacherId)
+    {
+        $teacherProfile = TeacherProfile::where('user_id', $teacherId)->firstOrFail();
+
+        if ($teacherProfile->photo) {
+            // 將 longblob 轉換為圖片
+            return response($teacherProfile->photo)
+                ->header('Content-Type', 'image/jpeg'); // 確保 Content-Type 與實際圖片格式一致
+        }
+
+        return redirect()->back()->with('error', '無法找到教師頭像');
     }
 }

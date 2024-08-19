@@ -121,7 +121,13 @@
                     <div id="t_lists_price">
                         上課預期時薪：{{ $teacher->hourly_rate }}
                     </div>
-                    <div id="t_lists_picture">大頭貼</div>
+                    <div id="t_lists_picture">
+                        @if($teacher->profile && $teacher->profile->photo)
+                            <img src="{{ route('teacher.photo', ['teacherId' => $teacher->user_id]) }}" alt="Profile Picture" style="width: 100px; height: auto;">
+                        @else
+                            <img src="{{ asset('storage/teacher_photos/default.png') }}" alt="Default Picture" style="width: 100px; height: auto;">
+                        @endif
+                    </div>
                     <div id="t_lists_score">評分</div>
                     <div id="t_lists_describe">
                         關於老師的詳細描述：{{ $teacher->details }}

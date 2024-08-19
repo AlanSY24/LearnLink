@@ -53,4 +53,8 @@ class GetTeacher extends Model
         $districtIds = json_decode($this->district_ids, true);
         return is_array($districtIds) ? District::whereIn('id', $districtIds)->get() : collect();
     }
+    public function profile()
+{
+    return $this->hasOne(TeacherProfile::class, 'user_id', 'user_id');
+}
 }
