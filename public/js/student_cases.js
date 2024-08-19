@@ -3,46 +3,69 @@ document.addEventListener('DOMContentLoaded', function() {
 
     hearts.forEach(function(heartIcon) {
         var isFavorite = heartIcon.classList.contains('fas');
-        var teacherRequestId = heartIcon.getAttribute('data-teacher-id'); // 使用 teacher_request_id
+        var teacherRequestId  = heartIcon.getAttribute('data-teacher-id');
 
-
-        heartIcon.addEventListener('click', function() {
-            console.log('Click detected on teacher request ID:', teacherRequestId);
-            
-            if (!isFavorite) {
-                // 切換為填滿的愛心，紅色
+        // 加载收藏状态
+        checkFavoriteStatus(teacherRequestId, function(isFavorited) {
+            if (isFavorited) {
                 heartIcon.classList.remove('far');
                 heartIcon.classList.add('fas');
-                heartIcon.style.color = '#ed1212';
-                isFavorite = true;
-
-                toggleFavorite(teacherRequestId, 'add');
             } else {
-                // 切換為空心愛心，紅色
                 heartIcon.classList.remove('fas');
                 heartIcon.classList.add('far');
-                heartIcon.style.color = 'red';
-                isFavorite = false;
+            }
+            heartIcon.style.color = '#ed1212'; // 红色
+        });
 
+        heartIcon.addEventListener('click', function() {
+            var isFavorite = heartIcon.classList.contains('fas');
+            console.log('Click detected on teacher ID:', teacherRequestId);
+            
+            if (!isFavorite) {
+                heartIcon.classList.remove('far');
+                heartIcon.classList.add('fas');
+                toggleFavorite(teacherRequestId, 'add');
+            } else {
+                heartIcon.classList.remove('fas');
+                heartIcon.classList.add('far');
                 toggleFavorite(teacherRequestId, 'remove');
             }
+            heartIcon.style.color = '#ed1212'; // 红色
         });
     });
 });
+
+function checkFavoriteStatus(teacherRequestId, callback) {
+    $.ajax({
+        url: '/LearnLink/public/student_cases/favorites/status/' + teacherRequestId,
+        method: 'GET',
+        success: function(response) {
+            callback(response.isFavorited);
+        },
+        error: function(xhr) {
+            console.log('Error:', 'Failed to fetch favorite status');
+            console.log('XHR:', xhr);
+        }
+    });
+}
 
 function toggleFavorite(teacherRequestId, action) {
     var url = action === 'add'
         ? '/LearnLink/public/student_cases/favorites/' + teacherRequestId
         : '/LearnLink/public/student_cases/favorites/' + teacherRequestId;
-    
+
     var method = action === 'add' ? 'POST' : 'DELETE';
+
+    console.log('URL:', url);
+    console.log('Method:', method);
+    console.log('User ID:', getUserId());
 
     $.ajax({
         url: url,
         method: method,
         data: {
             _token: $('meta[name="csrf-token"]').attr('content'),
-            user_id: getUserId()  // 可選：傳送用戶ID（如果需要）
+            user_id: getUserId()  // Optional: Send user ID if needed
         },
         success: function(response) {
             console.log('Success:', action === 'add' ? 'Added to favorites' : 'Removed from favorites');
@@ -55,10 +78,10 @@ function toggleFavorite(teacherRequestId, action) {
     });
 }
 
+
 function getUserId() {
     return document.querySelector('meta[name="user-id"]').getAttribute('content');
 }
-
 
 
 $(document).ready(function() {

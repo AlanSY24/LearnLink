@@ -9,12 +9,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (isFavorited) {
                 heartIcon.classList.remove('far');
                 heartIcon.classList.add('fas');
-                heartIcon.style.color = '#ed1212'; // 红色
             } else {
                 heartIcon.classList.remove('fas');
                 heartIcon.classList.add('far');
-                heartIcon.style.color = 'red'; // 红色
             }
+            heartIcon.style.color = '#ed1212'; // 红色
         });
 
         heartIcon.addEventListener('click', function() {
@@ -22,18 +21,15 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Click detected on teacher ID:', teacherId);
             
             if (!isFavorite) {
-                // Switch to filled heart, red color
                 heartIcon.classList.remove('far');
                 heartIcon.classList.add('fas');
-                heartIcon.style.color = '#ed1212'; // 红色
                 toggleFavorite(teacherId, 'add');
             } else {
-                // Switch to empty heart, red color
                 heartIcon.classList.remove('fas');
                 heartIcon.classList.add('far');
-                heartIcon.style.color = 'red'; // 红色
                 toggleFavorite(teacherId, 'remove');
             }
+            heartIcon.style.color = '#ed1212'; // 红色
         });
     });
 });
@@ -53,15 +49,22 @@ function checkFavoriteStatus(teacherId, callback) {
 }
 
 function toggleFavorite(teacherId, action) {
-    var url = '/LearnLink/public/teacher_lists/favorites/' + teacherId;
+    var url = action === 'add'
+        ? '/LearnLink/public/teacher_lists/favorites/' + teacherId
+        : '/LearnLink/public/teacher_lists/favorites/' + teacherId;
+
     var method = action === 'add' ? 'POST' : 'DELETE';
+
+    console.log('URL:', url);
+    console.log('Method:', method);
+    console.log('User ID:', getUserId());
 
     $.ajax({
         url: url,
         method: method,
         data: {
             _token: $('meta[name="csrf-token"]').attr('content'),
-            user_id: getUserId()  // 确保这个函数返回正确的用户ID
+            user_id: getUserId()  // Optional: Send user ID if needed
         },
         success: function(response) {
             console.log('Success:', action === 'add' ? 'Added to favorites' : 'Removed from favorites');
@@ -73,8 +76,6 @@ function toggleFavorite(teacherId, action) {
         }
     });
 }
-
-
 
 
 function getUserId() {

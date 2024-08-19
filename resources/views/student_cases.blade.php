@@ -94,7 +94,7 @@
                     <div class="s_cases_block">
                         <div id="s_lists_title">
                             <h2>{{ $student->title }}</h2>
-                            <i class="heart-icon far fa-heart" data-student-id="{{ $student->id }}" style="color: red;"></i> <!-- 使用學生ID -->
+                            <i class="heart-icon far fa-heart" data-teacher-id="{{ $student->id }}" style="color: red;"></i>
                         </div>
                         <div id="s_lists_subject">
                             教學的科目：{{ $student->subject ? $student->subject->name : '未提供' }}

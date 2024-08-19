@@ -4,44 +4,105 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\FavoriteStudent;
+use App\Models\User;
+use App\Models\BeTeacher;
 use Illuminate\Support\Facades\Auth;
 
 class TeacherListsFavoriteController extends Controller
 {
+    /**
+     * Add a teacher to the user's favorites.
+     *
+     * @param Request $request
+     * @param int $teacherId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request, $teacherId)
     {
-        $userId = $request->input('user_id', Auth::id()); // 获取当前登录用户的ID
+        try {
+            $userId = $request->input('user_id', Auth::id()); // Get the current logged-in user ID
 
-        // 创建或更新收藏记录
-        FavoriteStudent::updateOrCreate([
-            'user_id' => $userId,
-            'be_teachers_id' => $teacherId,
-        ]);
+            // Check if the user and teacher exist
+            $userExists = User::find($userId);
+            $teacherExists = BeTeacher::find($teacherId);
 
-        return response()->json(['is_favorite' => true]);
+            if (!$userExists || !$teacherExists) {
+                return response()->json(['error' => 'User or Teacher not found'], 404);
+            }
+
+            // Create or update the favorite record
+            FavoriteStudent::updateOrCreate([
+                'user_id' => $userId,
+                'be_teachers_id' => $teacherId,
+            ]);
+
+            return response()->json(['is_favorite' => true]);
+        } catch (\Exception $e) {
+            \Log::error('Favorite addition failed: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to add favorite'], 500);
+        }
     }
 
+    /**
+     * Remove a teacher from the user's favorites.
+     *
+     * @param Request $request
+     * @param int $teacherId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy(Request $request, $teacherId)
     {
-        $userId = $request->input('user_id', Auth::id()); // 获取当前登录用户的ID
+        try {
+            $userId = $request->input('user_id', Auth::id()); // Get the current logged-in user ID
 
-        // 删除收藏记录（如果存在）
-        FavoriteStudent::where('user_id', $userId)
-                       ->where('be_teachers_id', $teacherId)
-                       ->delete();
+            // Check if the user and teacher exist
+            $userExists = User::find($userId);
+            $teacherExists = BeTeacher::find($teacherId);
 
-        return response()->json(['is_favorite' => false]);
+            if (!$userExists || !$teacherExists) {
+                return response()->json(['error' => 'User or Teacher not found'], 404);
+            }
+
+            // Delete the favorite record if it exists
+            FavoriteStudent::where('user_id', $userId)
+                           ->where('be_teachers_id', $teacherId)
+                           ->delete();
+
+            return response()->json(['is_favorite' => false]);
+        } catch (\Exception $e) {
+            \Log::error('Favorite removal failed: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to remove favorite'], 500);
+        }
     }
 
+    /**
+     * Check if the teacher is favorited by the user.
+     *
+     * @param int $teacherId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function status($teacherId)
     {
-        $userId = Auth::id(); // 获取当前登录用户的ID
+        try {
+            $userId = Auth::id(); // Get the current logged-in user ID
 
-        // 检查当前用户是否收藏了该教师
-        $isFavorited = FavoriteStudent::where('user_id', $userId)
-            ->where('be_teachers_id', $teacherId)
-            ->exists();
+            // Check if the user and teacher exist
+            $userExists = User::find($userId);
+            $teacherExists = BeTeacher::find($teacherId);
 
-        return response()->json(['isFavorited' => $isFavorited]);
+            if (!$userExists || !$teacherExists) {
+                return response()->json(['error' => 'User or Teacher not found'], 404);
+            }
+
+            // Check if the teacher is favorited by the user
+            $isFavorited = FavoriteStudent::where('user_id', $userId)
+                ->where('be_teachers_id', $teacherId)
+                ->exists();
+
+            return response()->json(['isFavorited' => $isFavorited]);
+        } catch (\Exception $e) {
+            \Log::error('Failed to check favorite status: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to check favorite status'], 500);
+        }
     }
 }
