@@ -40,13 +40,13 @@ function renderCalendar() {
                 calendarHTML += `<td class="${className}">
                     <div class="day-number">${day}</div>`;
 
-                if (!isPastDate && hasEvent) {
-                    $calendarEvents.forEach(event => {
-                        if (event.date === currentDate) {
-                            calendarHTML += `<div class="event-text">${event.text}</div>`;
-                        }
-                    });
-                }
+                    if (!isPastDate && hasEvent) {
+                        $calendarEvents.forEach(event => {
+                            if (event.date === currentDate) {
+                                calendarHTML += `<div class="event-text" onclick="highlightEvent('${event.date}', '${event.time}')">${event.text}</div>`;
+                            }
+                        });
+                    }
 
                 calendarHTML += '</td>';
                 day++;
@@ -64,18 +64,36 @@ function renderCalendar() {
 function renderEventsList() {
     const eventsListHTML = $calendarEvents
         .filter(event => event.date >= today)
-        .map(event => `
+        .map(event => {
+            const [hours, minutes] = event.time.split(':');
+            const formattedTime = `${hours}:${minutes}`;
+            return `
             <tr>
+            <tr id="event-${event.date}-${event.time}">
                 <td>${event.date}</td>
-                <td>${event.time}</td>
+                <td>${formattedTime}</td>
                 <td>${event.text}</td>
                 <td>${event.city}</td>
                 <td>${event.district}</td>
                 <td>${event.detail_address}</td>
                 <td>${event.hourly_rate}</td>
             </tr>
-        `).join('');
+        `}).join('');
     document.getElementById('eventsList').innerHTML = eventsListHTML;
+}
+function highlightEvent(date, time) {
+    // 移除之前的高亮
+    const previousHighlight = document.querySelector('.highlighted-event');
+    if (previousHighlight) {
+        previousHighlight.classList.remove('highlighted-event');
+    }
+
+    // 找到對應的事件行並高亮
+    const eventRow = document.getElementById(`event-${date}-${time}`);
+    if (eventRow) {
+        eventRow.classList.add('highlighted-event');
+        eventRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
 }
 
 function changeMonth(delta) {

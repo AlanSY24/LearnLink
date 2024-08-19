@@ -85,3 +85,17 @@ th {
         min-width: 600px;
     }
 }
+.event-text {
+    cursor: pointer;
+    transition: transform 0.3s ease, font-weight 0.3s ease;
+}
+
+.event-text:hover {
+    transform: scale(1.1);
+    font-weight: bold;
+}
+
+.highlighted-event {
+    background-color: #ffcccc;
+    transition: background-color 0.3s ease;
+}
