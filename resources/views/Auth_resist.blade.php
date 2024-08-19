@@ -32,7 +32,7 @@
             </div>
             <div class="textbox">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="密碼" name="password" required
+                <input type="password" placeholder="密碼至少八碼 包含數字 英文大小寫" name="password" required
                     pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,30}$" maxlength="30" id="rps"
                     title="密碼必須是8-30個字符，包含至少一個大寫字母、一個小寫字母和一個數字">
             </div>
@@ -62,13 +62,13 @@
     <dialog id="registDialog">
         <h3>輸入驗證碼</h3>
         <form id="verifyForm">
-            <div class="textbox">
+            <div class="textbox" style="width: 105% !important;">
                 <i class="fas fa-lock"></i>
                 <input type="text" placeholder="請輸入驗證碼" name="code" required>
             </div>
             <button type="submit" id="verifyButton">驗證</button>
         </form>
-    </dialog><script>registDialog.showModal()</script>
+    </dialog>
 
 
     <x-footer_alpha />

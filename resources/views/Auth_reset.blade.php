@@ -155,17 +155,19 @@
                 @csrf
                 <input type="hidden" id="verifyEmail" name="email">
                 <label for="code">請輸入驗證碼：</label>
-                <input type="text" id="code" name="code" required><br>
+                <input type="text" id="code" name="code" required style="width: 40% !important;"><br>
                 <label for="newPassword">輸入新密碼：</label>
                 <input type="password" id="newPassword" name="newPassword" required
-                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="密碼必須包含至少一個數字、一個小寫字母、一個大寫字母，且長度至少為8個字符"><br>
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="密碼必須包含至少一個數字、一個小寫字母、一個大寫字母，且長度至少為8個字符"
+                    style="width: 40% !important;"><br>
                 <label for="confirmPassword">再次輸入新密碼：</label>
                 <input type="password" id="confirmPassword" name="confirmPassword" required
-                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" style="width: 40% !important;">
                 <button type="submit">重設密碼</button>
             </form>
         </div>
     </dialog>
+
     <x-footer_alpha />
 
     <script src="{{ asset('js/loadingMask.js') }}"></script>
