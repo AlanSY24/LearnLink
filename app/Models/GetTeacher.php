@@ -54,7 +54,7 @@ class GetTeacher extends Model
         return is_array($districtIds) ? District::whereIn('id', $districtIds)->get() : collect();
     }
     public function profile()
-{
-    return $this->hasOne(TeacherProfile::class, 'user_id', 'user_id');
-}
+    {
+        return $this->hasOne(TeacherProfile::class, 'user_id', 'user_id');
+    }
 }
