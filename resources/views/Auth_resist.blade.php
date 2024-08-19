@@ -68,7 +68,7 @@
             </div>
             <button type="submit" id="verifyButton">驗證</button>
         </form>
-    </dialog><script>registDialog.showModal()</script>
+   
 
 
     <x-footer_alpha />
