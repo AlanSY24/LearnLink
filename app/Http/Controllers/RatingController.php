@@ -44,4 +44,18 @@ class RatingController extends Controller
             'ratings_count' => $ratingCount,
         ]);
     }
+
+     // 新增的顯示教師評分統計的功能
+     public function showTeacherRatingStatistics($teacherId)
+     {
+         $averageRating = Rating::where('teacher_id', $teacherId)->avg('rating');
+         $ratingCount = Rating::where('teacher_id', $teacherId)->count();
+         
+         return response()->json([
+             'average_rating' => number_format($averageRating, 1), // 保留一位小数
+             'rating_count' => $ratingCount,
+         ]);
+     }
+
+     
 }

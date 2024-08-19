@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="./css/teacher_lists.css">
     <link rel="stylesheet" href="./css/header_footer.css">
@@ -135,33 +135,8 @@
                         </div>
                         <div id="t_lists_score">
                             評分：
-                            <span id="rating-{{ $teacher->id }}" data-teacher-id="{{ $teacher->id }}">計算中...</span>
-                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                            <script>
-                                $(document).ready(function() {
-                                    const teacherId = $('#rating-{{ $teacher->id }}').data('teacher-id');
-                                    const ratingUrl = '{{ url("teacher/rating/") }}/' + teacherId;
-
-                                    console.log('Teacher ID:', teacherId);
-                                    console.log('Rating URL:', ratingUrl);
-
-                                    $.ajax({
-                                        url: ratingUrl,
-                                        method: 'GET',
-                                        success: function(data) {
-                                            $('#rating-{{ $teacher->id }}').text(
-                                                data.average_rating + ' (' + data.rating_count + ' 評分)'
-                                            );
-                                        },
-                                        error: function(xhr, status, error) {
-                                            console.error('Error fetching rating:', error);
-                                            $('#rating-{{ $teacher->id }}').text('無法獲取評分');
-                                        }
-                                    });
-                                });
-                            </script>
+                            <span id="rating-{{ $teacher->user_id }}" data-teacher-id="{{ $teacher->user_id }}" data-rating-url="{{ url('teacher/rating-statistics/' . $teacher->user_id) }}">計算中...</span>
                         </div>
-
                         <div id="t_lists_describe">
                             關於老師的詳細描述：{{ $teacher->details }}
                         </div>

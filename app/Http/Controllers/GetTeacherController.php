@@ -123,19 +123,5 @@ class GetTeacherController extends Controller
         return redirect()->back()->with('error', '無法找到教師頭像');
     }
 
-    // 顯示教師的評分
-    public function showTeacherRating($teacherId)
-    {
-        // 计算平均评分
-        $averageRating = Rating::where('teacher_id', $teacherId)->avg('rating');
-        
-        // 计算独立用户数量
-        $ratingCount = Rating::where('teacher_id', $teacherId)->distinct('user_id')->count('user_id');
-
-        return response()->json([
-            'average_rating' => number_format($averageRating, 1), // 保留一位小数
-            'rating_count' => $ratingCount,
-        ]);
-    }
-
+    
 }

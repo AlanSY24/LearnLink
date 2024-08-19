@@ -232,6 +232,39 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    
+
 
 });
 
+$(document).ready(function() {
+    // 获取 CSRF 令牌
+    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+    
+    $('#t_lists_score').each(function() {
+        // 获取教师 ID 和评分统计 URL
+        const $span = $(this).find('span');
+        const teacherId = $span.data('teacher-id');
+        const ratingUrl = $span.data('rating-url');
+
+        console.log('Teacher ID:', teacherId);
+        console.log('Rating URL:', ratingUrl);
+
+        $.ajax({
+            url: ratingUrl,
+            method: 'GET',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken // 添加 CSRF 头部
+            },
+            success: function(data) {
+                $(`#rating-${teacherId}`).text(
+                    data.average_rating + ' (' + data.rating_count + ' 評分)'
+                );
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching rating:', error);
+                $(`#rating-${teacherId}`).text('無法獲取評分');
+            }
+        });
+    });
+});
