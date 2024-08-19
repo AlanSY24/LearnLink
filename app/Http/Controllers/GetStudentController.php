@@ -53,7 +53,6 @@ class GetStudentController extends Controller
             }
         }
 
-        
         // 处理预算
         $minBudget = $request->get('minBudget');
         $maxBudget = $request->get('maxBudget');
@@ -73,7 +72,6 @@ class GetStudentController extends Controller
             $query->where('hourly_rate_max', '<=', $maxBudget);
         }
 
-
         // 处理并添加时间
         if ($request->has('time')) {
             $times = explode(',', $request->time);
@@ -89,6 +87,11 @@ class GetStudentController extends Controller
 
         // 获取所有学生数据
         $students = $query->with('subject', 'city', 'user')->get();
+
+        // 如果没有结果，返回一个合适的响应
+        if ($students->isEmpty()) {
+            return response()->json(['message' => '沒有相關資訊，請重新查詢謝謝'], 404);
+        }
 
         return view('student_cases', compact('students', 'subjects', 'cities'));
     }
