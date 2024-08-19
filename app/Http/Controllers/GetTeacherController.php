@@ -96,7 +96,7 @@ class GetTeacherController extends Controller
 
     public function show($teacherId)
     {
-        $teacherProfile = TeacherProfileProfile::where('user_id', $teacherId)->firstOrFail();
+        $teacherProfile = TeacherProfile::where('user_id', $teacherId)->firstOrFail();
         
         if ($teacherProfile->pdf) {
             return response()->make($teacherProfile->pdf, 200, [
