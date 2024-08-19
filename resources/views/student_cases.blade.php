@@ -100,18 +100,20 @@
                     <div id="s_lists_gender">性別：未提供</div>
                     <div id="t_lists_place">
                         上課預期地點：{{ $student->city ? $student->city->city : '無城市資料' }}
-                        @if($student->districts()->isNotEmpty())
-                            @foreach ($student->districts() as $district)
-                                {{ $district->district_name }}
-                            @endforeach
-                        @else
-                            無區域資料
-                        @endif
+                        <br>
+                        <div class="districts-container">
+                            @if($student->districts()->isNotEmpty())
+                                @foreach ($student->districts() as $district)
+                                    {{ $district->district_name }}
+                                    <br>
+                                @endforeach
+                            @else
+                                無區域資料
+                            @endif
+                        </div>
                     </div>
                     <div id="s_lists_time">上課預期時間：{{ $student->available_time }}</div>
                     <div id="s_lists_price">上課預期時薪：{{ $student->hourly_rate_min }} - {{ $student->hourly_rate_max }}</div>
-                    <div id="s_lists_picture">大頭貼</div>
-                    <div id="s_lists_score">評分</div>
                     <div id="s_lists_describe">關於學生的詳細描述：{{ $student->details }}</div>
                     <div class="s_lists_buttons">
                         <button class="button contact-button" data-name="{{ $student->user ? $student->user->name : '未提供' }}" data-student-id="{{ $student->id }}">聯絡我</button>

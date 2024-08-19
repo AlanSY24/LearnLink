@@ -106,13 +106,17 @@
 
                     <div id="t_lists_place">
                         上課預期地點：{{ $teacher->city ? $teacher->city->city : '無城市資料' }}
-                        @if($teacher->districts()->isNotEmpty())
-                            @foreach ($teacher->districts() as $district)
-                                {{ $district->district_name }}
-                            @endforeach
-                        @else
-                            無區域資料
-                        @endif
+                        <br>
+                        <div class="districts-container">
+                            @if($teacher->districts()->isNotEmpty())
+                                @foreach ($teacher->districts() as $district)
+                                    {{ $district->district_name }}
+                                    <br>
+                                @endforeach
+                            @else
+                                無區域資料
+                            @endif
+                        </div>
                     </div>
 
                     <div id="t_lists_time">

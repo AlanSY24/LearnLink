@@ -98,6 +98,12 @@ button:hover {
     gap: 10px; /* Space between columns and rows */
 }
 
+.districts-container {
+    max-height: 60px; /* 這裡設置適合的高度 */
+    overflow-y: auto;  /* 垂直滾動條 */
+    padding-right: 10px; /* 防止滾動條覆蓋內容 */
+}
+
 .districts_container label {
     display: flex;
     align-items: center;
