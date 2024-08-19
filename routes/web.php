@@ -161,10 +161,8 @@ Route::middleware('auth')->group(function () {
 
 
 
-Route::get('/teacher_lists', [GetTeacherController::class, 'index']);
-Route::get('/student_cases', [GetStudentController::class, 'index']);
-Route::view('/student_cases_', 'student_cases')->name('student_case');
-Route::view('/teacher_lists_', 'teacher_lists')->name('teacher_list');
+Route::get('/teacher_lists', [GetTeacherController::class, 'index'])->name('teacher_list');
+Route::get('/student_cases', [GetStudentController::class, 'index'])->name('student_case');
 
 Route::get('/cities', [CityController::class, 'index']);
 Route::get('/districts/{cityId}', [DistrictController::class, 'getDistricts']);
