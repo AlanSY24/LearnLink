@@ -7,7 +7,7 @@ use App\Models\GetTeacher;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Models\TeacherProfile;
-
+use App\Models\Rating;
 
 class GetTeacherController extends Controller
 {
@@ -119,5 +119,19 @@ class GetTeacherController extends Controller
         }
 
         return redirect()->back()->with('error', '無法找到教師頭像');
+    }
+
+    // 顯示教師的評分
+    public function showTeacherRating($teacherId)
+    {
+        // 計算平均評分
+        $averageRating = Rating::where('teacher_id', $teacherId)
+            ->avg('rating');
+        $ratingCount = Rating::where('teacher_id', $teacherId)->count();
+
+        return response()->json([
+            'average_rating' => number_format($averageRating, 1),
+            'rating_count' => $ratingCount,
+        ]);
     }
 }

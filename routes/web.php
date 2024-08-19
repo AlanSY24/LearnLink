@@ -189,6 +189,6 @@ Route::get('/teacher/{teacherId}/photo', [GetTeacherController::class, 'showPhot
 Route::post('/contact_teacher', [ContactTeacherController::class, 'store'])->name('contact.teacher');
 
 Route::post('/contact_student', [ContactStudentController::class, 'store'])->name('contact.student');
-
+Route::get('teacher/rating/{teacherId}', [GetTeacherController::class, 'showTeacherRating']);
 // 抓大頭照
 Route::get('/get-teacher-photo/{studentId}', [YourController::class, 'getTeacherPhoto'])->name('get.teacher.photo');

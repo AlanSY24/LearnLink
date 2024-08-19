@@ -132,7 +132,24 @@
                             <img src="{{ asset('storage/teacher_photos/default.png') }}" alt="Default Picture" style="width: 100px; height: auto;">
                         @endif
                     </div>
-                    <div id="t_lists_score">評分</div>
+                    <div id="t_lists_score">
+                        評分：
+                        <span id="rating-{{ $teacher->id }}">計算中...</span>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                fetch('{{ url('teacher/rating/' . $teacher->id) }}')
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        document.getElementById('rating-{{ $teacher->id }}').textContent = 
+                                            data.average_rating + ' (' + data.rating_count + ' 人評分)';
+                                    })
+                                    .catch(error => {
+                                        console.error('Error fetching rating:', error);
+                                        document.getElementById('rating-{{ $teacher->id }}').textContent = '無法獲取評分';
+                                    });
+                            });
+                        </script>
+                    </div>
                     <div id="t_lists_describe">
                         關於老師的詳細描述：{{ $teacher->details }}
                     </div>
