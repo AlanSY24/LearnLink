@@ -54,7 +54,6 @@ class GetTeacherController extends Controller
             }
         }
 
-        
         // 篩選預算
         if ($request->has('minBudget') && $request->has('maxBudget')) {
             $minBudget = (int) $request->minBudget;
@@ -81,15 +80,19 @@ class GetTeacherController extends Controller
                 $query->whereRaw(implode(' OR ', $conditions));
             }
         }
-        
-
 
         // 取得篩選後的教師資料
         $teachers = $query->with('subject', 'city', 'user')->get();
 
+        // 如果沒有找到教師資料，返回404和訊息
+        if ($teachers->isEmpty()) {
+            return response()->json(['message' => '沒有相關資訊，請重新查詢謝謝'], 404);
+        }
+
         // 使用 compact 將變量名改為 'teachers', 'subjects', 'cities'
         return view('teacher_lists', compact('teachers', 'subjects', 'cities'));
     }
+
     public function show($teacherId)
     {
         $teacherProfile = TeacherProfile::where('user_id', $teacherId)->firstOrFail();

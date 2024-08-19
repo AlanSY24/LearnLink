@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var isFavorite = heartIcon.classList.contains('fas');
         var teacherId = heartIcon.getAttribute('data-teacher-id');
 
+
         heartIcon.addEventListener('click', function() {
             console.log('Click detected on teacher ID:', teacherId);
             
@@ -101,7 +102,7 @@ $(document).ready(function() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('searchButtont').addEventListener('click', function() {
+    document.getElementById('searchButtont').addEventListener('click', async function() {
         const subject = document.getElementById('subject').value;
         const city = document.getElementById('city').value;
         // 取得选中的多个区域
@@ -111,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const maxBudget = document.querySelector('.max-input').value;
         const selectedTimes = Array.from(document.querySelectorAll('.t_search_time input[type="checkbox"]:checked'))
             .map(checkbox => checkbox.value);
-
 
         if ((minBudget && minBudget < 100) || (maxBudget && maxBudget > 100000) || (minBudget && maxBudget && minBudget >= maxBudget)) {
             alert('請檢查預算輸入是否正確');
@@ -128,8 +128,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (selectedDistricts.length > 0) {
             queryParams.append('districts', selectedDistricts.join(',')); // 将所有选中的区用逗号分隔
-            console.log('districts', selectedDistricts.join(','));
-            
         }
         if (minBudget) {
             queryParams.append('minBudget', minBudget);
@@ -140,8 +138,21 @@ document.addEventListener('DOMContentLoaded', function() {
         if (selectedTimes.length > 0) {
             queryParams.append('time', selectedTimes.join(',')); // 将所有选中的时间用逗号分隔
         }
-        // 導向帶有查詢參數的 URL
-        window.location.href = `http://localhost/LearnLink/public/teacher_lists?${queryParams.toString()}`;
+
+        try {
+            const response = await fetch(`http://localhost/LearnLink/public/teacher_lists?${queryParams.toString()}`);
+            
+            if (response.status === 404) {
+                const result = await response.json();
+                alert(result.message); // Display the specific message from the server
+            } else {
+                // Redirect to the results page if data is found
+                window.location.href = `http://localhost/LearnLink/public/teacher_lists?${queryParams.toString()}`;
+            }
+        } catch (error) {
+            console.error('Error during fetch:', error);
+            alert('發生錯誤，請稍後再試');
+        }
     });
 
     
@@ -152,10 +163,10 @@ document.addEventListener('DOMContentLoaded', function() {
             var teacherId = this.getAttribute('data-teacher-id');
             var userId = document.querySelector('meta[name="user-id"]').getAttribute('content');
 
-            // Check if teacherId is defined
-            if (!teacherId) {
+            // 检查 ID 是否有效
+            if (!teacherId || !userId) {
                 console.error('Teacher ID is not defined.');
-                alert('无法获取教师ID，请重试。');
+                alert('無法獲取老師ID或用戶ID，請確認是否已登入，或是重新嘗試謝謝。');
                 return;
             }
 

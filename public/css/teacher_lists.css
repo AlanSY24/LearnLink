@@ -1,28 +1,205 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-top: 20px;
+}
+
+/* Container */
 .teacher_lists_container {
-    display: flex;
-    justify-content: center
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Search Section */
 .t_search {
-    width: 35%;
-    background-color: antiquewhite;
+    margin-bottom: 20px;
 }
 
+.t_search h2 {
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.t_search p, .t_search label {
+    margin-bottom: 5px;
+    color: #666;
+}
+
+.t_search select, .t_search input[type="number"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: calc(100% - 20px);
+    box-sizing: border-box; /* Ensures padding is included in width calculation */
+}
+
+.t_search select {
+    width: 100%;
+}
+
+.t_search input[type="number"] {
+    width: 100%;
+}
+
+.price-input {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.price-field {
+    flex: 1;
+    margin: 0;
+}
+
+.price-field span {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.price-field input {
+    width: 100%;
+}
+
+.t_search_time div {
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Districts Section */
+.districts_container {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr); /* Three columns */
+    gap: 10px; /* Space between columns and rows */
+}
+
+.districts_container label {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between checkbox and label text */
+}
+
+.districts_container input[type="checkbox"] {
+    margin-right: 5px; /* Space between checkbox and label */
+}
+
+/* Teacher Lists Section */
 .t_lists {
-    width: 60%;
-    margin-left: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.t_lists_block {
+    width: calc(50% - 20px);
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.t_lists_block h2 {
+    margin-top: 0;
+    color: #333;
 }
 
 #t_lists_title {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-#t_lists_title h2 {
-    width: 70%;
-}
-
-#t_lists_title i {
-    width: 30%;
-    margin-top: 25px;
+.heart-icon {
     cursor: pointer;
+}
+
+#t_lists_subject, #t_lists_name, #t_lists_gender, #t_lists_place, #t_lists_time, #t_lists_price, #t_lists_picture, #t_lists_score, #t_lists_describe {
+    margin-bottom: 10px;
+}
+
+.t_lists_buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.teacher-resume-button, .button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.teacher-resume-button:hover, .button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .teacher_lists_container {
+        width: 90%;
+    }
+}
+
+@media (max-width: 992px) {
+    .t_lists_block {
+        width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 768px) {
+    .teacher_lists_container {
+        width: 95%;
+    }
+
+    .t_lists_block {
+        width: 100%;
+    }
+
+    .price-input {
+        flex-direction: column;
+    }
+
+    .price-field {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .t_search select, .t_search input[type="number"] {
+        width: 100%;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+    }
 }

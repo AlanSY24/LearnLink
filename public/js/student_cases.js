@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var isFavorite = heartIcon.classList.contains('fas');
         var teacherRequestId = heartIcon.getAttribute('data-teacher-id'); // 使用 teacher_request_id
 
+
         heartIcon.addEventListener('click', function() {
             console.log('Click detected on teacher request ID:', teacherRequestId);
             
@@ -159,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // 检查 ID 是否有效
             if (!teacherRequestId || !userId) {
                 console.error('Teacher Request ID 或 User ID 未定义。');
-                alert('無法獲取學生ID或用戶ID，請重新嘗試謝謝。');
+                alert('無法獲取學生ID或用戶ID，請確認是否已登入，或是重新嘗試謝謝。');
                 return;
             }
 

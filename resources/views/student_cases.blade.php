@@ -60,6 +60,7 @@
                 </select>
 
                 <label for="districts">選擇區域：</label>
+                <br>
                 <div id="districts" class="districts_container">
                     <!-- 區域的 checkbox 會動態加到這裡 -->
                 </div>
