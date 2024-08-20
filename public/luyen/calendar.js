@@ -153,8 +153,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const hourSelect = document.getElementById('eventHour');
         const minuteSelect = document.getElementById('eventMinute');
         
-        hourSelect.innerHTML = '<option value="">小時</option>';
-        minuteSelect.innerHTML = '<option value="">分鐘</option>';
+        hourSelect.innerHTML = '<option value="">幾點</option>';
+        minuteSelect.innerHTML = '<option value="">幾分</option>';
         
         for (let hour = 0; hour < 24; hour++) {
             if (hour >= minHour) {
@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const newEvent = {
-            id: Date.now(), // 使用临时ID，最终ID将由服务器分配
+            id: Date.now(), // 使用臨時ID
             date: eventDate,
             time: eventTime,
             text: EVENT_TYPE,
@@ -243,18 +243,17 @@ document.addEventListener('DOMContentLoaded', function() {
             hourly_rate: hourlyRate
         };
 
-        // 添加新事件到本地数组
+        // 添加事件
         events.push(newEvent);
 
-        // 更新显示
+        // 更新顯示
         renderCalendar();
         renderEventList();
 
-        // 关闭模态框
+        // 關閉視窗
         document.getElementById('eventModal').style.display = 'none';
 
-        // 可选：显示成功消息
-        alert('事件已添加到列表，請點擊"提交到資料庫"按鈕保存所有事件');
+       
     }
 
     function renderEventList() {
@@ -316,14 +315,10 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.success) {
                 alert(data.message || '所有事件已成功提交到資料庫');
-                events = []; // 清空本地事件列表
+                events = []; // 清空事件列表
                 if (data.shouldClose) {
                     window.close();
-                } else {
-                    // 如果不需要关闭窗口，可以在这里更新UI
-                    // renderEventList(); // 重新渲染空的事件列表
-                    // renderCalendar(); // 重新渲染日曆
-                }
+                } 
             } else {
                 throw new Error(data.error || '提交失敗');
             }

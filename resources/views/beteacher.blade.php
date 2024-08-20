@@ -19,7 +19,7 @@
 <div>
         <form id="jobForm" method="POST"  >
             @csrf
-            <h2>成為老師</h2>
+            <h2>教書育人</h2>
 
             <div class="form-group">
                 <label for="title">標題:</label>
@@ -55,7 +55,7 @@
                 <label for="hourly_rate">時薪</label>
                 <div class="hourly-rate-inputs">
                     <input type="number" id="hourly_rate" name="hourly_rate" min="0" step="1" required
-                        placeholder="最低">
+                        placeholder="">
                     
                 </div>
             </div>

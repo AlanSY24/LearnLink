@@ -65,7 +65,7 @@ class OtherCalendarController extends Controller
 
             DB::commit();
 
-            return response()->json(['message' => '事件已成功儲存到兩個資料表', 'id' => $calendar->id]);
+            return response()->json(['message' => '已成功儲存', 'id' => $calendar->id]);
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error('Error in storeEvent: ' . $e->getMessage());
@@ -92,7 +92,7 @@ class OtherCalendarController extends Controller
 
             DB::commit();
 
-            return response()->json(['message' => '事件已從兩個資料表中刪除'], 200);
+            return response()->json(['message' => '已刪除'], 200);
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error('Error in deleteEvent: ' . $e->getMessage());
@@ -140,7 +140,7 @@ class OtherCalendarController extends Controller
             
             DB::commit();
 
-            return response()->json(['success' => true, 'message' => '所有事件已成功保存到兩個資料表','shouldClose' => true]);
+            return response()->json(['success' => true, 'message' => '成功送出','shouldClose' => true]);
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error('Error in submitEvents: ' . $e->getMessage());
@@ -182,14 +182,7 @@ class OtherCalendarController extends Controller
 
     public function show(Request $request)
     {
-        // 模擬從其他頁面接收到的教師ID
-        // $simulatedTeacherId = '12345'; // 這裡使用一個固定的值來模擬
-
-        // 在實際情況下，您會從請求中獲取教師ID
-        // $teacherUserId = $request->input('teacher_id');
-
-        // 使用模擬的教師ID
-        // $teacherUserId = $simulatedTeacherId;
+        
 
         $userId = $request->query('user_id');
         $beTeacherId = $request->query('beTeacherId');

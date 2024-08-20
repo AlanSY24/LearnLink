@@ -21,7 +21,7 @@
         @csrf
         <input type="hidden" name="user_id" value="{{ Auth::id() }}">
         <div class="clearfix">
-        <h2>找老師</h2>
+        <h2>徵求教師</h2>
 
         <div class="form-group fl w-100">
             <label for="title">標題:</label>

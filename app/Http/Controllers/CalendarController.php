@@ -65,7 +65,7 @@ class CalendarController extends Controller
 
             DB::commit();
 
-            return response()->json(['message' => '事件已成功儲存到兩個資料表', 'id' => $calendar->id]);
+            return response()->json(['message' => '成功儲存', 'id' => $calendar->id]);
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error('Error in storeEvent: ' . $e->getMessage());
@@ -92,7 +92,7 @@ class CalendarController extends Controller
 
             DB::commit();
 
-            return response()->json(['message' => '事件已從兩個資料表中刪除'], 200);
+            return response()->json(['message' => '事件已從刪除'], 200);
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error('Error in deleteEvent: ' . $e->getMessage());
@@ -138,8 +138,8 @@ class CalendarController extends Controller
 
         return response()->json([
             'success' => true, 
-            'message' => '所有事件已成功保存到兩個資料表',
-            'shouldClose' => true  // 添加此標誌
+            'message' => '提交成功',
+            'shouldClose' => true  
         ]);
     } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
         DB::rollBack();

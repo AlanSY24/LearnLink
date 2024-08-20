@@ -56,44 +56,11 @@ if (this.value === 'phone') {
 });
 
 
-// document.getElementById('jobForm').addEventListener('submit', function (event) {
-//     event.preventDefault();
 
-    // 表單驗證
-    // let title = document.getElementById('title').value;
-    // let subject = document.getElementById('subject').value;
-    // let city = document.getElementById('city').value;
-    // let districts = Array.from(document.querySelectorAll('input[name="districts[]"]:checked')).map(checkbox => checkbox.value);
-    // let hourlyRateMin = document.getElementById('hourly_rate_min').value;
-    // let hourlyRateMax = document.getElementById('hourly_rate_max').value;
-    // let details = document.getElementById('details').value;
-    // let frequency = document.querySelector('input[name="frequency"]:checked');
-    // let contactMethod = document.querySelector('input[name="connection"]:checked');
-    // let contactValue = document.getElementById('contact_value').value;
-
-    // if (!title || !subject || !city || districts.length === 0 || !hourlyRateMin || !hourlyRateMax || !details || !frequency) {
-    //     alert('請填寫所有必填欄位');
-    //     return;
-    // }
-
-    // if (parseInt(hourlyRateMin) > parseInt(hourlyRateMax)) {
-    //     alert('最低時薪不能大於最高時薪');
-    //     return;
-    // }
-    // if (!contactMethod || !contactValue) {
-    // alert('請選擇並確認聯絡方式');
-    //  return;
-    // }
-
-
-    // this.submit();
-
-    
-// });
 document.getElementById('jobForm').addEventListener('submit', function (event) {
     event.preventDefault();
 
-    // 获取表单字段值
+    // 獲取表單值
     let title = document.getElementById('title').value;
     let subject = document.getElementById('subject').value;
     let city = document.getElementById('city').value;
@@ -105,25 +72,21 @@ document.getElementById('jobForm').addEventListener('submit', function (event) {
     let contactMethod = document.querySelector('input[name="connection"]:checked');
     let contactValue = document.getElementById('contact_value').value;
 
-    // 验证所有必填字段
+    // 驗證必填欄位
     if (!title || !subject || !city || districts.length === 0 || !hourlyRateMin || !hourlyRateMax || !details || !frequency) {
         alert('請填寫所有必填欄位');
         return;
     }
 
-    // 验证时薪范围
+    // 驗證時薪
     if (parseInt(hourlyRateMin) > parseInt(hourlyRateMax)) {
         alert('最低時薪不能大於最高時薪');
         return;
     }
 
-    // 验证联系方式
-    if (!contactMethod || !contactValue) {
-        alert('請選擇並確認聯絡方式');
-        return;
-    }
+    
 
-    // 如果所有验证都通过，准备提交表单
+    // 驗證都通過提交表單
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     let csrfInput = document.createElement('input');
     csrfInput.setAttribute('type', 'hidden');
@@ -131,11 +94,12 @@ document.getElementById('jobForm').addEventListener('submit', function (event) {
     csrfInput.setAttribute('value', csrfToken);
     this.appendChild(csrfInput);
 
-    // 确保使用 POST 方法
+    
     this.method = 'POST';
 
     // 提交表单
     this.submit();
+   
 });
 
 

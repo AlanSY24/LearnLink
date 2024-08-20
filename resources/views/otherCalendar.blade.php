@@ -40,10 +40,10 @@
             <input type="date" id="eventDate">
             <div class="time-select-container">
                 <select id="eventHour" required>
-                    <option value="">小時</option>
+                    <option value="">幾點</option>
                 </select>
                 <select id="eventMinute" required>
-                    <option value="">分鐘</option>
+                    <option value="">幾分</option>
                 </select>
             </div>
             <select id="citySelect">
@@ -62,7 +62,7 @@
     <div id="eventList" class="event-list">
         <h3>上課時間和地點</h3>
         <ul id="events"></ul>
-        <button id="submitEvents">提交到資料庫</button>
+        <button id="submitEvents">送出</button>
     </div>
 
     <script src="{{ asset('luyen/otherCalendar.js') }}"></script>
