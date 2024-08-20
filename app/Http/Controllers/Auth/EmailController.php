@@ -89,7 +89,7 @@ class EmailController extends Controller
                     'account' => $account,
                     'name' => $name,
                     'gender' => $gender,
-                    // 不要存儲密碼到 session 中
+                    'password' => Hash::make($password)
                 ]);
 
                 return response()->json(['success' => true, 'message' => '註冊 email寄送成功']);

@@ -16,7 +16,7 @@
     <script src="{{ asset('js/nav.js') }}"></script>
     <x-nav />
     <div class="container" id="registerForm">
-        <form id="registForm" action="/register" method="POST" class="form-container">
+        <form id="registForm" action="{{ route('register') }}" method="POST" class="form-container">
             <a href="{{ asset('homePage') }}" class="back-icon">
                 <i class="fas fa-caret-left"></i> back
             </a>
