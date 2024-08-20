@@ -5,8 +5,8 @@
     </a>
     <button class="nav-ll-navbar-toggle" id="navLLToggle">☰</button>
     <ul class="nav-ll-navbar-menu" id="navLLMenu">
-        <li><a href="{{ route('teacher_list') }}">家教需求</a></li>
-        <li><a href="{{ route('student_case') }}">師資列表</a></li>
+        <li><a href="{{ route('teacher_list') }}">師資列表</a></li>
+        <li><a href="{{ route('student_case') }}">家教需求</a></li>
         <li><a href="{{ route('findteacherPage') }}">尋找老師</a></li>
         <li><a href="{{ route('beteacher.create') }}">教書育人</a></li>
         @auth

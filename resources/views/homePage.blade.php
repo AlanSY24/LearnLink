@@ -17,11 +17,11 @@
         <div class="form-container">
             <button class="identity-button" onclick="location.href='{{ route('teacher_list') }}'">
                 <i class="fas fa-user-graduate"></i>
-                <span>我是<br>學生</span>
+                <span>師資列表</span>
             </button>
             <button class="identity-button" onclick="location.href='{{ route('student_case') }}'">
                 <i class="fas fa-chalkboard-teacher"></i>
-                <span>我是<br>老師</span>
+                <span>家教需求</span>
             </button>
         </div>
     </div>
