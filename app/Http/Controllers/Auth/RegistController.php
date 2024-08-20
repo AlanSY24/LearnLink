@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class RegistController extends Controller
@@ -32,7 +31,8 @@ class RegistController extends Controller
         $user->account = $registrationData['account'];
         $user->name = $registrationData['name'];
         $user->gender = $registrationData['gender'];
-        $user->password = Hash::make($request->password); // 從當前請求中獲取密碼
+        $user->password = $registrationData['password'];
+
         $user->save();
 
         // 清除 session 和 cache 中的註冊數據

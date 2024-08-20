@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class EmailController extends Controller
@@ -33,6 +34,15 @@ class EmailController extends Controller
 
                 // 將驗證碼和用戶資料存入 Cache，持續 10 分鐘
                 Cache::put('something' . $email, ['verifyCode' => $verifyCode], 600);
+
+                // 把資料存入 session
+                $request->session()->put('registration_data', [
+                    'email' => $email,
+                    'account' => $request->account,
+                    'name' => $request->name,
+                    'gender' => $request->gender,
+                    'password' => Hash::make($request->password) // 加密之後的密碼
+                ]);
 
                 return response()->json(['success' => true, 'message' => '重設密碼 email寄送成功']);
             } catch (\Exception $e) {
