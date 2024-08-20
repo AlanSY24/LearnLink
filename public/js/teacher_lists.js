@@ -257,8 +257,10 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': csrfToken // 添加 CSRF 头部
             },
             success: function(data) {
+                const averageRating = data.average_rating || '0.0';
+                const ratingCount = data.rating_count || '0';
                 $(`#rating-${teacherId}`).text(
-                    data.average_rating + ' (' + data.rating_count + ' 評分)'
+                    `${averageRating} (${ratingCount} 人評分)`
                 );
             },
             error: function(xhr, status, error) {

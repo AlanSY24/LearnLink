@@ -135,7 +135,7 @@
                         </div>
                         <div id="t_lists_score">
                             評分：
-                            <span id="rating-{{ $teacher->user_id }}" data-teacher-id="{{ $teacher->user_id }}" data-rating-url="{{ url('teacher/rating-statistics/' . $teacher->user_id) }}">計算中...</span>
+                            <span id="rating-{{ $teacher->user_id }}" data-teacher-id="{{ $teacher->user_id }}" data-rating-url="{{ url('teacher/rating-statistics/' . $teacher->user_id) }}">尚未獲得評分</span>
                         </div>
                         <div id="t_lists_describe">
                             關於老師的詳細描述：{{ $teacher->details }}

@@ -47,15 +47,23 @@ class RatingController extends Controller
 
      // 新增的顯示教師評分統計的功能
      public function showTeacherRatingStatistics($teacherId)
-     {
-         $averageRating = Rating::where('teacher_id', $teacherId)->avg('rating');
-         $ratingCount = Rating::where('teacher_id', $teacherId)->count();
-         
-         return response()->json([
-             'average_rating' => number_format($averageRating, 1), // 保留一位小数
-             'rating_count' => $ratingCount,
-         ]);
-     }
+    {
+        // 计算平均评分
+        $averageRating = Rating::where('teacher_id', $teacherId)->avg('rating');
+        
+        // 计算评分数量
+        $ratingCount = Rating::where('teacher_id', $teacherId)->count();
+
+        // 如果没有评分记录，设置默认值
+        if ($averageRating === null) {
+            $averageRating = 0.0;
+        }
+
+        return response()->json([
+            'average_rating' => number_format($averageRating, 1), // 保留一位小数
+            'rating_count' => $ratingCount,
+        ]);
+    }
 
      
 }
