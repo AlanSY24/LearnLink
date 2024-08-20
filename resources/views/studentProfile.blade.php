@@ -504,7 +504,6 @@
                         </div>
                         
                         
-                    </section>
                     `;
                              // 如果有contact_students資料
                              // 進行中的老師(選擇)
@@ -558,27 +557,7 @@
                     `;
                              // 如果有contact_students資料
                              // 進行中的老師(取消)
-                        if (item.contact_students && item.contact_students.length > 0) {
-                            html += '<h5>進行中的老師:</h5><ul>';
-                            item.contact_students.forEach(function(contact) {
-                                console.log(contact);
-                                
-                                html += `
-                                <div class="contactstudent_container" style="display: flex;justify-content: space-between;align-items: center;">
-                                    <div class="contactstudent_info" style="flex-grow: 1;">
-                                        <li>${contact.user.name} - 電子信箱 ${contact.user.email} - 手機號碼 ${contact.user.phone}</li>
-                                    </div>
-                                    <div class="contactstudent_buttons" style="display: flex;gap: 10px;">
-                                        <button class="update-status" data-id="${contact.teacher_requests_id}" data-status="completed">完成</button>
-                                        <button class="update-status" data-id="${contact.teacher_requests_id}" data-status="cancelled">取消</button>
-                                    </div>
-                                </div>
-                                <hr>
-                                
-                                
-                            `;
-                            html += '</ul><br>';
-                        });}
+
                     });
                     html += '</ul>';
                     $('#areaStatus').html(html);
@@ -586,6 +565,9 @@
                     $(document).on('click', '.update-status', function() {
                         let requestId = $(this).data('id');
                         let newStatus = $(this).data('status');
+                        let item = $(this).closest('.student_container');
+                        console.log(item);
+                        
 
                         $.ajax({
                             url: '{{ route('teacher_requests.updateStatus') }}', // 在 routes/web.php 中定義這個路由
@@ -596,7 +578,8 @@
                                 status: newStatus
                             },
                             success: function(response) {
-                                
+
+                                item.addClass('hidden');
                                 // 更新列表中的狀態顯示
                                 $(`li[data-id="${requestId}"]`).text(`${response.title} - ${response.status}`);
                             },
