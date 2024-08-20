@@ -140,7 +140,7 @@
                     const formData = new FormData(event.target);
                     const requestData = Object.fromEntries(formData.entries());
 
-                    const response = await fetch("{{ route('seadEmail') }}", {
+                    const response = await fetch("{{ route('register') }}", {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
