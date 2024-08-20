@@ -228,8 +228,7 @@
                         </div>
                         <div class="student_profile">
                             <div class="avatar">
-                                大頭貼
-                                <img src="${item.be_teacher.photo || '/default-avatar.png'}" alt="教師頭像">
+                                <img src="/LearnLink/public/teacher/${ item.be_teacher.user_id}/photo" alt="教師頭像" style="width:100px;height:100px;">
                             </div>
                             <div class="description">
                                 <h5>自我介紹(學經歷)：</h5>
@@ -245,16 +244,23 @@
                                 <span>★</span>
                             </div>
                             <div class="student_btn">
-                                <button class="btnDetailsResume">詳細履歷</button>
+                                <button class="teacher-resume-button" data-teacher-id="${ item.be_teacher.user_id} ">老師履歷</button>
                                 <button class="btnContactTeacher" data-teacher-id="${item.be_teacher.id}">聯絡老師</button>
                             </div>
                         </div>
                         <hr>
                     </section>
+                    
                     `;}
                     });
                     html += '</ul>';
                     $('#areaStatus').html(html);
+                    document.querySelectorAll('.teacher-resume-button').forEach(function(button) {
+                        button.addEventListener('click', function() {
+                            var teacherId = this.getAttribute('data-teacher-id');
+                            window.open('/LearnLink/public/teacher_profiles/' + teacherId, '_blank');
+                        });
+                    });
                     // 綁定愛心圖標的點擊事件
                     $('.student_header i').on('click', function() {
                         let teacherId = $(this).data('id');

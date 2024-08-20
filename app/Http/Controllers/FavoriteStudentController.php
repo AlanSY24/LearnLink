@@ -8,6 +8,7 @@ use App\Models\FavoriteStudent;
 use App\Models\BeTeacher;
 use App\Models\District;
 use App\Models\City;
+use App\Models\TeacherProfile;
 
 
 class FavoriteStudentController extends Controller
@@ -43,20 +44,18 @@ class FavoriteStudentController extends Controller
                 ->toArray();
             $details = $beTeacher->details;
             
-            
             return [
                 'be_teacher' => [
-                    'title' => $beTeacher->title,
+                    'title1' => $beTeacher->title,
                     'subject' => $beTeacher->subject->name ?? 'N/A',
                     'city' => $beTeacher->city->city ?? 'N/A',
                     'available_time' => $availableTime,  // 保持字符串格式
                     'hourly_rate' => $beTeacher->hourly_rate,
                     'districts' => $districts,
                     'id' => $beTeacher->id,
+                    'user_id' => $beTeacher->user_id,
                     'details' => $details, 
                     'status' => $beTeacher->status,
-
-                   
                     'name' => $beTeacher->user->name ?? 'N/A',
                     // 'gender' => $teacherRequest->user->gender ?? 'N/A',
                     // 'gender' => $gender,
