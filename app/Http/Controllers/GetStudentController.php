@@ -17,82 +17,79 @@ class GetStudentController extends Controller
      */
     public function index(Request $request)
     {
-        // 取得所有科目
-        $subjects = Subject::select('id', 'name')->get();
+    // 取得所有科目
+    $subjects = Subject::select('id', 'name')->get();
 
-        // 取得所有城市
-        $cities = City::select('id', 'city')->get();
+    // 取得所有城市
+    $cities = City::select('id', 'city')->get();
 
-        // 初始化查询
-        $query = GetStudent::query();
+    // 初始化查詢
+    $query = GetStudent::query();
 
-        // 筛选科目
-        if ($request->has('subject') && $request->subject != '0') {
-            $query->where('subject_id', $request->subject);
-        }
-
-        // 筛选城市
-        if ($request->has('city') && $request->city != '') {
-            $query->where('city_id', $request->city);
-        }
-
-        // 筛选区
-        if ($request->has('districts') && $request->districts != '') {
-            $districts = explode(',', $request->districts); // 处理多个区
-
-            // 创建 JSON_CONTAINS 条件
-            $districtConditions = [];
-            foreach ($districts as $district) {
-                $district = (int) $district; // 确保区 ID 是整数
-                $districtConditions[] = "JSON_CONTAINS(district_ids, '\"$district\"', '$')";
-            }
-
-            // 使用 orWhereRaw 连接多个条件
-            if (!empty($districtConditions)) {
-                $query->whereRaw(implode(' OR ', $districtConditions));
-            }
-        }
-
-        // 处理预算
-        $minBudget = $request->get('minBudget');
-        $maxBudget = $request->get('maxBudget');
-
-        if ($minBudget !== null && $maxBudget !== null) {
-            // 两者都有的情况
-            $query->whereRaw("
-                (hourly_rate_min >= ? AND hourly_rate_max <= ?)
-                OR
-                (hourly_rate_min <= ? AND hourly_rate_max >= ?)
-            ", [$minBudget, $maxBudget, $minBudget, $maxBudget]);
-        } elseif ($minBudget !== null) {
-            // 只有 minBudget 的情况
-            $query->where('hourly_rate_min', '>=', $minBudget);
-        } elseif ($maxBudget !== null) {
-            // 只有 maxBudget 的情况
-            $query->where('hourly_rate_max', '<=', $maxBudget);
-        }
-
-        // 处理并添加时间
-        if ($request->has('time')) {
-            $times = explode(',', $request->time);
-            $conditions = [];
-            foreach ($times as $time) {
-                $time = trim($time); // 去除前后的空格
-                $conditions[] = 'FIND_IN_SET(\'' . addslashes($time) . '\', available_time) > 0';
-            }
-            if (!empty($conditions)) {
-                $query->whereRaw(implode(' OR ', $conditions));
-            }
-        }
-
-        // 获取所有学生数据
-        $students = $query->with('subject', 'city', 'user')->get();
-
-        // 如果没有结果，返回一个合适的响应
-        if ($students->isEmpty()) {
-            return response()->json(['message' => '沒有相關資訊，請重新查詢謝謝'], 404);
-        }
-
-        return view('student_cases', compact('students', 'subjects', 'cities'));
+    // 篩選科目
+    if ($request->has('subject') && $request->subject != '0') {
+        $query->where('subject_id', $request->subject);
     }
+
+    // 篩選城市
+    if ($request->has('city') && $request->city != '') {
+        $query->where('city_id', $request->city);
+    }
+
+    // 筛选区
+    if ($request->has('districts') && $request->districts != '') {
+        $districts = explode(',', $request->districts); // 处理多个区
+
+        // 创建 JSON_CONTAINS 条件
+        $districtConditions = [];
+        foreach ($districts as $district) {
+            $district = (int) $district; // 确保区 ID 是整数
+            $districtConditions[] = "JSON_CONTAINS(district_ids, '\"$district\"', '$')";
+        }
+
+        // 使用 orWhereRaw 连接多个条件
+        if (!empty($districtConditions)) {
+            $query->whereRaw(implode(' OR ', $districtConditions));
+        }
+    }
+
+    // 篩選預算
+    if ($request->has('minBudget') && $request->has('maxBudget')) {
+        $minBudget = (int) $request->minBudget;
+        $maxBudget = (int) $request->maxBudget;
+
+        // 確保預算區間合理
+        if ($minBudget < $maxBudget) {
+            $query->whereBetween('hourly_rate', [$minBudget, $maxBudget]);
+        }
+    } else if ($request->has('maxBudget')) {
+        $maxBudget = (int) $request->maxBudget;
+        $query->where('hourly_rate', '<=', $maxBudget);
+    }
+
+    // 处理并添加时间
+    if ($request->has('time')) {
+        $times = explode(',', $request->time);
+        $conditions = [];
+        foreach ($times as $time) {
+            $time = trim($time); // 去除前后的空格
+            $conditions[] = 'FIND_IN_SET(\'' . addslashes($time) . '\', available_time) > 0';
+        }
+        if (!empty($conditions)) {
+            $query->whereRaw(implode(' OR ', $conditions));
+        }
+    }
+
+
+    $students = $query->with('subject', 'city', 'user')->get();
+    
+    
+    if ($students->isEmpty()) {
+        return response()->json(['message' => '沒有相關資訊，請重新查詢謝謝'], 404);
+    }
+
+
+    return view('student_cases', compact('students', 'subjects', 'cities'));
+}
+
 }
