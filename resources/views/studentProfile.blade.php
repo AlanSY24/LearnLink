@@ -283,7 +283,7 @@
                             },
                             error: function(xhr) {
                                 console.error('An error occurred:', xhr);
-                                alert('操作失敗，請稍後重試。');
+                                alert('失敗');
                             }
                         });
                     });
@@ -315,7 +315,7 @@
                 },
                 error: function(xhr) {
                     console.error('發生錯誤:', xhr);
-                    alert(xhr.responseJSON.message);
+                    alert('失敗');
                 }
             });
         });
@@ -363,6 +363,7 @@
                     <section class="student_container">
                         <div class="student_header">
                             <h1 style="color: #004080 ;">${item.title}</h1>
+                            <button class="update-status" data-id="${item.id}" data-status="cancelled">下架</button>
                         </div>
                         <div class="student_info-bar">
                             <div>縣市&nbsp;:&nbsp;${item.city.city}</div>
@@ -395,6 +396,28 @@
                     html += '</ul>';
                     $('#areaStatus').html(html);
 
+                    $(document).on('click', '.update-status', function() {
+                        let requestId = $(this).data('id');
+                        let newStatus = $(this).data('status');
+                        console.log(newStatus);
+                        
+                        $.ajax({
+                            url: '{{ route('teacher_requests.updateStatus') }}', // 在 routes/web.php 中定義這個路由
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}', // CSRF 保護
+                                id: requestId,
+                                status: newStatus
+                            },
+                            success: function(response) {
+                                // 更新列表中的狀態顯示
+                                $(`li[data-id="${requestId}"]`).text(`${response.title} - ${response.status}`);
+                            },
+                            error: function(xhr) {
+                                console.error('An error occurred:', xhr);
+                            }
+                        });
+                    });
                         // 綁定選擇按鈕的事件處理
                     $('.btn-select').on('click', function() {
                         let userId = $(this).data('user-id');
@@ -416,7 +439,7 @@
                             },
                             error: function(xhr) {
                                 console.error('An error occurred:', xhr);
-                                alert('Failed to keep selected student');
+                                alert('失敗');
                             }
                         });
                     });
@@ -573,13 +596,13 @@
                                 status: newStatus
                             },
                             success: function(response) {
-                                alert('Status updated successfully');
+                                
                                 // 更新列表中的狀態顯示
                                 $(`li[data-id="${requestId}"]`).text(`${response.title} - ${response.status}`);
                             },
                             error: function(xhr) {
                                 console.error('An error occurred:', xhr);
-                                alert('Failed to update status');
+                                
                             }
                         });
                     });
@@ -808,7 +831,7 @@
                                         _token: '{{ csrf_token() }}' // Laravel 的 CSRF 保護
                                     },
                                     success: function(response) {
-                                        alert(response.message);
+                                        alert('成功');
                                     },
                                     error: function(xhr) {
                                         console.error('An error occurred:', xhr);
@@ -842,7 +865,7 @@
                             },
                             error: function(xhr) {
                                 console.error('获取评分信息失败:', xhr);
-                                alert('获取评分信息失败，请稍后再试。', xhr);
+                                alert('失敗');
                             }
                         });
                     });

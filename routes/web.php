@@ -65,7 +65,7 @@ Route::post('/verify-code', [VerifyCodeController::class, 'verify'])->name('veri
 
 
 Route::view('/st','Auth_reset')->name('resetPassword'); // 重設密碼頁面
-Route::view('/regist','Auth_resist')->name('registPage');   //註冊頁面
+Route::view('/regist','Auth_regist')->name('registPage');   //註冊頁面
 Route::post('/register', [EmailController::class, 'sendEmail'])->name('register');//用於註冊的sendEmail
 Route::post('/verify', [RegistController::class,'verify'])->name('registVerify');
 
