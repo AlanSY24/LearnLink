@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,10 +9,10 @@
     <link rel="stylesheet" href="{{ asset('css/Auth.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-
 <body>
     <script src="{{ asset('js/nav.js') }}"></script>
     <x-nav />
+    
     <div class="container" id="identitySelection">
         <div class="form-container">
             <button class="identity-button" onclick="location.href='{{ route('teacher_list') }}'">
@@ -25,10 +24,8 @@
                 <span>我是<br>老師</span>
             </button>
         </div>
-        </main>
     </div>
-
+    
     <x-footer_alpha />
 </body>
-
 </html>
