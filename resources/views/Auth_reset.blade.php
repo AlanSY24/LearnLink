@@ -178,19 +178,21 @@
         let userEmail = '';
 
         // 寄送email並顯示驗證碼視窗
-        emailForm.addEventListener('submit', async function (e) {
+        emailForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             showLoadingMask();
             userEmail = document.getElementById('email').value;
 
             try {
-                const response = await fetch('{{ route('seadEmail') }}', {
+                const response = await fetch("{{ route('seadEmail') }}", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     },
-                    body: JSON.stringify({ email: userEmail })
+                    body: JSON.stringify({
+                        email: userEmail
+                    })
                 });
 
                 const data = await response.json();
@@ -210,7 +212,7 @@
         });
 
         // 收到驗證碼後輸入驗證碼及新密碼
-        verifyForm.addEventListener('submit', async function (e) {
+        verifyForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             showLoadingMask();
 
@@ -227,7 +229,7 @@
             }
 
             try {
-                const response = await fetch('{{ route('verifyCode') }}', {
+                const response = await fetch("{{ route('verifyCode') }}", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -246,7 +248,7 @@
                 if (data.success) {
                     alert(data.message);
                     verifyWindow.close();
-                    window.location.href = '{{ route('login') }}'; // 回到登入頁面
+                    window.location.href = "{{ route('login') }}";
                 } else {
                     alert('驗證失敗或密碼重設失敗: ' + data.message);
                 }
@@ -256,7 +258,7 @@
             }
         });
 
-        document.getElementById('closeDialog').addEventListener('click', function () {
+        document.getElementById('closeDialog').addEventListener('click', function() {
             verifyWindow.close();
         });
     </script>
