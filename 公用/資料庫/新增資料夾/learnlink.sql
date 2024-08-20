@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-08-16 04:36:23
+-- 產生時間： 2024-08-20 05:05:07
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -55,6 +55,14 @@ CREATE TABLE `cache` (
   `value` mediumtext NOT NULL,
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- 傾印資料表的資料 `cache`
+--
+
+INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
+('somethingooppll0122@gamil.com', 'a:1:{s:10:\"verifyCode\";i:357869;}', 1724121808),
+('somethingooppll012288@gamil.com', 'a:1:{s:10:\"verifyCode\";i:799188;}', 1724122145);
 
 -- --------------------------------------------------------
 
@@ -664,6 +672,21 @@ CREATE TABLE `password_reset_tokens` (
 -- --------------------------------------------------------
 
 --
+-- 資料表結構 `ratings`
+--
+
+CREATE TABLE `ratings` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `teacher_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `rating` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- 資料表結構 `sessions`
 --
 
@@ -681,8 +704,9 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('mfPrHxVimMEDBH2sXfh3LpBmElYe0VovNZw4VCIo', 10, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiWHpPcWl4NFplVFViUG5mdXlZeHNZVWx2QzZ0eGZoc1RFUVF1aE1vTyI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo1MDoiaHR0cDovL2xvY2FsaG9zdC9MZWFybkxpbmsvcHVibGljL3RlYWNoZXItcmVxdWVzdHMiO31zOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czo0ODoiaHR0cDovL2xvY2FsaG9zdC9MZWFybkxpbmsvcHVibGljL3N0dWRlbnRwcm9maWxlIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTA7fQ==', 1723771580),
-('u6wW5mEVjrpxE2dqOUZA0iYq0vV4gyaVRYkfUIKk', 6, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiQ2lQMDZpMVNCUmowYWVTNmptanNuTFBMa1VpVE9LbDFoMWtwOUlKZyI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo0NToiaHR0cDovL2xvY2FsaG9zdC9MZWFybkxpbmsvcHVibGljL2ZpbmR0ZWFjaGVyIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NjtzOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czo0NToiaHR0cDovL2xvY2FsaG9zdC9MZWFybkxpbmsvcHVibGljL2Rpc3RyaWN0cy84Ijt9fQ==', 1723771628);
+('8Q69wXt0biksq497FnBJweNowo8ceSspwXdfS7y0', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoidEc1ZEl5QXRvN0xIeHplTFQ5N1JScWRyV1BqbERWQnd3cXB3cWdTWiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9yZWdpc3QiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjE3OiJyZWdpc3RyYXRpb25fZGF0YSI7YTo0OntzOjU6ImVtYWlsIjtzOjIyOiJvb3BwbGwwMTIyODhAZ2FtaWwuY29tIjtzOjc6ImFjY291bnQiO3M6OToib3NjYXIwMTIyIjtzOjQ6Im5hbWUiO3M6Njoi6aKo6ZaTIjtzOjY6ImdlbmRlciI7czoxOiIxIjt9fQ==', 1724121545),
+('Ix1B6JplQZE8B3iszvAFADBWq5Rh7rpPgPzwcLzn', 11, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiSFZJWTAwNFBRSWpIMVNLYXB6R2FJazZBb1RTWEtLY2VrZlVFdXRyRCI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo0NToiaHR0cDovL2xvY2FsaG9zdC9MZWFybkxpbmsvcHVibGljL2ZpbmR0ZWFjaGVyIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy9iYXNpYyI7fXM6MTc6InJlZ2lzdHJhdGlvbl9kYXRhIjthOjQ6e3M6NToiZW1haWwiO3M6MjA6Im9vcHBsbDAxMjJAZ2FtaWwuY29tIjtzOjc6ImFjY291bnQiO3M6OToib3NjYXIwMTIyIjtzOjQ6Im5hbWUiO3M6Njoi6aKo6ZaTIjtzOjY6ImdlbmRlciI7czoxOiIxIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTE7fQ==', 1724122042),
+('NM4sgX4EWbOf63WTKphHPtBhjZNgq04seN5hDUX2', 10, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiODl1MEJVOTVnV1d0NFp1c21FbXF1Qk9kRDdLUTV4d1Z4SExCT1FiYSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTA6Imh0dHA6Ly9sb2NhbGhvc3QvTGVhcm5MaW5rL3B1YmxpYy90ZWFjaGVyLzEwL3Bob3RvIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTA7fQ==', 1724119723);
 
 -- --------------------------------------------------------
 
@@ -748,7 +772,7 @@ CREATE TABLE `teacher_calendars` (
   `city` varchar(255) NOT NULL,
   `district` varchar(255) NOT NULL,
   `detail_address` varchar(255) NOT NULL,
-  `hourly_rate` decimal(8,2) NOT NULL,
+  `hourly_rate` decimal(8,0) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -821,7 +845,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `account`, `gender`, `phone`, `birthday`) VALUES
 (6, '王大明', NULL, NULL, '$2y$12$GDfUqKnhSH9Nuo/qIcb9nOIIAIUfUvOB77XFnud.tQZ9WHoe2Al8i', NULL, '2024-07-29 07:40:30', '2024-07-29 07:40:30', 'A01', NULL, NULL, NULL),
 (9, '小美', 'sean2000.cy@gmail.com', NULL, '$2y$12$Ece5J4Ygd1OPo9Hvb7tm7.K2fMTjNDkBWnSG9y6yME60v9nVhpE4a', NULL, '2024-08-12 14:01:46', '2024-08-13 11:43:51', 'AA01', 1, '1234564444', '2024-08-01'),
-(10, '小美', 'tile.zip@gmail.com', NULL, '$2y$12$0SZ8x4VCt6fOVoY6GzQm6uYRzlwEWma1onX7.dynsAAexr95Sl1z.', NULL, '2024-08-13 14:24:01', '2024-08-14 00:39:11', 'BB02', 2, NULL, NULL);
+(10, '小美', 'tile.zip@gmail.com', NULL, '$2y$12$0SZ8x4VCt6fOVoY6GzQm6uYRzlwEWma1onX7.dynsAAexr95Sl1z.', NULL, '2024-08-13 14:24:01', '2024-08-18 20:44:25', 'BB02', 2, '0912345678', '2024-08-04'),
+(11, '風間', 'zxc123@gmail.com', NULL, '$2y$12$0SZ8x4VCt6fOVoY6GzQm6uYRzlwEWma1onX7.dynsAAexr95Sl1z.', NULL, NULL, NULL, 'A002', 1, NULL, NULL);
 
 --
 -- 已傾印資料表的索引
@@ -933,6 +958,14 @@ ALTER TABLE `password_reset_tokens`
   ADD PRIMARY KEY (`email`);
 
 --
+-- 資料表索引 `ratings`
+--
+ALTER TABLE `ratings`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `ratings_teacher_id_user_id_unique` (`teacher_id`,`user_id`),
+  ADD KEY `ratings_user_id_foreign` (`user_id`);
+
+--
 -- 資料表索引 `sessions`
 --
 ALTER TABLE `sessions`
@@ -984,13 +1017,13 @@ ALTER TABLE `users`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `be_teachers`
 --
 ALTER TABLE `be_teachers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `calendars`
 --
 ALTER TABLE `calendars`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `children_card`
@@ -1002,13 +1035,13 @@ ALTER TABLE `children_card`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `contact_student`
 --
 ALTER TABLE `contact_student`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `contact_teacher`
 --
 ALTER TABLE `contact_teacher`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `failed_jobs`
@@ -1020,13 +1053,13 @@ ALTER TABLE `failed_jobs`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `favorites_student`
 --
 ALTER TABLE `favorites_student`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `jobs`
@@ -1041,34 +1074,40 @@ ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- 使用資料表自動遞增(AUTO_INCREMENT) `ratings`
+--
+ALTER TABLE `ratings`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- 使用資料表自動遞增(AUTO_INCREMENT) `student_profiles`
 --
 ALTER TABLE `student_profiles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `teacher_calendars`
 --
 ALTER TABLE `teacher_calendars`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `teacher_profiles`
 --
 ALTER TABLE `teacher_profiles`
-  MODIFY `profile_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `profile_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `teacher_requests`
 --
 ALTER TABLE `teacher_requests`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- 已傾印資料表的限制式
@@ -1105,6 +1144,13 @@ ALTER TABLE `favorites`
 --
 ALTER TABLE `favorites_student`
   ADD CONSTRAINT `favorites_student_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- 資料表的限制式 `ratings`
+--
+ALTER TABLE `ratings`
+  ADD CONSTRAINT `ratings_teacher_id_foreign` FOREIGN KEY (`teacher_id`) REFERENCES `teacher_profiles` (`user_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `ratings_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- 資料表的限制式 `student_profiles`
