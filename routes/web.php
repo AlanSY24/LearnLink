@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\FindTeacherController;
 use App\Http\Controllers\StudentPageController;
 use App\Http\Controllers\Auth\LoginController;

@@ -60,6 +60,7 @@
         </form>
     </div>
     <dialog id="registDialog">
+        <div class="close-button" onclick="registDialog.close()">&#10005;</div>
         <h3>輸入驗證碼</h3>
         <form id="verifyForm">
             <div class="textbox" style="width: 105% !important;">
@@ -69,25 +70,25 @@
             <button type="submit" id="verifyButton">驗證</button>
         </form>
     </dialog>
-
+    
 
     <x-footer_alpha />
     <script src="{{ asset('js/loadingMask.js') }}"></script><!-- 引入ladingMask -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const passwordInput = document.getElementById('rps');
             const confirmPasswordInput = document.getElementById('rpsc');
             const form = document.getElementById('registForm');
             const registDialog = document.getElementById('registDialog');
             const verifyForm = document.getElementById('verifyForm');
 
-            verifyForm.addEventListener('submit', async function (event) {
+            verifyForm.addEventListener('submit', async function(event) {
                 event.preventDefault();
                 showLoadingMask();
 
                 try {
                     const formData = new FormData(verifyForm);
-                    const response = await fetch('{{ route('registVerify') }}', {
+                    const response = await fetch("{{ route('registVerify') }}", {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -101,7 +102,7 @@
                     if (data.success) {
                         hideLoadingMask();
                         alert('註冊成功！');
-                        window.location.href = '{{ route('login') }}'; // 回到登入頁面
+                        window.location.href = "{{ route('login') }}"; // 回到登入頁面
                     } else {
                         hideLoadingMask();
                         alert(data.message);
@@ -124,7 +125,7 @@
             passwordInput.addEventListener('input', validatePassword);
             confirmPasswordInput.addEventListener('input', validatePassword);
 
-            form.addEventListener('submit', async function (event) {
+            form.addEventListener('submit', async function(event) {
                 event.preventDefault();
                 validatePassword();
 
@@ -139,7 +140,7 @@
                     const formData = new FormData(event.target);
                     const requestData = Object.fromEntries(formData.entries());
 
-                    const response = await fetch('{{ route('seadEmail') }}', {
+                    const response = await fetch("{{ route('seadEmail') }}", {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
