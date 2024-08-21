@@ -82,10 +82,10 @@
             <section class="case-management">
                 <h2>案件管理</h2>
                 <button id="btnFavorite">收藏老師</button>
-                <button id="btnContact">學生提案被老師連絡</button>
-                <button id="btnProgress">已接案的老師 - 進行中</button>
-                <button id="btnRecord">學生紀錄表</button>
+                <button id="btnContact">發布中的案件</button>
+                <button id="btnProgress">進行中</button>
                 <button id="openDialog">學生課表</button>
+                <button id="btnRecord">學生紀錄表</button>
 
                 <!-- 顯示數據的區域 -->
                 <div id="areaStatus"></div>

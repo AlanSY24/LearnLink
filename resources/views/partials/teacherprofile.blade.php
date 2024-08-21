@@ -23,7 +23,7 @@
                 </div>
                 <div >
                     @if($profile->photo)
-                    <img src="data:image/jpeg;base64,{{ base64_encode($profile->photo) }}" alt="大頭貼" width="110" height="145">
+                    <img src="data:image/jpeg;base64,{{ base64_encode($profile->photo) }}" alt="大頭貼" width="100" height="100">
                     @endif
                     @if($profile->pdf)
                         <div >
