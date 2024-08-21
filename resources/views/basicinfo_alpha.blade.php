@@ -43,7 +43,7 @@
                         <label for="account">Email：</label>
                         <span>{{ Auth::user()->email }}</span>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="name">名稱：</label>
                         <span>{{ Auth::user()->name ?? 'null' }}</span>
@@ -62,11 +62,11 @@
                         <label for="gender">性別：</label>
                         <span>
                             @if (Auth::user()->gender == 1)
-                                男性
+                            男性
                             @elseif (Auth::user()->gender == 2)
-                                女性
+                            女性
                             @else
-                                不明
+                            不明
                             @endif
                         </span>
                         <i class="fa-solid fa-pen icon-edit" data-target="gender"></i>
@@ -81,9 +81,9 @@
                         <label for="phone">手機：</label>
                         <span>
                             @if (Auth::user()->phone)
-                                {{ Auth::user()->phone }}
+                            {{ Auth::user()->phone }}
                             @else
-                                尚未輸入手機
+                            尚未輸入手機
                             @endif
                         </span>
                         <i class="fa-solid fa-pen icon-edit" data-target="phone"></i>
@@ -96,9 +96,9 @@
                         <label for="birthday">生日：</label>
                         <span>
                             @if (Auth::user()->birthday)
-                                {{ Auth::user()->birthday }}
+                            {{ Auth::user()->birthday }}
                             @else
-                                尚未輸入生日
+                            尚未輸入生日
                             @endif
                         </span>
                         <i class="fa-solid fa-pen icon-edit" data-target="birthday"></i>
@@ -106,7 +106,21 @@
                             value="{{ Auth::user()->birthday ?? '' }}" required>
                     </div>
 
-                    <button id="save" type="submit" style="display: none;">保存修改</button>
+                    <button id="save" type="submit" style="
+                        background-color: #004080 !important;
+                        color: #fff !important;
+                        border: none !important;
+                        padding: 0.5em 1em !important;
+                        border-radius: 4px !important;
+                        cursor: pointer !important;
+                        position: absolute !important;
+                        bottom: 20px !important;
+                        right: 20px !important;
+                        font-family: Arial, sans-serif !important;
+                        font-size: 16px !important;
+                        transition: background-color 0.3s ease !important;
+                        display: none;
+                    ">保存修改</button>
                 </form>
             </section>
         </main>
@@ -117,7 +131,7 @@
     <script>
         // 顯示對應的輸入框並顯示按鈕
         document.querySelectorAll('.icon-edit').forEach(icon => {
-            icon.addEventListener('click', function () {
+            icon.addEventListener('click', function() {
                 const target = this.getAttribute('data-target');
                 document.querySelector(`#${target}`).style.display = 'block';
                 document.getElementById('save').style.display = 'block';
@@ -129,7 +143,7 @@
     <!-- ↓↓↓↓↓↓↓ 選取時間的東西，別人做的，別動 -->
     <script>
         // 初始化日期選擇器並設置語言為中文
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             flatpickr("#birthday", {
                 locale: "zh",
                 dateFormat: "Y-m-d",
