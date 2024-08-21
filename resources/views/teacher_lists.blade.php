@@ -133,10 +133,11 @@
                                 <img src="{{ asset('storage/teacher_photos/default.png') }}" alt="Default Picture" style="width: 100px; height: auto;">
                             @endif
                         </div>
-                        <div id="t_lists_score">
+                        <div class="t_lists_score">
                             評分：
                             <span id="rating-{{ $teacher->user_id }}" data-teacher-id="{{ $teacher->user_id }}" data-rating-url="{{ url('teacher/rating-statistics/' . $teacher->user_id) }}">尚未獲得評分</span>
                         </div>
+
                         <div id="t_lists_describe">
                             關於老師的詳細描述：{{ $teacher->details }}
                         </div>

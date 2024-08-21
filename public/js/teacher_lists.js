@@ -238,11 +238,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 $(document).ready(function() {
-    // 获取 CSRF 令牌
-    const csrfToken = $('meta[name="csrf-token"]').attr('content');
-    
-    $('#t_lists_score').each(function() {
-        // 获取教师 ID 和评分统计 URL
+    $('.t_lists_score').each(function() {
         const $span = $(this).find('span');
         const teacherId = $span.data('teacher-id');
         const ratingUrl = $span.data('rating-url');
@@ -254,7 +250,7 @@ $(document).ready(function() {
             url: ratingUrl,
             method: 'GET',
             headers: {
-                'X-CSRF-TOKEN': csrfToken // 添加 CSRF 头部
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // 添加 CSRF 头部
             },
             success: function(data) {
                 const averageRating = data.average_rating || '0.0';

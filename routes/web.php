@@ -210,7 +210,9 @@ Route::post('/contact_teacher', [ContactTeacherController::class, 'store'])->nam
 Route::post('/contact_student', [ContactStudentController::class, 'store'])->name('contact.student');
 
 
-Route::get('teacher/rating-statistics/{teacherId}', [RatingController::class, 'showTeacherRatingStatistics'])->name('teacher.rating.statistics');
+Route::get('teacher/rating-statistics/{teacherId}', [RatingController::class, 'showTeacherRatingStatistics'])
+    ->name('teacher.rating.statistics');
+
 
 // 抓大頭照
 Route::get('/get-teacher-photo/{studentId}', [YourController::class, 'getTeacherPhoto'])->name('get.teacher.photo');

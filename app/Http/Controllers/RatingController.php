@@ -33,6 +33,7 @@ class RatingController extends Controller
 
         return response()->json(['message' => '評分已成功提交', 'rating' => $rating]);
     }
+
     public function showTeacherRating(Request $request)
     {
         $teacher = Rating::where('teacher_id', $request->teacher_id)->firstOrFail();
@@ -48,22 +49,36 @@ class RatingController extends Controller
      // 新增的顯示教師評分統計的功能
      public function showTeacherRatingStatistics($teacherId)
     {
-        // 计算平均评分
-        $averageRating = Rating::where('teacher_id', $teacherId)->avg('rating');
-        
-        // 计算评分数量
-        $ratingCount = Rating::where('teacher_id', $teacherId)->count();
+        try {
+            // 确保 teacherId 是有效的整数
+            if (!is_numeric($teacherId) || $teacherId <= 0) {
+                return response()->json(['error' => 'Invalid teacher ID.'], 400);
+            }
 
-        // 如果没有评分记录，设置默认值
-        if ($averageRating === null) {
-            $averageRating = 0.0;
+            // 计算平均评分
+            $averageRating = Rating::where('teacher_id', $teacherId)->avg('rating');
+            
+            // 计算评分数量
+            $ratingCount = Rating::where('teacher_id', $teacherId)->count();
+
+            // 如果没有评分记录，设置默认值
+            if ($averageRating === null) {
+                $averageRating = 0.0;
+            }
+
+            return response()->json([
+                'average_rating' => number_format($averageRating, 1), // 保留一位小数
+                'rating_count' => $ratingCount,
+            ]);
+        } catch (\Exception $e) {
+            // 记录异常信息
+            \Log::error("Error fetching teacher rating statistics: " . $e->getMessage());
+            return response()->json([
+                'error' => 'Unable to fetch rating statistics.',
+            ], 500);
         }
-
-        return response()->json([
-            'average_rating' => number_format($averageRating, 1), // 保留一位小数
-            'rating_count' => $ratingCount,
-        ]);
     }
+
 
      
 }
