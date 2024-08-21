@@ -102,7 +102,6 @@
                         <div id="s_lists_name">
                             姓名：{{ $student->user->name }}
                         </div>
-                        <div id="s_lists_gender">性別：未提供</div>
                         <div id="t_lists_place">
                             上課預期地點：{{ $student->city ? $student->city->city : '無城市資料' }}
                             <br>
