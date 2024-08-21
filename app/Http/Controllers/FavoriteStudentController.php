@@ -46,7 +46,7 @@ class FavoriteStudentController extends Controller
             
             return [
                 'be_teacher' => [
-                    'title1' => $beTeacher->title,
+                    'title' => $beTeacher->title,
                     'subject' => $beTeacher->subject->name ?? 'N/A',
                     'city' => $beTeacher->city->city ?? 'N/A',
                     'available_time' => $availableTime,  // 保持字符串格式
