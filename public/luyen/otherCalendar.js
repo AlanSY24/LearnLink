@@ -1,26 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
     let currentDate = new Date();
     let events = [];
+    let selectedDates = [];
 
     const baseUrl = document.querySelector('meta[name="base-url"]').getAttribute('content');
-    
-    // 從 meta 標籤中獲取模擬的 studentUserId
     const studentUserId = document.querySelector('meta[name="student-user-id"]').getAttribute('content');
+    const EVENT_TYPE = document.querySelector('meta[name="event-title"]')?.getAttribute('content');
+    const beTeacherId = document.querySelector('meta[name="beTeacherId"]')?.getAttribute('content');
+
     console.log('Using simulated student ID:', studentUserId);
+    console.log('Using student request ID:', beTeacherId);
 
-    // 固定的事件類型
-    const EVENT_TYPE = document.querySelector('meta[name="event-title"]').getAttribute('content');
-
-    const beTeacherId = document.querySelector('meta[name="beTeacherId"]').getAttribute('content');
-    console.log('Using be teacher ID:', beTeacherId);
-    
-    // 獲取今天的日期字符串（格式：YYYY-MM-DD）
     function getTodayString() {
         const today = new Date();
         return `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
     }
 
-    // 獲取當前時間加2小時後的時間
     function getMinTime() {
         const now = new Date();
         now.setHours(now.getHours() + 2);
@@ -30,23 +25,13 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    // 從資料庫獲取事件類型
-    function fetchEventType() {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(EVENT_TYPE);
-            }, 100); // 模擬網絡延遲
-        });
-    }
-
-    // 初始化事件類型顯示
     async function initializeEventTypeDisplay() {
         const eventTypeElement = document.getElementById('eventType');
-        const type = await fetchEventType();
-        eventTypeElement.textContent = ` ${type}`;
+        if (eventTypeElement) {
+            eventTypeElement.textContent = EVENT_TYPE || '未指定事件類型';
+        }
     }
 
-    // 獲取縣市和地區數據
     fetch(`${baseUrl}/cities`)
         .then(response => response.json())
         .then(cities => {
@@ -70,38 +55,6 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('獲取城市列表時出錯:', e);
             alert('無法獲取城市列表，請稍後再試。');
         });
-
-    // 城市選擇變更時獲取地區
-    document.getElementById('citySelect').addEventListener('change', function () {
-        const selectedCityId = this.value;
-        const districtSelect = document.getElementById('districtSelect');
-        
-        if (selectedCityId) {
-            console.log('Selected city ID:', selectedCityId);
-            fetch(`${baseUrl}/districts/${selectedCityId}`)
-                .then(response => response.json())
-                .then(districts => {
-                    console.log('Received districts:', districts);
-                    setTimeout(() => {
-                        districtSelect.innerHTML = '<option value="">選擇地區</option>';
-                        districts.forEach(district => {
-                            const option = document.createElement('option');
-                            option.value = district.id;
-                            option.textContent = district.district_name;
-                            districtSelect.appendChild(option);
-                        });
-                        console.log('Districts added to select');
-                        console.log('District select innerHTML:', districtSelect.innerHTML);
-                    }, 0);
-                })
-                .catch(e => {
-                    console.error('獲取地區列表時出錯:', e);
-                    alert('無法獲取地區列表，請稍後再試。');
-                });
-        } else {
-            districtSelect.innerHTML = '<option value="">選擇地區</option>';
-        }
-    });
 
     function renderCalendar() {
         const monthYear = document.getElementById('monthYear');
@@ -129,16 +82,20 @@ document.addEventListener('DOMContentLoaded', function() {
             const currentDateObj = new Date(dateString);
             
             if (currentDateObj < today) {
-                dayElement.style.color = '#ccc'; // 過去的日期顯示為灰色
+                dayElement.style.color = '#ccc';
                 dayElement.style.cursor = 'not-allowed';
             } else {
-                dayElement.addEventListener('click', () => openEventModal(i));
+                dayElement.addEventListener('click', () => toggleDateSelection(dateString, dayElement));
                 
                 if (events.some(event => event.date === dateString)) {
-                    dayElement.style.backgroundColor = '#FFCCCB'; // 淺紅色
+                    dayElement.style.backgroundColor = '#FFCCCB';
                 } else if (i === today.getDate() && currentDate.getMonth() === today.getMonth() && currentDate.getFullYear() === today.getFullYear()) {
                     dayElement.style.backgroundColor = '#4CAF50';
                     dayElement.style.color = 'white';
+                }
+
+                if (selectedDates.includes(dateString)) {
+                    dayElement.classList.add('selected-date');
                 }
             }
             
@@ -146,7 +103,37 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function populateTimeSelects(minHour = 0, minMinute = 0) {
+    function toggleDateSelection(dateString, dayElement) {
+        const index = selectedDates.indexOf(dateString);
+        if (index > -1) {
+            selectedDates.splice(index, 1);
+            dayElement?.classList.remove('selected-date');
+        } else {
+            selectedDates.push(dateString);
+            dayElement?.classList.add('selected-date');
+        }
+        updateSelectedDatesDisplay();
+    }
+
+    function updateSelectedDatesDisplay() {
+        const selectedDatesContainer = document.getElementById('selectedDates');
+        selectedDatesContainer.innerHTML = '選擇的日期：';
+        selectedDates.sort().forEach(date => {
+            const dateSpan = document.createElement('span');
+            dateSpan.textContent = date;
+            dateSpan.style.marginRight = '10px';
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'x';
+            deleteButton.onclick = () => {
+                toggleDateSelection(date);
+                renderCalendar();
+            };
+            dateSpan.appendChild(deleteButton);
+            selectedDatesContainer.appendChild(dateSpan);
+        });
+    }
+
+    function populateTimeSelects() {
         const hourSelect = document.getElementById('eventHour');
         const minuteSelect = document.getElementById('eventMinute');
         
@@ -154,12 +141,10 @@ document.addEventListener('DOMContentLoaded', function() {
         minuteSelect.innerHTML = '<option value="">幾分</option>';
         
         for (let hour = 0; hour < 24; hour++) {
-            if (hour >= minHour) {
-                const option = document.createElement('option');
-                option.value = hour.toString().padStart(2, '0');
-                option.textContent = hour.toString().padStart(2, '0');
-                hourSelect.appendChild(option);
-            }
+            const option = document.createElement('option');
+            option.value = hour.toString().padStart(2, '0');
+            option.textContent = hour.toString().padStart(2, '0');
+            hourSelect.appendChild(option);
         }
         
         for (let minute = 0; minute < 60; minute += 5) {
@@ -169,94 +154,99 @@ document.addEventListener('DOMContentLoaded', function() {
             minuteSelect.appendChild(option);
         }
 
-        // 如果是今天，限制分鐘選項
-        if (minHour === hourSelect.value) {
+        updateMinuteOptions();
+    }
+
+    function updateMinuteOptions() {
+        const hourSelect = document.getElementById('eventHour');
+        const minuteSelect = document.getElementById('eventMinute');
+        const selectedHour = hourSelect.value;
+
+        const today = getTodayString();
+        if (selectedDates.includes(today) && parseInt(selectedHour) === getMinTime().hour) {
             Array.from(minuteSelect.options).forEach(option => {
-                if (parseInt(option.value) < minMinute) {
-                    option.disabled = true;
-                }
+                option.disabled = parseInt(option.value) < getMinTime().minute;
+            });
+        } else {
+            Array.from(minuteSelect.options).forEach(option => {
+                option.disabled = false;
             });
         }
     }
 
-    function openEventModal(day) {
-        const modal = document.getElementById('eventModal');
-        const eventDate = document.getElementById('eventDate');
-        
-        const dateString = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-        eventDate.value = dateString;
-        eventDate.min = getTodayString();
-        
-        if (dateString === getTodayString()) {
+    function validateTimeSelection() {
+        const hourSelect = document.getElementById('eventHour');
+        const minuteSelect = document.getElementById('eventMinute');
+        const selectedHour = hourSelect.value;
+        const selectedMinute = minuteSelect.value;
+
+        const today = getTodayString();
+        if (selectedDates.includes(today)) {
             const minTime = getMinTime();
-            populateTimeSelects(minTime.hour, minTime.minute);
-        } else {
-            populateTimeSelects();
+            if (parseInt(selectedHour) < minTime.hour || 
+                (parseInt(selectedHour) === minTime.hour && parseInt(selectedMinute) < minTime.minute)) {
+                alert('請選擇至少2小時後的時間');
+                hourSelect.value = '';
+                minuteSelect.value = '';
+            }
         }
-        
-        // 重置其他輸入欄位
+    }
+
+    function addEvent() {
+        const eventHour = document.getElementById('eventHour').value;
+        const eventMinute = document.getElementById('eventMinute').value;
+        const citySelect = document.getElementById('citySelect');
+        const districtSelect = document.getElementById('districtSelect');
+        const city = citySelect.options[citySelect.selectedIndex]?.text;
+        const district = districtSelect.options[districtSelect.selectedIndex]?.text;
+        const detailAddress = document.getElementById('detailAddress').value;
+        const hourlyRate = document.getElementById('hourlyRate').value;
+
+        if (selectedDates.length === 0 || !eventHour || !eventMinute || !city || !district || !detailAddress || !hourlyRate) {
+            alert('請填寫所有必要的信息並選擇至少一個日期');
+            return;
+        }
+
+        const eventTime = `${eventHour}:${eventMinute}`;
+
+        for (const date of selectedDates) {
+            const newEvent = {
+                id: Date.now() + Math.random(),
+                date: date,
+                time: eventTime,
+                text: EVENT_TYPE,
+                city: city,
+                district: district,
+                detail_address: detailAddress,
+                hourly_rate: hourlyRate
+            };
+
+            events.push(newEvent);
+        }
+
+        renderCalendar();
+        renderEventList();
+        selectedDates = [];
+        updateSelectedDatesDisplay();
+        clearInputFields();
+    }
+
+    function clearInputFields() {
+        document.getElementById('dateInput').value = '';
         document.getElementById('eventHour').value = '';
         document.getElementById('eventMinute').value = '';
         document.getElementById('citySelect').value = '';
         document.getElementById('districtSelect').innerHTML = '<option value="">選擇地區</option>';
         document.getElementById('detailAddress').value = '';
         document.getElementById('hourlyRate').value = '';
-        
-        modal.style.display = 'block';
-    }
-
-    function addEvent() {
-        const eventDate = document.getElementById('eventDate').value;
-        const eventHour = document.getElementById('eventHour').value;
-        const eventMinute = document.getElementById('eventMinute').value;
-        const city = document.getElementById('citySelect').options[document.getElementById('citySelect').selectedIndex].text;
-        const district = document.getElementById('districtSelect').options[document.getElementById('districtSelect').selectedIndex].text;
-        const detailAddress = document.getElementById('detailAddress').value;
-        const hourlyRate = document.getElementById('hourlyRate').value;
-
-        if (!eventHour || !eventMinute || !city || !district || !detailAddress || !hourlyRate) {
-            alert('請填寫所有必要的信息');
-            return;
-        }
-
-        const eventTime = `${eventHour}:${eventMinute}`;
-        const selectedDateTime = new Date(`${eventDate}T${eventTime}`);
-        const minDateTime = new Date();
-        minDateTime.setHours(minDateTime.getHours() + 2);
-        
-        if (selectedDateTime < minDateTime) {
-            alert('請選擇至少2小時後的時間');
-            return;
-        }
-
-        const newEvent = {
-            id: Date.now(), // 使用臨時ID
-            date: eventDate,
-            time: eventTime,
-            text: EVENT_TYPE,
-            city: city,
-            district: district,
-            detail_address: detailAddress,
-            hourly_rate: hourlyRate
-        };
-
-        // 添加新事件
-        events.push(newEvent);
-
-        // 更新顯示
-        renderCalendar();
-        renderEventList();
-
-        // 關閉視窗
-        document.getElementById('eventModal').style.display = 'none';
-
-      
     }
 
     function renderEventList() {
         const eventList = document.getElementById('events');
         eventList.innerHTML = '';
         
+        events.sort((a, b) => new Date(a.date) - new Date(b.date));
+
         events.forEach((event) => {
             const li = document.createElement('li');
             li.innerHTML = `
@@ -269,12 +259,16 @@ document.addEventListener('DOMContentLoaded', function() {
             eventList.appendChild(li);
         });
 
-        // 為所有刪除按鈕添加事件監聽器
         document.querySelectorAll('.delete-btn').forEach(button => {
             button.addEventListener('click', function() {
                 deleteEvent(this.getAttribute('data-id'));
             });
         });
+
+        const submitButton = document.getElementById('submitEvents');
+        if (submitButton) {
+            submitButton.disabled = events.length === 0;
+        }
     }
 
     function deleteEvent(id) {
@@ -286,12 +280,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function submitEventsToDatabase() {
-        
         if (events.length === 0) {
             alert('沒有事件可以提交');
             return;
         }
-
+    
         fetch(`${baseUrl}/studentSubmit-events`, {
             method: 'POST',
             headers: {
@@ -302,8 +295,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 events: events,
                 student_id: studentUserId,  
                 beTeacherId :beTeacherId,
-                
-                
             })
         })
         .then(response => {
@@ -315,7 +306,9 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.success) {
                 alert(data.message || '所有事件已成功提交到資料庫');
-                events = []; // 清空本地事件列表
+                events = [];
+                renderEventList();
+                renderCalendar();
                 if (data.shouldClose) {
                     window.close();
                 } 
@@ -329,56 +322,83 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    document.getElementById('prevMonth').addEventListener('click', () => {
-        currentDate.setMonth(currentDate.getMonth() - 1);
-        renderCalendar();
-    });
+    function initializeEventListeners() {
+        document.getElementById('prevMonth')?.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        });
 
-    document.getElementById('nextMonth').addEventListener('click', () => {
-        currentDate.setMonth(currentDate.getMonth() + 1);
-        renderCalendar();
-    });
+        document.getElementById('nextMonth')?.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        });
 
-    document.getElementById('closeModal').addEventListener('click', () => {
-        document.getElementById('eventModal').style.display = 'none';
-    });
+        document.getElementById('addEvent')?.addEventListener('click', addEvent);
 
-    document.getElementById('addEvent').addEventListener('click', addEvent);
+        document.getElementById('eventHour')?.addEventListener('change', updateMinuteOptions);
+        document.getElementById('eventMinute')?.addEventListener('change', validateTimeSelection);
 
-    // 動態更新時間限制
-    document.getElementById('eventDate').addEventListener('change', function() {
-        const eventDate = this.value;
-        if (eventDate === getTodayString()) {
-            const minTime = getMinTime();
-            populateTimeSelects(minTime.hour, minTime.minute);
-        } else {
-            populateTimeSelects();
-        }
-    });
+        document.getElementById('submitEvents')?.addEventListener('click', submitEventsToDatabase);
 
-    document.getElementById('eventHour').addEventListener('change', function() {
-        const eventDate = document.getElementById('eventDate').value;
-        const selectedHour = this.value;
-        
-        if (eventDate === getTodayString()) {
-            const minTime = getMinTime();
-            if (parseInt(selectedHour) === minTime.hour) {
-                Array.from(document.getElementById('eventMinute').options).forEach(option => {
-                    option.disabled = parseInt(option.value) < minTime.minute;
-                });
+        document.getElementById('citySelect')?.addEventListener('change', function () {
+            const selectedCityId = this.value;
+            const districtSelect = document.getElementById('districtSelect');
+            
+            if (selectedCityId) {
+                console.log('Selected city ID:', selectedCityId);
+                fetch(`${baseUrl}/districts/${selectedCityId}`)
+                    .then(response => response.json())
+                    .then(districts => {
+                        console.log('Received districts:', districts);
+                        setTimeout(() => {
+                            districtSelect.innerHTML = '<option value="">選擇地區</option>';
+                            districts.forEach(district => {
+                                const option = document.createElement('option');
+                                option.value = district.id;
+                                option.textContent = district.district_name;
+                                districtSelect.appendChild(option);
+                            });
+                            console.log('Districts added to select');
+                            console.log('District select innerHTML:', districtSelect.innerHTML);
+                        }, 0);
+                    })
+                    .catch(e => {
+                        console.error('獲取地區列表時出錯:', e);
+                        alert('無法獲取地區列表，請稍後再試。');
+                    });
             } else {
-                Array.from(document.getElementById('eventMinute').options).forEach(option => {
-                    option.disabled = false;
-                });
+                districtSelect.innerHTML = '<option value="">選擇地區</option>';
             }
-        }
-    });
+        });
 
-    document.getElementById('submitEvents').addEventListener('click', submitEventsToDatabase);
-    
+        document.getElementById('addDate')?.addEventListener('click', function() {
+            const dateInput = document.getElementById('dateInput');
+            const selectedDate = dateInput.value;
+            if (selectedDate) {
+                toggleDateSelection(selectedDate);
+                dateInput.value = '';
+                renderCalendar();
+            } else {
+                alert('請先選擇一個日期');
+            }
+        });
+
+        document.getElementById('dateInput')?.addEventListener('change', function() {
+            const selectedDate = this.value;
+            if (selectedDate) {
+                toggleDateSelection(selectedDate);
+                this.value = '';
+                renderCalendar();
+            }
+        });
+    }
+
     // 初始化
     (async function() {
         await initializeEventTypeDisplay();
         renderCalendar();
+        renderEventList();
+        populateTimeSelects();
+        initializeEventListeners();
     })();
 });
