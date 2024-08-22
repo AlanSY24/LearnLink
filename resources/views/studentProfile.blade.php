@@ -38,19 +38,18 @@
             height: 400px;
             border: none;
         }
+
+
         .star {
-            font-size: 24px;
-            color: gray;
+            font-size: 30px;
             cursor: pointer;
+            color: gray;
         }
 
-        .star.highlighted {
+        .star.highlight {
             color: gold;
         }
 
-        .star.selected {
-            color: gold;
-        }
     </style>
 
 </head>
@@ -664,19 +663,14 @@
                                         <li>${contact.user.name} - 電子信箱 ${contact.user.email} - 手機號碼 ${contact.user.phone}</li>
                                     </div>
                                     <div class="contactstudent_buttons" style="display: flex;gap: 10px;">
-                                    <div id="ratingArea">
-                                        <span class="star" data-value="1">★</span>
-                                        <span class="star" data-value="2">★</span>
-                                        <span class="star" data-value="3">★</span>
-                                        <span class="star" data-value="4">★</span>
-                                        <span class="star" data-value="5">★</span>
-                                    </div>
-                                    <button id="viewRating" data-teacher-id="${contact.user.id}">查看評分</button>
-                                    <div id="ratingInfo">
-                                    </div>
-
-                                    <input type="hidden" id="MyteacherId" value="${contact.user.id}">
-                                        <button>評分</button>
+                                        <div class="ratingArea" data-case-id="${contact.teacher_requests_id}"  data-teacher-id="${contact.user.id}">
+                                            <span class="star" data-value="1">★</span>
+                                            <span class="star" data-value="2">★</span>
+                                            <span class="star" data-value="3">★</span>
+                                            <span class="star" data-value="4">★</span>
+                                            <span class="star" data-value="5">★</span>
+                                        </div>
+                                        <input type="hidden" class="MyteacherId" data-teacher-id="${contact.user.id}" value="${contact.user.id}">
                                     </div>
                                 </div>
                                 <hr>
@@ -811,60 +805,197 @@
                     html += '</ul>';
                     $('#areaStatus').html(html);
 
-                    document.querySelectorAll('.star').forEach(star => {
-                        star.addEventListener('click', function() {
-                            let rating = this.getAttribute('data-value');
-                            let teacherId = document.getElementById('MyteacherId').value;
-                            console.log(rating);
-                            console.log(teacherId);
+                    const ratingAreas = document.querySelectorAll('.ratingArea');
 
-                            $.ajax({
-                                url:'{{ route('rate-teacher') }}',
-                                type: 'POST',
-                                data: {
-                                        teacher_id: teacherId,
-                                        rating: rating,
-                                        _token: '{{ csrf_token() }}' // Laravel 的 CSRF 保護
-                                    },
-                                    success: function(response) {
-                                        alert('成功');
-                                    },
-                                    error: function(xhr) {
-                                        console.error('An error occurred:', xhr);
-                                        alert('操作失敗，請稍後重試。');
+                        ratingAreas.forEach(ratingArea => {
+                            const teacherId = ratingArea.getAttribute('data-teacher-id');
+                            const caseId = ratingArea.getAttribute('data-case-id');
+                            const stars = ratingArea.querySelectorAll('.star');
+                            let userRating = 0;
+
+                            function highlightStars(rating) {
+                                stars.forEach(star => {
+                                    if (star.getAttribute('data-value') <= rating) {
+                                        star.classList.add('highlight');
+                                    } else {
+                                        star.classList.remove('highlight');
                                     }
-                                
-                            })
-
-                        });
-                    });
-
-                    $(document).on('click', '#viewRating', function() {
-                        let teacherId = $(this).data('teacher-id');
-                        console.log(teacherId);
-                        
-                        $.ajax({
-                            url: '{{ route('showTeacherRating') }}', // 确保这个路由存在
-                            type: 'GET',
-                            data: {
-                                teacher_id: teacherId,
-                                _token: '{{ csrf_token() }}' 
-                            },
-                            success: function(response) {
-                                console.log(response);
-                                let averageRating = parseFloat(response.average_rating);
-                                
-                                $('#ratingInfo').html(`
-                                    <p>平均評分: ${!isNaN(averageRating) ? averageRating.toFixed(1) : '尚無評分'}</p>
-                                    <p>評分人數: ${response.ratings_count}</p>
-                                `);
-                            },
-                            error: function(xhr) {
-                                console.error('获取评分信息失败:', xhr);
-                                alert('失敗');
+                                });
                             }
+
+                            stars.forEach(star => {
+                                star.addEventListener('mouseover', function() {
+                                    const ratingValue = this.getAttribute('data-value');
+                                    highlightStars(ratingValue);
+                                    console.log('Selected Rating:', ratingValue);
+                                    console.log('Selected Case ID:', caseId);
+                                    console.log('Selected Teacher ID:', teacherId);
+                                });
+
+                                star.addEventListener('mouseout', function() {
+                                    highlightStars(userRating);
+                                });
+
+                                star.addEventListener('click', function() {
+                                    userRating = this.getAttribute('data-value');
+                                    highlightStars(userRating);
+                                    
+                                    $.ajax({
+                                        url: '{{ route('rate-teacher2') }}',
+                                        type: 'POST',
+                                        data: {
+                                            case_id: caseId,
+                                            teacher_id: teacherId,
+                                            rating: userRating,
+                                            _token: '{{ csrf_token() }}'
+                                        },
+                                        success: function(response) {
+                                            alert('評分成功');
+                                        },
+                                        error: function(xhr) {
+                                            console.error('發生錯誤:', xhr);
+                                            alert('操作失敗，請稍後重試。');
+                                        }
+                                    });
+                                });
+                            });
+
+                            // 頁面加載時獲取用戶之前的評分
+                            $.ajax({
+                                url: '{{ route('get-user-rating') }}',
+                                type: 'GET',
+                                data: {
+                                    case_id: caseId,
+                                    teacher_id: teacherId,
+                                    _token: '{{ csrf_token() }}'
+                                },
+                                success: function(response) {
+                                    if (response.rating) {
+                                        userRating = response.rating;
+                                        highlightStars(userRating);
+                                    }
+                                },
+                                error: function(xhr) {
+                                    console.error('無法加載評分:', xhr);
+                                }
+                            });
                         });
-                    });
+
+                    //     const stars = document.querySelectorAll('.star');
+                    //     const teacherId = document.getElementById('MyteacherId').value;
+                    //     let userRating = 0;
+
+                    //     // 根據評分設置高亮
+                    //     function highlightStars(rating) {
+                    //         stars.forEach(star => {
+                    //             star.classList.toggle('highlight', star.getAttribute('data-value') <= rating);
+                    //         });
+                    //     }
+
+                    //     // 滑鼠移到星星上時，顯示暫時高亮
+                    //     stars.forEach(star => {
+                    //         star.addEventListener('mouseover', function() {
+                    //             console.log('滑鼠移動到星星上:', this.getAttribute('data-value'));
+                    //             highlightStars(this.getAttribute('data-value'));
+                    //         });
+
+                    //         star.addEventListener('mouseout', function() {
+                    //             highlightStars(userRating); // 返回到已選的評分
+                    //         });
+
+                    //         // 點擊星星時，固定評分
+                    //         star.addEventListener('click', function() {
+                    //             userRating = this.getAttribute('data-value');
+                    //             highlightStars(userRating);
+
+                    //             $.ajax({
+                    //                 url: '{{ route('rate-teacher') }}',
+                    //                 type: 'POST',
+                    //                 data: {
+                    //                     teacher_id: teacherId,
+                    //                     rating: userRating,
+                    //                     _token: '{{ csrf_token() }}'
+                    //                 },
+                    //                 success: function(response) {
+                    //                     alert('評分成功');
+                    //                 },
+                    //                 error: function(xhr) {
+                    //                     console.error('發生錯誤:', xhr);
+                    //                     alert('操作失敗，請稍後重試。');
+                    //                 }
+                    //             });
+                    //         });
+
+                    //     // 頁面加載時獲取用戶之前的評分
+                    //     $.ajax({
+                    //         url: `{{ url('teacher-rating') }}/${teacherId}`,
+                    //         type: 'GET',
+                    //         success: function(response) {
+                    //             if (response.rating) {
+                    //                 userRating = response.rating;
+                    //                 highlightStars(userRating);
+                    //             }
+                    //         },
+                    //         error: function(xhr) {
+                    //             console.error('無法加載評分:', xhr);
+                    //         }
+                    //     });
+                    // });
+
+                    // document.querySelectorAll('.star').forEach(star => {
+                    //     star.addEventListener('click', function() {
+                    //         let rating = this.getAttribute('data-value');
+                    //         let teacherId = document.getElementById('MyteacherId').value;
+                    //         console.log(rating);
+                    //         console.log(teacherId);
+
+                    //         $.ajax({
+                    //             url:'{{ route('rate-teacher') }}',
+                    //             type: 'POST',
+                    //             data: {
+                    //                     teacher_id: teacherId,
+                    //                     rating: rating,
+                    //                     _token: '{{ csrf_token() }}' // Laravel 的 CSRF 保護
+                    //                 },
+                    //                 success: function(response) {
+                    //                     alert('成功');
+                    //                 },
+                    //                 error: function(xhr) {
+                    //                     console.error('An error occurred:', xhr);
+                    //                     alert('操作失敗，請稍後重試。');
+                    //                 }
+                                
+                    //         })
+
+                    //     });
+                    // });
+
+                    // $(document).on('click', '#viewRating', function() {
+                    //     let teacherId = $(this).data('teacher-id');
+                    //     console.log(teacherId);
+                        
+                    //     $.ajax({
+                    //         url: '{{ route('showTeacherRating') }}', // 确保这个路由存在
+                    //         type: 'GET',
+                    //         data: {
+                    //             teacher_id: teacherId,
+                    //             _token: '{{ csrf_token() }}' 
+                    //         },
+                    //         success: function(response) {
+                    //             console.log(response);
+                    //             let averageRating = parseFloat(response.average_rating);
+                                
+                    //             $('#ratingInfo').html(`
+                    //                 <p>平均評分: ${!isNaN(averageRating) ? averageRating.toFixed(1) : '尚無評分'}</p>
+                    //                 <p>評分人數: ${response.ratings_count}</p>
+                    //             `);
+                    //         },
+                    //         error: function(xhr) {
+                    //             console.error('获取评分信息失败:', xhr);
+                    //             alert('失敗');
+                    //         }
+                    //     });
+                    // });
 
                         // 綁定選擇按鈕的事件處理
                     $('').on('click', function() {

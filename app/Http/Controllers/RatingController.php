@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Rating;
 use App\Models\TeacherProfile;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class RatingController extends Controller
 {
@@ -46,6 +47,20 @@ class RatingController extends Controller
         ]);
     }
 
+    public function showTeacherRating2($teacherId)
+    {
+        $userId = auth()->id();
+        $rating = Rating::where('teacher_id', $teacherId)
+                        ->where('user_id', $userId)
+                        ->first();
+
+        if ($rating) {
+            return response()->json(['rating' => $rating->rating]);
+        } else {
+            return response()->json(['rating' => null]);
+        }
+    }
+
      // 新增的顯示教師評分統計的功能
      public function showTeacherRatingStatistics($teacherId)
     {
@@ -78,7 +93,51 @@ class RatingController extends Controller
             ], 500);
         }
     }
+    public function getUserRating(Request $request)
+    {
+        $request->validate([
+            'case_id' => 'required',
+            'teacher_id' => 'required|exists:teacher_profiles,user_id',
+        ]);
 
+        $rating = Rating::where('case_id', $request->case_id)
+            ->where('teacher_id', $request->teacher_id)
+            ->where('user_id', auth()->id())
+            ->first();
 
+        return response()->json([
+            'rating' => $rating ? $rating->rating : null,
+        ]);
+    }
+    public function rateTeacher2(Request $request)
+    {
+        $request->validate([
+            'case_id' => 'required',
+            'teacher_id' => 'required|exists:teacher_profiles,user_id',
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
+
+        if ($request->teacher_id == Auth::id()) {
+            return response()->json(['message' => '您不能對自己進行評分。'], 403);
+        }
+
+        $existingRating = Rating::where('case_id', $request->case_id)
+            ->where('teacher_id', $request->teacher_id)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        if ($existingRating) {
+            return response()->json(['message' => '你已經對該案子進行了評分'], 400);
+        }
+
+        $rating = Rating::create([
+            'case_id' => $request->case_id,
+            'teacher_id' => $request->teacher_id,
+            'user_id' => auth()->id(),
+            'rating' => $request->rating,
+        ]);
+
+        return response()->json(['message' => '評分已成功提交', 'rating' => $rating]);
+    }
      
 }

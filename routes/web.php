@@ -159,6 +159,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/be_teacher/update-status', [ContactTeacherController::class, 'updateStatus'])->name('be_teacher.updateStatus');
     Route::post('/rate-teacher', [RatingController::class, 'rateTeacher'])->name('rate-teacher');
     Route::get('/teacher/rating', [RatingController::class, 'showTeacherRating'])->name('showTeacherRating');
+    Route::get('/teacher-rating/user_rating', [RatingController::class, 'getUserRating'])->name('get-user-rating');
+    Route::post('/teacher-rating/user_rating/rating', [RatingController::class, 'rateTeacher2'])->name('rate-teacher2');
 });
 
 

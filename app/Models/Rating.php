@@ -9,7 +9,7 @@ class Rating extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['teacher_id', 'user_id', 'rating'];
+    protected $fillable = ['teacher_id', 'user_id','case_id', 'rating'];
 
     public function teacher()
     {
