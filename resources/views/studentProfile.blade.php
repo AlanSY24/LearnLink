@@ -531,6 +531,7 @@
                                         <li>${contact.user.name} - 電子信箱 ${contact.user.email} - 手機號碼 ${contact.user.phone}</li>
                                     </div>
                                     <div class="contactstudent_buttons" style="display: flex;gap: 10px;">
+                                        <button class="btn-select" data-user-id="${contact.user.id}" data-teacher-request-id="${item.id}">繼續上課</button>
                                         <button class="update-status" data-id="${contact.teacher_requests_id}" data-status="completed">完成</button>
                                         <button class="update-status" data-id="${contact.teacher_requests_id}" data-status="cancelled">取消</button>
                                     </div>
@@ -569,10 +570,56 @@
                     `;
                              // 如果有contact_students資料
                              // 進行中的老師(取消)
-
+                             if (item.contact_students && item.contact_students.length > 0) {
+                            html += '<h5>進行中的老師:</h5><ul>';
+                            item.contact_students.forEach(function(contact) {
+                                console.log(contact);
+                                
+                                html += `
+                                <div class="contactstudent_container" style="display: flex;justify-content: space-between;align-items: center;">
+                                    <div class="contactstudent_info" style="flex-grow: 1;">
+                                        <li>${contact.user.name} - 電子信箱 ${contact.user.email} - 手機號碼 ${contact.user.phone}</li>
+                                    </div>
+                                    <div class="contactstudent_buttons" style="display: flex;gap: 10px;">
+                                        <button class="btn-select" data-user-id="${contact.user.id}" data-teacher-request-id="${item.id}">繼續上課</button>
+                                        <button class="update-status" data-id="${contact.teacher_requests_id}" data-status="completed">完成</button>
+                                        <button class="update-status" data-id="${contact.teacher_requests_id}" data-status="cancelled">取消</button>
+                                    </div>
+                                </div>
+                                <hr>
+                                
+                                
+                            `;
+                            });
+                            html += '</ul><br>';
+                        }
                     });
                     html += '</ul>';
                     $('#areaStatus').html(html);
+                    $('.btn-select').on('click', function() {
+                        let userId = $(this).data('user-id');
+                        let teacherRequestId = $(this).data('teacher-request-id');
+                        // 确认只留下被选中的学生，并删除其他学生
+                        $.ajax({
+                            url: '{{ route('student.keepSelected') }}', // 在 routes/web.php 中定义这个路由
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}', // CSRF 保护
+                                user_id: userId,
+                                teacher_request_id: teacherRequestId
+                            },
+                            success: function(response) {
+                                // 删除其他学生成功后，跳转到行事历页面
+                                console.log(response);
+                                const url = '{{ route("calendar.show") }}' + '?user_id=' + userId + '&teacher_request_id=' + teacherRequestId;
+                                window.open(url);
+                            },
+                            error: function(xhr) {
+                                console.error('An error occurred:', xhr);
+                                alert('失敗');
+                            }
+                        });
+                    });
 
                     $(document).on('click', '.update-status', function() {
                         let requestId = $(this).data('id');

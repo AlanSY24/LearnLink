@@ -464,6 +464,7 @@
                                         <li>${contact.user.name} - 電子信箱 ${contact.user.email} - 手機號碼 ${contact.user.phone}</li>
                                     </div>
                                     <div class="contactstudent_buttons" style="display: flex;gap: 10px;">
+                                        <button class="btn-select" data-user-id="${contact.user.id}" data-teacher-request-id="${item.id}">繼續上課</button>
                                         <button class="update-status" data-id="${contact.be_teacher_id}" data-status="completed">完成</button>
                                         <button class="update-status" data-id="${contact.be_teacher_id}" data-status="cancelled">取消</button>
                                     </div>
@@ -489,6 +490,30 @@
 
                     html += '</ul>';
                     $('#areaStatus').html(html);
+
+                    $('.btn-select').on('click', function() {
+                        let userId = $(this).data('user-id');
+                        let beTeacherId = $(this).data('teacher-request-id');
+                        $.ajax({
+                            url: '{{ route('teacher.keepSelected') }}', // 在 routes/web.php 中定义这个路由
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}', // CSRF 保护
+                                user_id: userId,
+                                beTeacher_Id: beTeacherId
+                            },
+                            success: function(response) {
+                                // 删除其他学生成功后，跳转到行事历页面
+                                console.log(response);
+                                const url = '{{ route("otherCalendar.show") }}' + '?user_id=' + userId + '&beTeacherId=' + beTeacherId;
+                                window.open(url);
+                            },
+                            error: function(xhr) {
+                                console.error('An error occurred:', xhr);
+                                alert('選擇失敗');
+                            }
+                        });
+                    });
 
                     $(document).on('click', '.update-status', function() {
                         let requestId = $(this).data('id');
