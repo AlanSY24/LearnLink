@@ -238,31 +238,62 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 $(document).ready(function() {
+    // 缓存评分数据的对象
+    const ratingsCache = {};
+
     $('.t_lists_score').each(function() {
         const $span = $(this).find('span');
         const teacherId = $span.data('teacher-id');
         const ratingUrl = $span.data('rating-url');
 
-        console.log('Teacher ID:', teacherId);
-        console.log('Rating URL:', ratingUrl);
+        if (!ratingsCache[teacherId]) {
+            // 如果缓存中没有数据，则发起 AJAX 请求
+            $.ajax({
+                url: ratingUrl,
+                method: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // 添加 CSRF 头部
+                },
+                success: function(data) {
+                    // 缓存获取到的评分数据
+                    ratingsCache[teacherId] = {
+                        averageRating: data.average_rating || '0.0',
+                        ratingCount: data.rating_count || '0'
+                    };
+                    
+                    // 更新所有与该 teacherId 相关的元素
+                    updateRatingElements(teacherId);
+                },
+                error: function(xhr, status, error) {
+                    console.error('获取评分时出错:', {
+                        status: status,
+                        error: error,
+                        responseText: xhr.responseText // 额外的错误信息
+                    });
+                    
+                    // 缓存错误状态
+                    ratingsCache[teacherId] = {
+                        averageRating: '尚未获得评分',
+                        ratingCount: '0'
+                    };
 
-        $.ajax({
-            url: ratingUrl,
-            method: 'GET',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // 添加 CSRF 头部
-            },
-            success: function(data) {
-                const averageRating = data.average_rating || '0.0';
-                const ratingCount = data.rating_count || '0';
-                $(`#rating-${teacherId}`).text(
-                    `${averageRating} (${ratingCount} 人評分)`
-                );
-            },
-            error: function(xhr, status, error) {
-                console.error('Error fetching rating:', error);
-                $(`#rating-${teacherId}`).text('無法獲取評分');
-            }
-        });
+                    // 更新所有与该 teacherId 相关的元素
+                    updateRatingElements(teacherId);
+                }
+            });
+        } else {
+            // 如果缓存中已有数据，直接更新元素
+            updateRatingElements(teacherId);
+        }
+
+        function updateRatingElements(id) {
+            const ratingInfo = ratingsCache[id];
+            $(`.t_lists_score span[data-teacher-id="${id}"]`).each(function() {
+                const $ratingDiv = $(this).closest('.t_lists_score').find(`#rating-${id}`);
+                $ratingDiv.text(`${ratingInfo.averageRating} (${ratingInfo.ratingCount} 人评分)`);
+            });
+        }
     });
 });
+
+
