@@ -280,7 +280,7 @@
                 },
                 error: function(xhr) {
                     console.error('發生錯誤:', xhr);
-                    alert('失敗');
+                    alert('已連絡過');
                 }
             });
         });
@@ -383,7 +383,7 @@
                             },
                             error: function(xhr) {
                                 console.error('An error occurred:', xhr);
-                                alert('失敗');
+                                alert('選擇失敗');
                             }
                         });
                     });
