@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-08-19 07:38:20
+-- 產生時間： 2024-08-22 04:56:21
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -31,6 +31,7 @@ CREATE TABLE `ratings` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `teacher_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
+  `case_id` bigint(20) NOT NULL,
   `rating` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -45,7 +46,7 @@ CREATE TABLE `ratings` (
 --
 ALTER TABLE `ratings`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `ratings_teacher_id_user_id_unique` (`teacher_id`,`user_id`),
+  ADD UNIQUE KEY `unique_teacher_user_case` (`teacher_id`,`user_id`,`case_id`),
   ADD KEY `ratings_user_id_foreign` (`user_id`);
 
 --
@@ -56,7 +57,7 @@ ALTER TABLE `ratings`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `ratings`
 --
 ALTER TABLE `ratings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- 已傾印資料表的限制式
