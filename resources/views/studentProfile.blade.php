@@ -384,7 +384,7 @@
                                         <li>${contact.user.name} - 電子信箱 ${contact.user.email} - 手機號碼 ${contact.user.phone}</li>
                                     </div>
                                     <div class="contactstudent_buttons" style="display: flex;gap: 10px;">
-                                        <button class="btn123" data-teacher-id="${ item.be_teacher}">123</button>
+                                        <button class="btn123" data-teacher-id="${ contact.user.id}">老師履歷</button>
                                         <button class="btn-select" data-user-id="${contact.user.id}" data-teacher-request-id="${item.id}">選擇</button>
                                         <button class="btn-cancel" data-user-id="${contact.user.id}" data-teacher-request-id="${item.id}">取消</button>
                                     </div>
