@@ -261,6 +261,7 @@
                             window.open('/LearnLink/public/teacher_profiles/' + teacherId, '_blank');
                         });
                     });
+                    
                     // 綁定愛心圖標的點擊事件
                     $('.student_header i').on('click', function() {
                         let teacherId = $(this).data('id');
@@ -383,6 +384,7 @@
                                         <li>${contact.user.name} - 電子信箱 ${contact.user.email} - 手機號碼 ${contact.user.phone}</li>
                                     </div>
                                     <div class="contactstudent_buttons" style="display: flex;gap: 10px;">
+                                        <button class="btn123" data-teacher-id="${ item.be_teacher}">123</button>
                                         <button class="btn-select" data-user-id="${contact.user.id}" data-teacher-request-id="${item.id}">選擇</button>
                                         <button class="btn-cancel" data-user-id="${contact.user.id}" data-teacher-request-id="${item.id}">取消</button>
                                     </div>
@@ -396,6 +398,17 @@
                     html += '</ul>';
                     $('#areaStatus').html(html);
 
+                    document.querySelectorAll('.btn123').forEach(function(button) {
+                        button.addEventListener('click', function() {
+                            var teacherId = this.getAttribute('data-teacher-id');
+                            if (teacherId) {  // 確認teacherId存在
+                                window.open('/LearnLink/public/teacher_profiles/' + teacherId, '_blank');
+                            } else {
+                                console.error('Teacher ID is missing.');
+                            }
+                        });
+                    });
+                   
                     $(document).on('click', '.update-status', function() {
                         let requestId = $(this).data('id');
                         let newStatus = $(this).data('status');
