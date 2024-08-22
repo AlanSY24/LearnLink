@@ -63,22 +63,24 @@ function renderCalendar() {
 }
 
 function renderEventsList() {
-    const eventsListHTML = $teacherCalendarEvents
+    const sortedEvents = $teacherCalendarEvents
         .filter(event => event.date >= today)
-        .map(event => { 
-            const [hours, minutes] = event.time.split(':');
-            const formattedTime = `${hours}:${minutes}`;
-            return `
-            <tr id="event-${event.date}-${event.time}">
-                <td>${event.date}</td>
-                <td>${formattedTime}</td>
-                <td>${event.text}</td>
-                <td>${event.city}</td>
-                <td>${event.district}</td>
-                <td>${event.detail_address}</td>
-                <td>${event.hourly_rate}</td>
-            </tr>
-        `}).join('');
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    const eventsListHTML = sortedEvents.map(event => {
+        const [hours, minutes] = event.time.split(':');
+        const formattedTime = `${hours}:${minutes}`;
+        return `
+        <tr id="event-${event.date}-${event.time}">
+            <td>${event.date}</td>
+            <td>${formattedTime}</td>
+            <td>${event.text}</td>
+            <td>${event.city}</td>
+            <td>${event.district}</td>
+            <td>${event.detail_address}</td>
+            <td>${event.hourly_rate}</td>
+        </tr>
+    `}).join('');
     document.getElementById('eventsList').innerHTML = eventsListHTML;
 }
 
