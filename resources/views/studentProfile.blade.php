@@ -743,7 +743,6 @@
                         <div class="student_info-bar">
                             <div>縣市&nbsp;:&nbsp;${item.city.city}</div>
                             <div>科目&nbsp;:&nbsp;${item.subject.name}</div> 
-                            <div>時薪&nbsp;:&nbsp;${item.hourly_rate_min}-${item.hourly_rate_max}</div>
                         </div>
                     </section>
                     `;
@@ -785,7 +784,6 @@
                         <div class="student_info-bar">
                             <div>縣市&nbsp;:&nbsp;${item.city.city}</div>
                             <div>科目&nbsp;:&nbsp;${item.subject.name}</div>
-                            <div>時薪&nbsp;:&nbsp;${item.hourly_rate_min}-${item.hourly_rate_max}</div>
                         </div>
                     </section>
                     `;
@@ -825,7 +823,6 @@
                         <div class="student_info-bar">
                             <div>縣市&nbsp;:&nbsp;${item.city.city}</div>
                             <div>科目&nbsp;:&nbsp;${item.subject.name}</div>
-                            <div>時薪&nbsp;:&nbsp;${item.hourly_rate_min}-${item.hourly_rate_max}</div>
                         </div>
                     </section>
                     `;
