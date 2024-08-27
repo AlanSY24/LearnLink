@@ -7,12 +7,12 @@
     <link rel="stylesheet" href="{{ asset('luyen/event.css') }}">
 </head>
 <body>
-    <h1>事件列表</h1>
+    <h1>課表</h1>
     
     <div class="content-wrapper">
         <!-- 日曆部分 -->
         <div class="calendar-section">
-            <h2>日曆視圖</h2>
+            <h2></h2>
             <div class="month-navigation">
                 <button onclick="changeMonth(-1)">上個月</button>
                 <span id="currentMonthYear"></span>
@@ -25,13 +25,13 @@
 
         <!-- 事件列表部分 -->
         <div class="events-section">
-            <h2>詳細事件列表</h2>
+            <h2>詳細課表</h2>
             <table>
                 <thead>
                     <tr>
                         <th>日期</th>
                         <th>時間</th>
-                        <th>事件</th>
+                        <th>課程</th>
                         <th>城市</th>
                         <th>地區</th>
                         <th>詳細地址</th>

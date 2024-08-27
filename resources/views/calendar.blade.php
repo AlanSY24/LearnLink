@@ -10,7 +10,7 @@
     <meta name="event-title" content="{{ $teacherRequest->title }}">
     <meta name="teacher-request-id" content="{{ $teacherRequest->id }}">
     @endif
-    <title>日曆選擇器</title>
+    <title>選擇上課日期</title>
     <link rel="stylesheet" href="{{ asset('luyen/calendar.css') }}">
     <link rel="icon" href="data:,">
 </head>
@@ -56,7 +56,7 @@
                 <input type="number" id="hourlyRate" placeholder="請輸入時薪">
             </div>
             <p id="eventType" class="event-type"></p>
-            <button id="addEvent" class="btn-primary">加入事件</button>
+            <button id="addEvent" class="btn-primary">加入行事曆</button>
         </div>
         <div class="right-container">
             <div class="calendar-container">

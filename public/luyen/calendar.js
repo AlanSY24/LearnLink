@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateSelectedDatesDisplay() {
         const selectedDatesContainer = document.getElementById('selectedDates');
-        selectedDatesContainer.innerHTML = '選擇的日期：';
+        selectedDatesContainer.innerHTML = '選擇的日期：<br>';
         selectedDates.sort().forEach(date => {
             const dateSpan = document.createElement('span');
             dateSpan.textContent = date;
